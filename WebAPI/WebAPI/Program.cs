@@ -2,6 +2,20 @@ using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure CORS
+const string AllowSpecificOrigins = "_allowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: AllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -27,6 +41,9 @@ builder.Services.AddSwaggerGen(c =>
 
 
 var app = builder.Build();
+
+// Middleware for CORS
+app.UseCors(AllowSpecificOrigins);
 
 app.MapControllers();
 
