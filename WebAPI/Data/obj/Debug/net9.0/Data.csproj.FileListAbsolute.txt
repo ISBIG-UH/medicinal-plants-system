@@ -1,0 +1,12 @@
+C:\Users\DELL\Documents\GitHub\medicinal-plants-system\WebAPI\Data\bin\Debug\net9.0\Data.deps.json
+C:\Users\DELL\Documents\GitHub\medicinal-plants-system\WebAPI\Data\bin\Debug\net9.0\Data.dll
+C:\Users\DELL\Documents\GitHub\medicinal-plants-system\WebAPI\Data\bin\Debug\net9.0\Data.pdb
+C:\Users\DELL\Documents\GitHub\medicinal-plants-system\WebAPI\Data\obj\Debug\net9.0\Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\DELL\Documents\GitHub\medicinal-plants-system\WebAPI\Data\obj\Debug\net9.0\Data.AssemblyInfoInputs.cache
+C:\Users\DELL\Documents\GitHub\medicinal-plants-system\WebAPI\Data\obj\Debug\net9.0\Data.AssemblyInfo.cs
+C:\Users\DELL\Documents\GitHub\medicinal-plants-system\WebAPI\Data\obj\Debug\net9.0\Data.csproj.CoreCompileInputs.cache
+C:\Users\DELL\Documents\GitHub\medicinal-plants-system\WebAPI\Data\obj\Debug\net9.0\Data.sourcelink.json
+C:\Users\DELL\Documents\GitHub\medicinal-plants-system\WebAPI\Data\obj\Debug\net9.0\Data.dll
+C:\Users\DELL\Documents\GitHub\medicinal-plants-system\WebAPI\Data\obj\Debug\net9.0\refint\Data.dll
+C:\Users\DELL\Documents\GitHub\medicinal-plants-system\WebAPI\Data\obj\Debug\net9.0\Data.pdb
+C:\Users\DELL\Documents\GitHub\medicinal-plants-system\WebAPI\Data\obj\Debug\net9.0\ref\Data.dll
