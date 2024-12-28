@@ -15,9 +15,11 @@ const navItems: NavItem[] = routes.map(route => ({ label: route.label, href: rou
 
 function App() {
   return (
-    <div className='flex flex-col min-h-screen'>
-      <NavMenu navItems={navItems} />
-      <div className='flex-grow bg-background'>
+    <div className='flex flex-col justify-between h-screen'>
+      <div>
+        <NavMenu navItems={navItems} />
+      </div>
+      <div className='flex flex-grow'>
         <Routes>
           {
             routes.map((route) => (
@@ -26,7 +28,9 @@ function App() {
           }
         </Routes>
       </div>
-      <Footer />
+      <div>
+        <Footer />
+      </div>
     </div>
   )
 }
