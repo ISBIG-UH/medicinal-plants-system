@@ -7,7 +7,7 @@ import Footer from './components/Footer';
 
 const routes: RouteItem[] = [
   { label: "Inicio", href: "/", component: <HomePage /> },
-  { label: "¿Quiénes somos?", href: "/quienes-somos", component: <AboutPage /> },
+  { label: "Sobre nosotros", href: "/sobre-nosotros", component: <AboutPage /> },
 ];
 
 const navItems: NavItem[] = routes.map(route => ({ label: route.label, href: route.href }))
