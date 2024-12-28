@@ -31,4 +31,15 @@ public static class ServiceExtensions
         services.AddScoped<IUserService, UserService>();
         return services;
     }
+
+    /// <summary>
+    /// Extension method to add admin services to the service collection.
+    /// </summary>
+    /// <param name="services">The IServiceCollection to add the application services to.</param>
+    /// <returns>The updated IServiceCollection.</returns>
+    public static IServiceCollection AddAdminServices(this IServiceCollection services)
+    {
+        services.AddScoped<IUserService, UserService>();
+        return services;
+    }
 }
