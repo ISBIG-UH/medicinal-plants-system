@@ -17,7 +17,7 @@ function App() {
 
   return (
     <>
-      <h1 className='text-4xl'>Client project</h1>
+      <h1 className='text-4xl'>Admin project</h1>
       {users.map((user) => (
         <p key={user.id}>
           {user.name}
