@@ -3,26 +3,19 @@ import { Link } from "react-router-dom";
 import { TiThMenu } from "react-icons/ti";
 import { IoCloseSharp } from "react-icons/io5";
 
-interface NavItem {
-  label: string;
-  href: string;
+interface Props{
+  navItems: NavItem[]
 }
 
-const navItems: NavItem[] = [
-  { label: "Inicio", href: "/" },
-  { label: "¿Quiénes somos?", href: "/about" },
-];
-
-function NavMenu() {
+function NavMenu({navItems}: Props) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <nav className="bg-accent lg:flex lg:justify-between lg:items-center lg:px-32">
       <div className="flex items-center justify-between px-4 pt-4 lg:pt-2">
-        <a className="text-white font-bold text-4xl flex">
-          <img className="max-h-12" src="uhlogo.svg" />
-          <img className="max-h-14 ml-3" src="jbn.svg" />
-        </a>
+        <Link className="text-white font-bold text-4xl flex" to="/">
+          <img className="max-h-14" src="jbn.svg" />
+        </Link>
         <button
           className="text-secondary lg:hidden"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
