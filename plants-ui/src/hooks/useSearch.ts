@@ -6,6 +6,28 @@ function useSearch() {
   const [monographs, setMonographs] = useState<Monograph[]>([]);
   const [loading, setLoading] = useState(false);
 
+
+  ///////////////////////////// For temporal use /////////////////////////////
+  function getRandomSubset(monographs: Monograph[], subsetSize: number): Monograph[] {
+    if (subsetSize < 0) {
+      throw new Error("El tamaño del subconjunto no puede ser negativo.");
+    }
+  
+    if (subsetSize > monographs.length) {
+      throw new Error("El tamaño del subconjunto no puede ser mayor que la longitud de la lista.");
+    }
+  
+    const shuffled = [...monographs]; // Crea una copia de la lista original para evitar modificarla
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const randomIndex = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]]; // Intercambio de elementos
+    }
+  
+    return shuffled.slice(0, subsetSize); // Retorna los primeros `subsetSize` elementos de la lista mezclada
+  }
+  ///////////////////////////////////////////////////////////////////////////////////////
+
+
   function searchTrigger() {
     const trimmed = input.trim();
 
@@ -27,10 +49,11 @@ function useSearch() {
 
     // Simulate data request to backend
     setTimeout(() => {
-      setMonographs(monographsSeed);
+      const subset = getRandomSubset(monographsSeed, 3);
+      setMonographs(subset);
       setLoading(false)
       console.log("Search ended: Results updated.");
-    }, 3000);
+    }, 100);
 
     return { type: "null", msg: '' };
   }

@@ -1,5 +1,6 @@
 export const monographsSeed: Monograph[] = [
     {
+        Id: 1,
         Name: "Abey",
         Sc: {
             raw: "Jacaranda coerulea (L.) Griseb. Fam. Bignoniáceas",
@@ -32,6 +33,7 @@ export const monographsSeed: Monograph[] = [
         ]
     },
     {
+        Id: 2,
         Name: "Guayaba",
         Sc: {
             raw: "Psidium guajava L. Fam. Myrtaceae",
@@ -63,6 +65,7 @@ export const monographsSeed: Monograph[] = [
         ]
     },
     {
+        Id: 3,
         Name: "Aloe Vera",
         Sc: {
             raw: "Aloe vera (L.) Burm.f. Fam. Asphodelaceae",
@@ -94,6 +97,7 @@ export const monographsSeed: Monograph[] = [
         ]
     },
     {
+        Id: 4,
         Name: "Manzanilla",
         Sc: {
             raw: "Matricaria chamomilla L. Fam. Asteraceae",
@@ -125,6 +129,7 @@ export const monographsSeed: Monograph[] = [
         ]
     },
     {
+        Id: 5,
         Name: "Lavanda",
         Sc: {
             raw: "Lavandula angustifolia Mill. Fam. Lamiaceae",
@@ -156,6 +161,7 @@ export const monographsSeed: Monograph[] = [
         ]
     },
     {
+        Id: 6,
         Name: "Menta",
         Sc: {
             raw: "Mentha piperita L. Fam. Lamiaceae",

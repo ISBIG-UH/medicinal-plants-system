@@ -15,6 +15,7 @@ interface VulgarNames {
 }
 
 interface Monograph {
+    Id: number,
     Name: string,
     Sc: ScientificName,
     Sy: string[],

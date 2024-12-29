@@ -4,12 +4,18 @@ import SearchResultsBlock from "./SearchResultsBlock";
 import useSearch from "../hooks/useSearch";
 import { toast, ToastContainer } from "react-toastify";
 import Spinner from "./Spinner";
+import PreviewModal from "./PreviewModal";
+import { usePreview } from "../hooks/usePreview";
+
 
 function HomePage() {
   const { input, setInput, monographs, loading, searchTrigger } = useSearch();
+  const { selectedMonograph, closeModal, selectMonograph } = usePreview(monographs);
+  
 
   const handleSearch = () => {
     const response: ToastResponse = searchTrigger();
+    closeModal();
 
     if (response.type == "error") {
       toast.error(response.msg);
@@ -35,7 +41,7 @@ function HomePage() {
             <SearchResultsBlock>
               {monographs.length > 0 &&
                 monographs.map((monograph) => (
-                  <SearchResult key={monograph.Sc.raw} monograh={monograph} />
+                  <SearchResult key={monograph.Sc.raw} monograh={monograph} clickHandler={() => selectMonograph(monograph.Id)} />
                 ))}
               {monographs.length === 0 && (
                 <div className="flex flex-col items-center justify-center h-full pb-20">
@@ -47,7 +53,11 @@ function HomePage() {
             </SearchResultsBlock>
           </div>
         )}
+
+        <PreviewModal show={selectedMonograph !== null} setShow={closeModal} monograph={selectedMonograph} />
+
         {loading && <Spinner />}
+
         <ToastContainer
           position="bottom-right"
           autoClose={3000}
@@ -57,6 +67,7 @@ function HomePage() {
           pauseOnHover
           theme="light"
         />
+
       </div>
     </div>
   );
