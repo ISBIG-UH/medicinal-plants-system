@@ -15,7 +15,7 @@ function HomePage() {
       toast.error(response.msg);
     } else if (response.type == "success") {
       toast.success(response.msg);
-    } else if (response.type == "null"){
+    } else if (response.type == "null") {
       return;
     }
   };
@@ -29,23 +29,35 @@ function HomePage() {
           searchTrigger={() => handleSearch()}
         />
       </div>
-      {!loading && <div>
-        <SearchResultsBlock>
-          {monographs.map((monograph) => (
-            <SearchResult key={monograph.Sc.raw} monograh={monograph} />
-          ))}
-        </SearchResultsBlock>
-      </div>}
-      {loading && <Spinner/>}
-      <ToastContainer
-        position="bottom-right"
-        autoClose={3000}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      <div className="p-2 h-full">
+        {!loading && (
+          <div className="p-2 h-full">
+            <SearchResultsBlock>
+              {monographs.length > 0 &&
+                monographs.map((monograph) => (
+                  <SearchResult key={monograph.Sc.raw} monograh={monograph} />
+                ))}
+              {monographs.length === 0 && (
+                <div className="flex flex-col items-center justify-center h-full pb-20">
+                  <div className="p-3">
+                    <img className="h-28" src="2.png" />
+                  </div>
+                </div>
+              )}
+            </SearchResultsBlock>
+          </div>
+        )}
+        {loading && <Spinner />}
+        <ToastContainer
+          position="bottom-right"
+          autoClose={3000}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+      </div>
     </div>
   );
 }
