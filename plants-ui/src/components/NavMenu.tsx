@@ -11,7 +11,7 @@ function NavMenu({navItems}: Props) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-accent lg:flex lg:justify-between lg:items-center lg:px-32">
+    <nav className="bg-primary lg:flex lg:justify-between lg:items-center lg:px-32">
       <div className="flex items-center justify-between px-4 pt-4 pb-2 lg:pt-2">
         <Link className="text-white font-bold text-4xl flex" to="/">
           <img className="max-h-10 lg:max-h-12" src="1.png" />

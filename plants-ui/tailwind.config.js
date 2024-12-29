@@ -10,8 +10,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#2e8b57',    // Sea Green
-        secondary: '#f2e8ab',  // Sponssor Color
+        primary: '#00695c',     // Teal
+        secondary: '#f2e8ab',   // Sponssor Color
         danger: '#ff7043',      // Orange Red
         warning: '#ffb300',     // Amber
         success: '#4caf50',     // Green

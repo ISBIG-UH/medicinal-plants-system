@@ -21,7 +21,7 @@ function SearchBar({ input, setInput, searchTrigger }: Props) {
           }
         }}
       />
-      <button className="bg-accent text-secondary font-bold py-2 px-4 rounded-full hover:bg-green-700" onClick={searchTrigger}>
+      <button className="bg-primary text-secondary font-bold py-2 px-4 rounded-full hover:bg-green-700" onClick={searchTrigger}>
         <FaSearch size={18} />
       </button>
     </div>

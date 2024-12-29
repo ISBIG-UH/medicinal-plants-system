@@ -15,7 +15,7 @@ function SearchResult({ monograh, clickHandler }: Props) {
       className="border bg-gray-50 shadow-sm border-gray-300 rounded-lg hover:cursor-pointer hover:bg-yellow-50 hover:transition-all ease-in-out duration-300 p-4 my-4"
       onClick={() => clickHandler(monograh.Id)}
     >
-      <label className="text-2xl text-accent font-semibold hover:cursor-pointer">
+      <label className="text-2xl text-primary font-semibold hover:cursor-pointer">
         {monograh.Name}
       </label>
       <p className="text-info text-sm">

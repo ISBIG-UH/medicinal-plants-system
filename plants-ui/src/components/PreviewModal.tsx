@@ -32,8 +32,8 @@ function PreviewModal({ show, setShow, monograph }: Props) {
     <Modal show={show} onClose={() => setShow(false)} size="5xl">
       <Modal.Header className="shadow-lg shadow-gray-200">
         <div className="flex items-center space-x-2">
-            <div><img className="h-8" src="1.png"/></div>
-            <p className="text-accent text-4xl">{monograph?.Name}</p>
+            <div><img className="w-8" src="1.png"/></div>
+            <p className="text-primary text-4xl">{monograph?.Name}</p>
         </div>
         <p className="text-gray-400 text-md">
           {monograph?.Sc.genus} {monograph?.Sc.species} {monograph?.Sc.authors}{" "}
@@ -117,7 +117,7 @@ function PreviewModal({ show, setShow, monograph }: Props) {
       <Modal.Footer>
         
         <div className="flex w-full justify-end">
-            <button className="bg-accent hover:bg-green-800 px-4 py-2 rounded-lg text-white font-semibold transition-all ease-in-out duration-300" onClick={() => setShow(false)}>
+            <button className="bg-primary hover:bg-green-800 px-4 py-2 rounded-lg text-white font-semibold transition-all ease-in-out duration-300" onClick={() => setShow(false)}>
                 Cerrar
             </button>
         </div>
