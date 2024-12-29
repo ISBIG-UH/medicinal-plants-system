@@ -1,8 +1,10 @@
 
 function Footer() {
   return (
-    <footer className="bg-accent px-4 py-6 shadow-background">
-      {/* <img src="/uhlogo_b.svg" alt="Logo" className="mx-auto h-16 lg:h-16" /> */}
+    <footer className="bg-accent px-4 py-6 shadow-background flex items-center justify-center">
+      <div>
+        <img src="/1.png" alt="Logo" className="h-5 mr-2" />
+      </div>
       <p className="text-center text-secondary font-thin">Hecho con ❤️</p>
     </footer>
   );
