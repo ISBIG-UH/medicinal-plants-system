@@ -1,30 +1,26 @@
-import { useEffect, useState } from 'react';
-import apiClient from './api'
+import { Routes, Route } from "react-router-dom";
+import LogIn from "./components/LogIn";
+import Home from "./components/Home";
 
-interface User {
-  id: number;
-  name: string;
-}
+const routes: RouteItem[] = [
+  { label: "Inicio", href: "/login", component: <LogIn /> },
+  { label: "Home", href: "/", component: <Home /> },
+];
 
 function App() {
-  const [users, setUsers] = useState<User[]>([]);
-
-  useEffect(() => {
-      apiClient.get<User[]>("/users")
-          .then((response) => setUsers(response.data))
-          .catch((error) => console.error("Error fetching users:", error));
-  }, []);
-
   return (
     <>
-      <h1 className='text-4xl'>Admin project</h1>
-      {users.map((user) => (
-        <p key={user.id}>
-          {user.name}
-        </p>
-      ))}
+      <Routes>
+        {routes.map((route) => (
+          <Route
+            key={route.label}
+            path={route.href}
+            element={route.component}
+          />
+        ))}
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

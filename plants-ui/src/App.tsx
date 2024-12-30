@@ -1,29 +1,37 @@
-import { useEffect, useState } from 'react';
-import apiClient from './api'
+import { Routes, Route } from 'react-router-dom';
+import HomePage from './components/HomePage';
+import AboutPage from './components/AboutPage';
+import NavMenu from './components/NavMenu';
+import Footer from './components/Footer';
 
-interface User {
-  id: number;
-  name: string;
-}
+
+const routes: RouteItem[] = [
+  { label: "Inicio", href: "/", component: <HomePage /> },
+  { label: "Sobre nosotros", href: "/sobre-nosotros", component: <AboutPage /> },
+];
+
+const navItems: NavItem[] = routes.map(route => ({ label: route.label, href: route.href }))
+
 
 function App() {
-  const [users, setUsers] = useState<User[]>([]);
-
-  useEffect(() => {
-      apiClient.get<User[]>("/users")
-          .then((response) => setUsers(response.data))
-          .catch((error) => console.error("Error fetching users:", error));
-  }, []);
-
   return (
-    <>
-      <h1 className='text-4xl'>Client project</h1>
-      {users.map((user) => (
-        <p key={user.id}>
-          {user.name}
-        </p>
-      ))}
-    </>
+    <div className='flex flex-col justify-between h-screen'>
+      <div>
+        <NavMenu navItems={navItems} />
+      </div>
+      <div className='flex flex-grow'>
+        <Routes>
+          {
+            routes.map((route) => (
+              <Route key={route.label} path={route.href} element={route.component} />
+            ))
+          }
+        </Routes>
+      </div>
+      <div>
+        <Footer />
+      </div>
+    </div>
   )
 }
 
