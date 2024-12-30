@@ -2,7 +2,7 @@ function AboutPage() {
   return (
     <div>
       <div>
-        <img src="leaf_wall.png" className="w-full"/>
+        <img src="leafs_header.png" className="w-full"/>
       </div>
       <div className="mx-auto px-4">
         <h2 className="text-5xl font-bold text-center font-serif mt-8">Sobre nosotros</h2>
