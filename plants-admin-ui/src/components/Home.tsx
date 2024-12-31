@@ -1,11 +1,12 @@
 import { PiPlantBold } from "react-icons/pi";
+import { IoMdSettings } from "react-icons/io";
 import NavMenu from "./NavMenu";
 import SideBar from "./SideBar";
 import PlantsBoard from "./PlantsBoard";
 
 const categories = [
-  { label: "Plantas", icon: <PiPlantBold size={24} />, element: <PlantsBoard />},
-  { label: "Otra cosa", icon: <PiPlantBold size={24} />, element: <div>Otra cosa</div>},
+  { label: "Monografías", icon: <PiPlantBold size={24} />, element: <PlantsBoard />},
+  { label: "Otra cosa", icon: <IoMdSettings size={24} />, element: <div>Otra cosa</div>},
 ]
 
 function Home() {
@@ -14,7 +15,7 @@ function Home() {
       <div>
         <NavMenu />
       </div>
-      <div className="bg-red-200 flex flex-col flex-grow">
+      <div className="flex flex-col flex-grow">
         <SideBar categories={categories} />
       </div>
     </div>

@@ -9,7 +9,7 @@ interface Props {
 
 function SideBarItem({ label, icon, element, selector }: Props) {
   return (
-    <li className="bg-gray-200 hover:bg-gray-300 m-2 p-2 rounded-lg hover:cursor-pointer" onClick={() => selector(element)}>
+    <li className="bg-gray-300 lg:bg-gray-200 hover:bg-gray-400 lg:hover:hover:bg-gray-300 m-1 p-2 rounded-lg hover:cursor-pointer" onClick={() => selector(element)}>
       <div className="flex">
         {icon}
         <p className="mx-2 font-semibold">{label}</p>

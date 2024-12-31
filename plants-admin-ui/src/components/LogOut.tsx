@@ -16,7 +16,7 @@ function LogOut() {
   return (
     <>
       <li
-        className="m-2 p-2 text-center bg-red-400 hover:bg-red-600 hover:cursor-pointer rounded-lg"
+        className="m-1 p-2 text-center bg-red-300 hover:bg-red-400 hover:cursor-pointer rounded-lg"
         onClick={() => setOpenModal(true)}
       >
         <div className="flex">
