@@ -12,7 +12,7 @@ export default {
       colors: {
         primary: '#00695c',     // Teal
         secondary: '#f2e8ab',   // Sponssor Color
-        danger: '#ff7043',      // Orange Red
+        danger: '#ff3817',      // Orange Red
         warning: '#ffb300',     // Amber
         success: '#4caf50',     // Green
         info: '#0288d1',        // Teal Blue

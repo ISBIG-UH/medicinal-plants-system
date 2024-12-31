@@ -1,8 +1,9 @@
+import NavMenu from "./NavMenu";
 
 function Home() {
   return (
     <>
-      <h1>Home</h1>
+      <NavMenu />
     </>
   );
 }
