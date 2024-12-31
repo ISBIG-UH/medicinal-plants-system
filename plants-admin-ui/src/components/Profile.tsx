@@ -2,15 +2,16 @@ import { Modal, Tooltip } from "flowbite-react";
 import { useState } from "react";
 import { MdOutlineExitToApp } from "react-icons/md";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { clearUser } from "../localStorageIntermediate";
 
 function Profile() {
   const [openModal, setOpenModal] = useState(false);
 
-    function handleLogout(): void {
-        setOpenModal(false);
-        alert("Logging out...")
-        throw new Error("Function not implemented.");
-    }
+  function handleLogout(): void {
+    setOpenModal(false);
+    clearUser();
+    window.location.href = "/";
+  }
 
   return (
     <>

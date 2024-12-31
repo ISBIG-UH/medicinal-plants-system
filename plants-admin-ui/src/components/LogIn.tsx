@@ -2,9 +2,22 @@ import { Label, TextInput } from "flowbite-react";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import useLogin from "../hooks/useLogin";
+import { ToastContainer, toast } from "react-toastify";
 
 function LogIn() {
   const { showPassword, setShowPassword, handleLogIn } = useLogin();
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    const response = handleLogIn(e);
+
+    if (response.type == "error") {
+      toast.error(response.msg);
+    } else if (response.type == "success") {
+      toast.success(response.msg);
+    } else if (response.type == "null") {
+      return;
+    }
+  }
 
   return (
     <div className="flex justify-center items-center h-screen bg-leaf-wall">
@@ -14,7 +27,7 @@ function LogIn() {
           <img className="h-12" src="BotaniQ_bg_secondary.png" />
         </div>
         <div className="">
-          <form className="flex flex-col gap-4" onSubmit={handleLogIn}>
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div>
               <div className="mb-2 block">
                 <Label
@@ -82,6 +95,16 @@ function LogIn() {
           </form>
         </div>
       </div>
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

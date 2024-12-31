@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { setUser } from "../localStorageIntermediate";
 
 const useLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -9,9 +10,19 @@ const useLogin = () => {
 
     const username = formData.get("username") as string;
     const password = formData.get("password") as string;
+    
+    console.log(username)
+    console.log(password)
+    // Request to server ////////
+    // 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨//
+    // ////////////////////////
 
-    alert(`Username: ${username} \nPassword: ${password}`);
-    throw new Error("Function not implemented.");
+    const response = { type: "success", msg: "Inicio de sesión exitoso"};
+    const authorizedUser: User = { username: "Admin", role: "Administrador", sessionToken: "este-es-el-token-de-sesion" }
+    setUser(authorizedUser)
+
+    window.location.href = "/"
+    return response;
   }
 
   return {
