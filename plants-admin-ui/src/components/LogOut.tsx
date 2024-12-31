@@ -1,10 +1,10 @@
-import { Modal, Tooltip } from "flowbite-react";
+import { Modal } from "flowbite-react";
 import { useState } from "react";
 import { MdOutlineExitToApp } from "react-icons/md";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { clearUser } from "../localStorageIntermediate";
 
-function Profile() {
+function LogOut() {
   const [openModal, setOpenModal] = useState(false);
 
   function handleLogout(): void {
@@ -15,14 +15,16 @@ function Profile() {
 
   return (
     <>
-      <Tooltip content="Cerrar sesión" arrow={false}>
-        <button
-          className="bg-danger hover:bg-red-600 text-primary p-2 rounded-lg"
-          onClick={() => setOpenModal(true)}
-        >
-          <MdOutlineExitToApp size={23} />
-        </button>
-      </Tooltip>
+      <li
+        className="m-2 p-2 text-center bg-red-400 hover:bg-red-600 hover:cursor-pointer rounded-lg"
+        onClick={() => setOpenModal(true)}
+      >
+        <div className="flex">
+          <MdOutlineExitToApp size={24} />
+          <button className="mx-2 font-semibold">Cerrar sesión</button>
+        </div>
+      </li>
+
       <Modal
         show={openModal}
         size="sm"
@@ -58,4 +60,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default LogOut;

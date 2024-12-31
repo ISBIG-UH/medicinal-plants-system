@@ -1,7 +1,7 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import SideBarItem from "./SideBarItem";
-// import { MdOutlineExitToApp } from "react-icons/md";
 import { useSidebar } from "../hooks/useSidebar";
+import LogOut from "./LogOut";
 
 interface Props {
   categories: SidebarItem[];
@@ -41,13 +41,8 @@ function SideBar({ categories }: Props) {
                 selector={selectCategory}
               />
             ))}
-
-            {/* <li className="m-2 p-2 text-center bg-red-400 hover:bg-red-600 hover:cursor-pointer rounded-lg">
-              <div className="flex">
-                <MdOutlineExitToApp size={24} />
-                <button className="mx-2 font-semibold">Cerrar sesión</button>
-              </div>
-            </li> */}
+            
+            <LogOut />
 
           </ul>
 

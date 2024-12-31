@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import Profile from "./Profile";
 
 function NavMenu() {
   return (
@@ -12,10 +11,6 @@ function NavMenu() {
           <img className="max-h-10 lg:max-h-12" src="1.png" />
           <img className="max-h-10 ml-1" src="BotaniQ_bg_secondary.png" />
         </Link>
-
-        <div>
-          <Profile />
-        </div>
       </div>
     </nav>
   );
