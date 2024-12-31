@@ -14,7 +14,7 @@ function Home() {
       <div>
         <NavMenu />
       </div>
-      <div className="bg-red-200 flex-grow">
+      <div className="bg-red-200 flex flex-col flex-grow">
         <SideBar categories={categories} />
       </div>
     </div>
