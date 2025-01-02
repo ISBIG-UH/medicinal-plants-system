@@ -3,7 +3,7 @@ import { TbListLetters } from "react-icons/tb";
 import { IoIosSearch } from "react-icons/io";
 import NavMenu from "./NavMenu";
 import SideBar from "./SideBar";
-import PlantsBoard from "./PlantsBoard";
+import PlantsBoard from "./ContextSearchBoard";
 
 const categories = [
   { icon: <PiPlantBold />, items: [

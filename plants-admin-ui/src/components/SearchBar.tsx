@@ -12,7 +12,7 @@ function SearchBar({ input, setInput, searchTrigger }: Props) {
       <input
         type="text"
         className="p-3 w-full rounded-full mr-2 bg-gray-200 border border-gray-400"
-        placeholder="Buscar..."
+        placeholder="Buscar monografía..."
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => {
