@@ -21,7 +21,7 @@ function LogOut() {
       >
         <div className="flex">
           <MdOutlineExitToApp size={24} />
-          <button className="mx-2 font-semibold">Cerrar sesión</button>
+          <button className="mx-2 font-semibold whitespace-nowrap overflow-hidden text-ellipsis">Cerrar sesión</button>
         </div>
       </li>
 

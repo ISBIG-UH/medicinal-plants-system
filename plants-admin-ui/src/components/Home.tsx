@@ -1,13 +1,17 @@
 import { PiPlantBold } from "react-icons/pi";
-import { IoMdSettings } from "react-icons/io";
+import { TbListLetters } from "react-icons/tb";
+import { IoIosSearch } from "react-icons/io";
 import NavMenu from "./NavMenu";
 import SideBar from "./SideBar";
 import PlantsBoard from "./PlantsBoard";
 
 const categories = [
-  { label: "Monografías", icon: <PiPlantBold size={24} />, element: <PlantsBoard />},
-  { label: "Otra cosa", icon: <IoMdSettings size={24} />, element: <div>Otra cosa</div>},
+  { icon: <PiPlantBold />, items: [
+    { label: "Búsqueda por índice", icon: <TbListLetters size={24} />, element: <div>Otra cosa</div>},
+    { label: "Búsqueda contextual", icon: <IoIosSearch size={24} />, element: <PlantsBoard />},
+  ]}
 ]
+
 
 function Home() {
   return (
@@ -15,7 +19,7 @@ function Home() {
       <div>
         <NavMenu />
       </div>
-      <div className="flex flex-col flex-grow">
+      <div className="flex flex-col flex-grow lg:overflow-y-hidden">
         <SideBar categories={categories} />
       </div>
     </div>

@@ -1,11 +1,13 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoCloseSharp } from "react-icons/io5";
+import { MdOutlineAccountCircle } from "react-icons/md";
 import SideBarItem from "./SideBarItem";
 import { useSidebar } from "../hooks/useSidebar";
 import LogOut from "./LogOut";
+import HRIcon from "./HRIcon";
 
 interface Props {
-  categories: SidebarItem[];
+  categories: SidebarGroup[];
 }
 
 function SideBar({ categories }: Props) {
@@ -31,33 +33,38 @@ function SideBar({ categories }: Props) {
           <p className="m-2 text-center text-xl font-semibold font-serif py-2">
             Menu
           </p>
-          <hr className="border-gray-300 mx-6"/>
 
-          <ul className="px-10 sm:px-20 md:px-36 lg:px-2 my-4 flex flex-col flex-grow">
+          {
+            categories.map((group) => (
+              <>
+                <ul className="px-10 sm:px-20 md:px-36 lg:px-2 flex flex-col flex-grow">
+                  <HRIcon className="px-10 mt-5 mb-2" icon={group.icon}/>
+                  {group.items.map((item) => (
+                    <SideBarItem
+                      label={item.label}
+                      icon={item.icon}
+                      element={item.element}
+                      selector={selectCategory}
+                    />
+                  ))}
 
-            {categories.map((cat) => (
-              <SideBarItem
-                label={cat.label}
-                icon={cat.icon}
-                element={cat.element}
-                selector={selectCategory}
-              />
-            ))}
-            
-            <hr className="border-gray-300 my-4 mx-6"/>
+                  <div className="lg:mt-auto lg:mb-4 lg:mx-6">
+                    <HRIcon className="px-10 mt-5 mb-2" icon={<MdOutlineAccountCircle/>}/>
+                    <LogOut />
+                  </div>
+                </ul>
+              </>
 
-            <div className="lg:mt-auto">
-                <LogOut />
-            </div>
-
-          </ul>
-
+            ))
+          }
         </div>
+
         <div className={`overflow-hidden transition-max-width duration-500 ease-in-out ${
             !mobileOpenMenu ? "max-w-full" : "max-w-0"
-          } lg:max-w-none flex flex-col flex-grow`}>
+          } lg:max-w-none h-full flex flex-col flex-grow`}>
             {selectedCategory}
         </div>
+
       </div>
     </>
   );
