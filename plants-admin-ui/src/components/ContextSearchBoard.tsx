@@ -2,7 +2,7 @@ import { toast, ToastContainer } from "react-toastify";
 import useSearch from "../hooks/useSearch";
 import SearchBar from "./SearchBar";
 import { Spinner } from "flowbite-react";
-import EditPlantModal from "./EditPlantModal";
+import EditPlantModal from "./EditMonographModal";
 import { useState } from "react";
 
 function PlantsBoard() {
