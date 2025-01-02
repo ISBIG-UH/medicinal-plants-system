@@ -3,22 +3,11 @@ import useSearch from "../hooks/useSearch";
 import SearchBar from "./SearchBar";
 import { Spinner } from "flowbite-react";
 import EditPlantModal from "./EditMonographModal";
-import { useState } from "react";
+import { useContextSearchBoard } from "../hooks/useContextSearchBoard";
 
-function PlantsBoard() {
+function ContextSearchBoard() {
   const { input, setInput, monographs, loading, searchTrigger } = useSearch();
-
-
-  const [selectedMonograph, setSelectedMonograph] = useState<Monograph>({} as Monograph);
-  const [openModal, setOpenModal] = useState(false);
-
-
-  function handleClick(monograph: Monograph) {
-    setSelectedMonograph(monograph);
-    setOpenModal(true);
-    console.log("Monograph selected: ", monograph);
-  }
-  
+  const { selectedMonograph, openModal, setOpenModal, handleClick } = useContextSearchBoard();
 
   const handleSearch = () => {
     const response: ToastResponse = searchTrigger();
@@ -78,4 +67,4 @@ function PlantsBoard() {
   );
 }
 
-export default PlantsBoard;
+export default ContextSearchBoard;

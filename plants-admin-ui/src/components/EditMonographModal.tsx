@@ -1,9 +1,9 @@
 import { Button, Modal } from "flowbite-react";
 
 interface Props {
-    monograph: Monograph;
-    openModal: boolean;
-    setOpenModal: (x: boolean) => void;
+  monograph: Monograph | null;
+  openModal: boolean;
+  setOpenModal: (x: boolean) => void;
 }
 
 function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
@@ -11,7 +11,16 @@ function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
   return (
     <div>
       <Modal show={openModal} size='5xl' onClose={() => setOpenModal(false)}>
-        <Modal.Header>{monograph.Name}</Modal.Header>
+      <Modal.Header className="shadow-lg shadow-gray-200">
+        <div className="flex items-center space-x-2">
+            <div><img className="w-8" src="1.png"/></div>
+            <p className="text-primary text-4xl">{monograph?.Name}</p>
+        </div>
+        <p className="text-gray-400 text-md">
+          {monograph?.Sc.genus} {monograph?.Sc.species} {monograph?.Sc.authors} 
+          {monograph?.Sc.var} {monograph?.Sc.subsp} {monograph?.Sc.f}
+        </p>
+      </Modal.Header>
         <Modal.Body>
           <div className="space-y-6 p-6">
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
@@ -20,8 +29,9 @@ function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
             </p>
           </div>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className="justify-end">
           <Button color="success" onClick={() => setOpenModal(false)}>Save</Button>
+          <Button color="secondary" onClick={() => setOpenModal(false)}>Save</Button>
         </Modal.Footer>
       </Modal>
 
