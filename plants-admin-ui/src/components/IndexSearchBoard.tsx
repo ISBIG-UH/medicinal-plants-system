@@ -2,13 +2,14 @@ import { Spinner } from "flowbite-react";
 import { letters, useIndexSearchBoard } from "../hooks/useIndexSearchBoard";
 import EditMonographModal from "./EditMonographModal";
 
+
 function IndexSearchBoard() {
   const { selectedLetter, plants, loading, handleSelectLetter, monograph, handleSelectMonograh, openModal, setOpenModal } = useIndexSearchBoard();
   
   return (
     <div className="h-full">
       <div className="flex lg:flex-col h-full">
-        <div className="flex flex-col space-y-2 lg:space-y-0 lg:flex-row lg:justify-center p-4 bg-gray-100 rounded-r-3xl rounded-b-3xl shadow-xl">
+        <div className="flex flex-col space-y-2 lg:space-y-0 lg:flex-row lg:justify-center p-4 bg-gray-100 rounded-r-3xl lg:rounded-r-none lg:rounded-b-3xl shadow-xl">
           {letters.map((letter) => (
             <button
               key={letter}
@@ -25,16 +26,14 @@ function IndexSearchBoard() {
           ))}
         </div>
         <div className="w-full flex flex-col my-4 lg:h-full lg:overflow-y-scroll">
-          <h2 className="text-center text-3xl font-bold text-primary mb-4">
+          <h2 className="text-center flex-grow text-3xl font-bold text-primary mb-4">
             "{selectedLetter}"
           </h2>
           {!loading &&
             plants.map((p, i) => (
-              <div key={i} className="mx-6">
+              <div key={i} className={`mx-6 ${i % 2 === 0 ? "bg-gray-100" : "bg-gray-50"} rounded-xl`}>
                 <p
-                  className={`mx-2 text-xl font-semibold text-primary hover:underline hover:cursor-pointer rounded-full px-4 py-1 ${
-                    i % 2 === 0 ? "bg-gray-100" : "bg-gray-50"
-                  }`}
+                  className={`mx-2 w-fit text-xl font-semibold text-primary hover:underline hover:cursor-pointer px-4 py-1 `}
                   onClick={() => handleSelectMonograh(p)}
                 >
                   {p.Name}
