@@ -31,13 +31,14 @@ export function useEditMonograph(monograph: Monograph, setOpenModal: (x: boolean
     setBib(monograph.Bib);
   }, [monograph, flag]);
 
-  function handleSaveClose() {
-    setOpenModal(false);
-    handleSave();
-  }
+  // function handleSaveClose() {
+  //   setOpenModal(false);
+  //   handleSave();
+  // }
 
   function handleSave() {
     console.log("Saving...");
+    setOpenModal(false);
 
     setFlag(!flag);
 
@@ -94,5 +95,5 @@ export function useEditMonograph(monograph: Monograph, setOpenModal: (x: boolean
     ////////////////////////////////////////////////
   }
 
-  return { name, setName, family, setFamily, hab, setHab, des, setDes, cmp, setCmp, use, setUse, pro, setPro, cul, setCul, app, setApp, sy, setSy, vul, setVul, bib, setBib, handleSave, handleSaveClose };
+  return { name, setName, family, setFamily, hab, setHab, des, setDes, cmp, setCmp, use, setUse, pro, setPro, cul, setCul, app, setApp, sy, setSy, vul, setVul, bib, setBib, handleSave };
 }

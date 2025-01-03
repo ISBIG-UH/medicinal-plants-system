@@ -20,7 +20,7 @@ interface Props {
 
 function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
   
-  const { name, setName, family, setFamily, hab, setHab, des, setDes, cmp, setCmp, use, setUse, pro, setPro, cul, setCul, app, setApp, sy, setSy, vul, setVul, bib, setBib, handleSave, handleSaveClose } = useEditMonograph(monograph, setOpenModal);
+  const { name, setName, family, setFamily, hab, setHab, des, setDes, cmp, setCmp, use, setUse, pro, setPro, cul, setCul, app, setApp, sy, setSy, vul, setVul, bib, setBib, handleSave } = useEditMonograph(monograph, setOpenModal);
 
   return (
     <div>
@@ -56,7 +56,7 @@ function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
         </Modal.Body>
         <Modal.Footer className="justify-end">
           <Button color="success" onClick={handleSave}>Guardar</Button>
-          <Button color="success" onClick={handleSaveClose}>Guardar y Cerrar</Button>
+          {/* <Button color="success" onClick={handleSaveClose}>Guardar y Cerrar</Button> */}
           <Button color="gray" onClick={() => setOpenModal(false)}>Cerrar</Button>
         </Modal.Footer>
       </Modal>
