@@ -96,6 +96,7 @@ export function useEditMonograph(monograph: Monograph, setOpenModal: (x: boolean
     console.log(`Bib:`);
     console.log(finalBib);
 
+    // Update monograph
     //////////////////////////////////////////////////
     //////// 🚨🚨Implementar solicitud🚨🚨 /////////
     ////////////////////////////////////////////////

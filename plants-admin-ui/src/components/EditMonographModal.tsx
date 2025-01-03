@@ -7,9 +7,10 @@ import { PiTreeFill } from "react-icons/pi";
 import { SlChemistry } from "react-icons/sl";
 import { PiPlantBold } from "react-icons/pi";
 import { ImBooks, ImLeaf } from "react-icons/im";
-
 import EditListCategory from "./EditListCategory";
 import { useEditMonograph } from "../hooks/useEditMonograph";
+import DangerConfirmationModal from "./DangerConfirmationModal";
+import { useDeleteMonograph } from "../hooks/useDeleteMonograh";
 
 interface Props {
   monograph: Monograph;
@@ -21,6 +22,7 @@ interface Props {
 function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
   
   const { name, setName, family, setFamily, hab, setHab, des, setDes, cmp, setCmp, use, setUse, pro, setPro, cul, setCul, app, setApp, sy, setSy, vul, setVul, bib, setBib, handleSave } = useEditMonograph(monograph, setOpenModal);
+  const { handleConfirmation, handleDelete, confirmationOpen, setConfirmationOpen } = useDeleteMonograph(monograph, setOpenModal);
 
   return (
     <div>
@@ -54,12 +56,17 @@ function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
             <EditListCategory value={bib} setter={setBib} list={monograph.Bib} name="Bibliografía" icon={<ImBooks />}/>
           </div>
         </Modal.Body>
-        <Modal.Footer className="justify-end">
-          <Button color="success" onClick={handleSave}>Guardar</Button>
-          {/* <Button color="success" onClick={handleSaveClose}>Guardar y Cerrar</Button> */}
-          <Button color="gray" onClick={() => setOpenModal(false)}>Cerrar</Button>
+        <Modal.Footer className="justify-between">
+          <Button color="failure" onClick={handleConfirmation}>Eliminar</Button>
+          <div className="flex space-x-2">
+            <Button color="success" onClick={handleSave}>Guardar</Button>
+            {/* <Button color="success" onClick={handleSaveClose}>Guardar y Cerrar</Button> */}
+            <Button color="gray" onClick={() => setOpenModal(false)}>Cerrar</Button>
+          </div>
         </Modal.Footer>
       </Modal>
+
+      <DangerConfirmationModal openModal={confirmationOpen} setOpenModal={setConfirmationOpen} operationFunction={handleDelete} msg="¿Seguro que desea eliminar esta monografía?" />
 
     </div>
   );
