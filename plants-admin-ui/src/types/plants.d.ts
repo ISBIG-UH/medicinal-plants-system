@@ -1,19 +1,3 @@
-// interface ScientificName {
-//     raw: string;
-//     genus: string;
-//     subsp: string;
-//     f: string;
-//     species: string;
-//     authors: string;
-//     family: string;
-//     var: string;
-//     subfamily: string;
-// }
-
-// interface VulgarNames {
-//     [country: string]: string[];
-// }
-
 interface Monograph {
     Id: number,
     genus: string,
@@ -35,4 +19,9 @@ interface Monograph {
     App: string,
     Cul: string,
     Bib: string[]
+}
+
+interface MonographBasic {
+    Id: number,
+    Name: string
 }

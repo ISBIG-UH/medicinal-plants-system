@@ -4,10 +4,11 @@ import { IoIosSearch } from "react-icons/io";
 import NavMenu from "./NavMenu";
 import SideBar from "./SideBar";
 import ContextSearchBoard from "./ContextSearchBoard";
+import IndexSearchBoard from "./IndexSearchBoard";
 
 const categories = [
   { icon: <PiPlantBold />, items: [
-    { label: "Búsqueda por índice", icon: <TbListLetters size={24} />, element: <div>Otra cosa</div>},
+    { label: "Búsqueda por índice", icon: <TbListLetters size={24} />, element: <IndexSearchBoard />},
     { label: "Búsqueda contextual", icon: <IoIosSearch size={24} />, element: <ContextSearchBoard />},
   ]}
 ]

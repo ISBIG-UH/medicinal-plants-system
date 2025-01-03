@@ -49,7 +49,13 @@ function useSearch() {
 
     // Simulate data request to backend
     setTimeout(() => {
+
       const subset = getRandomSubset(monographsSeed, 3);
+      // Dada una palabra clave, pido al servidor las monografías que la contienen
+      //////////////////////////////////////////////////
+      //////// 🚨🚨Implementar solicitud🚨🚨 /////////
+      ////////////////////////////////////////////////
+
       setMonographs(subset);
       setLoading(false)
       console.log("Search ended: Results updated.");
