@@ -26,7 +26,7 @@ function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
     <div>
       <Modal show={openModal} size='5xl' onClose={() => setOpenModal(false)}>
       <Modal.Header className="shadow-lg shadow-gray-200">
-        <EditTextCategory value={name} setter={setName} name="Nombre" text={monograph.Name} icon={<></>} className="text-primary text-4xl" simple/>
+        <EditTextCategory value={name} setter={setName} name="Nombre" text={monograph.Name} icon={<></>} className="text-primary text-4xl" required simple/>
         <p className="text-gray-400 text-md">{`${monograph.genus} ${monograph.species} ${monograph.authors} ${monograph.var} ${monograph.subsp} ${monograph.f}`}</p>
       </Modal.Header>
         <Modal.Body>

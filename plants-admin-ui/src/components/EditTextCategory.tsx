@@ -7,10 +7,11 @@ interface Props {
   text: string;
   icon: React.ReactNode;
   className?: string;
-  simple?: boolean
+  simple?: boolean;
+  required?: boolean;
 }
 
-function EditTextCategory({ value, setter, name, text, icon, className="", simple=false }: Props) {
+function EditTextCategory({ value, setter, name, text, icon, className="", simple, required }: Props) {
 
   const { textareaRef } = useEditText(text, setter);
 
@@ -22,14 +23,14 @@ function EditTextCategory({ value, setter, name, text, icon, className="", simpl
       </div>}
       {simple && <input
         type="text"
-        placeholder={text}
+        placeholder={required ? `${text}` : "Este campo quedará vacío"}
         className={`mb-2 w-full bg-gray-50 border-gray-300 rounded-md ${className}`}
         value={value}
         onChange={(e) => setter(e.target.value)}
       />}
       {!simple && <textarea
         ref={textareaRef}
-        placeholder={text}
+        placeholder={required ? `${text}` : "Este campo quedará vacío"}
         className={`w-full bg-gray-50 border-gray-300 rounded-md resize-none ${className}`}
         value={value}
         onChange={(e) => setter(e.target.value)}

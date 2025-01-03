@@ -42,15 +42,21 @@ export function useEditMonograph(monograph: Monograph, setOpenModal: (x: boolean
 
     setFlag(!flag);
 
+    
+    // Required fileds
     const finalName = name.trim() === "" ? monograph.Name : name;
-    const finalFamily = family.trim() === "" ? monograph.family : family;
-    const finalHab = hab.trim() === "" ? monograph.Hab : hab;
-    const finalDes = des.trim() === "" ? monograph.Des : des;
-    const finalCmp = cmp.trim() === "" ? monograph.Cmp : cmp;
-    const finalUse = use.trim() === "" ? monograph.Use : use;
-    const finalPro = pro.trim() === "" ? monograph.Pro : pro;
-    const finalCul = cul.trim() === "" ? monograph.Cul : cul;
-    const finalApp = app.trim() === "" ? monograph.App : app;
+
+
+    // Remove only-spaces strings
+    const finalFamily = family.trim() === "" ? "" : family;
+    const finalHab = hab.trim() === "" ? "" : hab;
+    const finalDes = des.trim() === "" ? "" : des;
+    const finalCmp = cmp.trim() === "" ? "" : cmp;
+    const finalUse = use.trim() === "" ? "" : use;
+    const finalPro = pro.trim() === "" ? "" : pro;
+    const finalCul = cul.trim() === "" ? "" : cul;
+    const finalApp = app.trim() === "" ? "" : app;
+
 
     // Filter empty strings and replace with original values or remove them
     const tempSy = sy.map((synonym, index) =>
