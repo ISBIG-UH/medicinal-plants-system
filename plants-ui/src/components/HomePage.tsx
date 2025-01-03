@@ -3,9 +3,9 @@ import SearchResult from "./SearchResult";
 import SearchResultsBlock from "./SearchResultsBlock";
 import useSearch from "../hooks/useSearch";
 import { toast, ToastContainer } from "react-toastify";
-import Spinner from "./Spinner";
 import PreviewModal from "./PreviewModal";
 import { usePreview } from "../hooks/usePreview";
+import { Spinner } from "flowbite-react";
 
 
 function HomePage() {
@@ -56,7 +56,7 @@ function HomePage() {
 
         {selectedMonograph && <PreviewModal show={selectedMonograph !== null} setShow={closeModal} monograph={selectedMonograph} />}
 
-        {loading && <Spinner />}
+        {loading && <div className="h-full flex flex-col justify-center items-center"><Spinner color="success" className="h-16 w-16" /></div>}
 
         <ToastContainer
           position="bottom-right"
