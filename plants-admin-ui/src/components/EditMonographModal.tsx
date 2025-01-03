@@ -1,37 +1,63 @@
 import { Button, Modal } from "flowbite-react";
+import EditTextCategory from "./EditTextCategory";
+import { TbTournament } from "react-icons/tb";
+import { FaBriefcaseMedical, FaEquals, FaHandHoldingMedical, FaList } from "react-icons/fa";
+import { MdForest } from "react-icons/md";
+import { PiTreeFill } from "react-icons/pi";
+import { SlChemistry } from "react-icons/sl";
+import { PiPlantBold } from "react-icons/pi";
+import { ImBooks, ImLeaf } from "react-icons/im";
+
+import EditListCategory from "./EditListCategory";
+import { useEditMonograph } from "../hooks/useEditMonograph";
 
 interface Props {
-  monograph: Monograph | null;
+  monograph: Monograph;
   openModal: boolean;
   setOpenModal: (x: boolean) => void;
 }
 
+
 function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
+  
+  const { name, setName, family, setFamily, hab, setHab, des, setDes, cmp, setCmp, use, setUse, pro, setPro, cul, setCul, app, setApp, sy, setSy, vul, setVul, bib, setBib, handleSave, handleSaveClose } = useEditMonograph(monograph, setOpenModal);
 
   return (
     <div>
       <Modal show={openModal} size='5xl' onClose={() => setOpenModal(false)}>
       <Modal.Header className="shadow-lg shadow-gray-200">
-        <div className="flex items-center space-x-2">
-            <div><img className="w-8" src="1.png"/></div>
-            <p className="text-primary text-4xl">{monograph?.Name}</p>
-        </div>
-        <p className="text-gray-400 text-md">
-          {monograph?.Sc.genus} {monograph?.Sc.species} {monograph?.Sc.authors} 
-          {monograph?.Sc.var} {monograph?.Sc.subsp} {monograph?.Sc.f}
-        </p>
+        <EditTextCategory value={name} setter={setName} name="Nombre" text={monograph.Name} icon={<></>} className="text-primary text-4xl" simple/>
+        <p className="text-gray-400 text-md">{`${monograph.genus} ${monograph.species} ${monograph.authors} ${monograph.var} ${monograph.subsp} ${monograph.f}`}</p>
       </Modal.Header>
         <Modal.Body>
-          <div className="space-y-6 p-6">
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              With less than a month to go before the European Union enacts new consumer privacy laws for its citizens,
-              companies around the world are updating their terms of service agreements to comply.
-            </p>
+          <div className="space-y-6">
+            <EditTextCategory value={family} setter={setFamily} name="Familia" text={monograph.family} icon={<TbTournament />}/>
+
+            <EditListCategory value={sy} setter={setSy} list={monograph.Sy} name="Sinónimos" icon={<FaEquals />}/>
+           
+            <EditListCategory value={vul} setter={setVul} list={monograph.Vul} name="Otros nombres vulgares" icon={<FaList />}/>
+
+            <EditTextCategory value={hab} setter={setHab} name="Hábitat y Distribución" text={monograph.Hab} icon={<MdForest />}/>
+
+            <EditTextCategory value={des} setter={setDes} name="Descripción Botánica" text={monograph.Des} icon={<PiTreeFill />}/>
+
+            <EditTextCategory value={cmp} setter={setCmp} name="Composición" text={monograph.Cmp} icon={<SlChemistry />}/>
+
+            <EditTextCategory value={use} setter={setUse} name="Partes empleadas" text={monograph.Use} icon={<ImLeaf />}/>
+
+            <EditTextCategory value={pro} setter={setPro} name="Propiedades" text={monograph.Pro} icon={<FaBriefcaseMedical />}/>
+
+            <EditTextCategory value={cul} setter={setCul} name="Cultivo" text={monograph.Cul} icon={<PiPlantBold />}/>
+
+            <EditTextCategory value={app} setter={setApp} name="Aplicaciones" text={monograph.App} icon={<FaHandHoldingMedical />}/>
+
+            <EditListCategory value={bib} setter={setBib} list={monograph.Bib} name="Bibliografía" icon={<ImBooks />}/>
           </div>
         </Modal.Body>
         <Modal.Footer className="justify-end">
-          <Button color="success" onClick={() => setOpenModal(false)}>Save</Button>
-          <Button color="secondary" onClick={() => setOpenModal(false)}>Save</Button>
+          <Button color="success" onClick={handleSave}>Guardar</Button>
+          <Button color="success" onClick={handleSaveClose}>Guardar y Cerrar</Button>
+          <Button color="gray" onClick={() => setOpenModal(false)}>Cerrar</Button>
         </Modal.Footer>
       </Modal>
 

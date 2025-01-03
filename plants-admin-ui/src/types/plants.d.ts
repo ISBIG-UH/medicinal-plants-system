@@ -1,25 +1,32 @@
-interface ScientificName {
-    raw: string;
-    genus: string;
-    subsp: string;
-    f: string;
-    species: string;
-    authors: string;
-    family: string;
-    var: string;
-    subfamily: string;
-}
+// interface ScientificName {
+//     raw: string;
+//     genus: string;
+//     subsp: string;
+//     f: string;
+//     species: string;
+//     authors: string;
+//     family: string;
+//     var: string;
+//     subfamily: string;
+// }
 
-interface VulgarNames {
-    [country: string]: string[];
-}
+// interface VulgarNames {
+//     [country: string]: string[];
+// }
 
 interface Monograph {
     Id: number,
+    genus: string,
+    subsp: string,
+    f: string,
+    species: string,
+    authors: string,
+    family: string,
+    var: string,
+    subfamily: string,
     Name: string,
-    Sc: ScientificName,
     Sy: string[],
-    Vul: VulgarNames,
+    Vul: string[],
     Hab: string,
     Des: string,
     Cmp: string,

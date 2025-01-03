@@ -31,15 +31,15 @@ function ContextSearchBoard() {
         <ul className={`flex flex-col flex-grow items-center mb-12`}>
 
           {!loading && monographs.map((monograph) => (
-            <li className="w-full px-4">
+            <li key={monograph.Id} className="w-full px-4">
               <div className="p-1 w-full">
                 <div className="bg-gray-100 border border-gray-200 hover:bg-gray-200 hover:cursor-pointer p-2 rounded-md sm:mx-8 md:mx-14 lg:mx-24 xl:mx-32 max-w-full whitespace-nowrap overflow-hidden text-ellipsis"
                   onClick={() => handleClick(monograph)}
                 >
                   <p className="text-xl truncate">{monograph.Name}</p>
                   <p className="text-info text-sm truncate">
-                  {monograph.Sc.genus} {monograph.Sc.species} {monograph.Sc.authors}{" "}
-                  {monograph.Sc.var} {monograph.Sc.subsp} {monograph.Sc.f}
+                  {monograph.genus} {monograph.species} {monograph.authors}{" "}
+                  {monograph.var} {monograph.subsp} {monograph.f}
                   </p>
                   <p className="text-sm truncate">{monograph.Des}</p>
                 </div>
@@ -52,7 +52,7 @@ function ContextSearchBoard() {
         </ul>
       </div>
 
-      <EditPlantModal monograph={selectedMonograph} openModal={openModal} setOpenModal={(x: boolean) => {setOpenModal(x)}} />
+      {selectedMonograph && <EditPlantModal monograph={selectedMonograph} openModal={openModal} setOpenModal={(x: boolean) => {setOpenModal(x)}} />}
 
       <ToastContainer
           position="bottom-right"

@@ -35,26 +35,24 @@ function SideBar({ categories }: Props) {
           </p>
 
           {
-            categories.map((group) => (
-              <>
-                <ul className="px-10 sm:px-20 md:px-36 lg:px-2 flex flex-col flex-grow">
-                  <HRIcon className="px-10 mt-5 mb-2" icon={group.icon}/>
-                  {group.items.map((item) => (
-                    <SideBarItem
-                      label={item.label}
-                      icon={item.icon}
-                      element={item.element}
-                      selector={selectCategory}
-                    />
-                  ))}
+            categories.map((group, i) => (
+              <ul key={i} className="px-10 sm:px-20 md:px-36 lg:px-2 flex flex-col flex-grow">
+                <HRIcon className="px-10 mt-5 mb-2" icon={group.icon}/>
+                {group.items.map((item, i) => (
+                  <SideBarItem
+                    key={i}
+                    label={item.label}
+                    icon={item.icon}
+                    element={item.element}
+                    selector={selectCategory}
+                  />
+                ))}
 
-                  <div className="lg:mt-auto lg:mb-4 lg:mx-6">
-                    <HRIcon className="px-10 mt-5 mb-2" icon={<MdOutlineAccountCircle/>}/>
-                    <LogOut />
-                  </div>
-                </ul>
-              </>
-
+                <div className="lg:mt-auto lg:mb-4 lg:mx-6">
+                  <HRIcon className="px-10 mt-5 mb-2" icon={<MdOutlineAccountCircle/>}/>
+                  <LogOut />
+                </div>
+              </ul>
             ))
           }
         </div>
