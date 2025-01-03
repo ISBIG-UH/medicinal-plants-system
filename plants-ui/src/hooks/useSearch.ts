@@ -49,7 +49,7 @@ function useSearch() {
 
     // Simulate data request to backend
     setTimeout(() => {
-      const subset = getRandomSubset(monographsSeed, 3);
+      const subset = getRandomSubset(monographsSeed, 4);
       setMonographs(subset);
       setLoading(false)
       console.log("Search ended: Results updated.");

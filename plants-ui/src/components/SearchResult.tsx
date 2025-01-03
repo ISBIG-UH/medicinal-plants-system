@@ -19,8 +19,8 @@ function SearchResult({ monograh, clickHandler }: Props) {
         {monograh.Name}
       </label>
       <p className="text-info text-sm">
-        {monograh.Sc.genus} {monograh.Sc.species} {monograh.Sc.authors}{" "}
-        {monograh.Sc.var} {monograh.Sc.subsp} {monograh.Sc.f}
+        {monograh.genus} {monograh.species} {monograh.authors}{" "}
+        {monograh.var} {monograh.subsp} {monograh.f}
       </p>
       <p>{truncateText(monograh.Hab, 150)}</p>
     </div>

@@ -14,18 +14,9 @@ import { ImBooks } from "react-icons/im";
 interface Props {
   show: boolean;
   setShow: (value: boolean) => void;
-  monograph: Monograph | null;
+  monograph: Monograph;
 }
 
-function* getVulgarNames(names: VulgarNames) {
-  for (const country of Object.keys(names)) {
-    console.log(`País: ${country}`);
-    for (const name of names[country]) {
-      console.log(`· ${name}`);
-      yield { country, name };
-    }
-  }
-}
 
 function PreviewModal({ show, setShow, monograph }: Props) {
   return (
@@ -33,81 +24,78 @@ function PreviewModal({ show, setShow, monograph }: Props) {
       <Modal.Header className="shadow-lg shadow-gray-200">
         <div className="flex items-center space-x-2">
             <div><img className="w-8" src="1.png"/></div>
-            <p className="text-primary text-4xl">{monograph?.Name}</p>
+            <p className="text-primary text-4xl">{monograph.Name}</p>
         </div>
         <p className="text-gray-400 text-md">
-          {monograph?.Sc.genus} {monograph?.Sc.species} {monograph?.Sc.authors}{" "}
-          {monograph?.Sc.var} {monograph?.Sc.subsp} {monograph?.Sc.f}
+          {monograph.genus} {monograph.species} {monograph.authors}{" "}
+          {monograph.var} {monograph.subsp} {monograph.f}
         </p>
       </Modal.Header>
       <Modal.Body>
         <div className="space-y-6">
-          {monograph && monograph?.Sc.family !== "" && (
+          {monograph.family !== "" && (
             <PreviewCategory name="Familia" icon={<TbTournament />}>
-              <p>{monograph?.Sc.family}</p>
+              <p>{monograph.family}</p>
             </PreviewCategory>
           )}
 
-          {monograph && monograph?.Sy.length > 0 && (
+          {monograph.Sy.length > 0 && (
             <PreviewCategory name="Sinónimos" icon={<FaEquals />}>
-              {monograph?.Sy.map((syn) => (
+              {monograph.Sy.map((syn) => (
                 <p>· {syn}</p>
               ))}
             </PreviewCategory>
           )}
 
-          {monograph && monograph?.Vul && (
+          {monograph.Vul.length > 0 && (
             <PreviewCategory name="Otros nombre vulgares" icon={<FaList />}>
-              {monograph?.Vul &&
-                Array.from(getVulgarNames(monograph.Vul)).map(
-                  ({ country, name }) => (
-                    <p>
-                      · {name} ({country})
-                    </p>
-                  )
-                )}
+              {monograph.Vul.map((vul) => (
+                <p>
+                · {vul}
+                </p>
+              ))}
             </PreviewCategory>
           )}
 
-          {monograph && monograph?.Hab !== "" && (
+          {monograph.Hab !== "" && (
             <PreviewCategory name="Hábitat y Distribución" icon={<MdForest />}>
-              <p>{monograph?.Hab}</p>
+              <p>{monograph.Hab}</p>
             </PreviewCategory>
           )}
 
-          {monograph && monograph?.Des !== "" && (
+          {monograph.Des !== "" && (
             <PreviewCategory name="Descripción Botánica" icon={<PiTreeFill />}>
-              <p>{monograph?.Des}</p>
+              <p>{monograph.Des}</p>
             </PreviewCategory>
           )}
 
-          {monograph && monograph?.Cmp !== "" && (
+          {monograph.Cmp !== "" && (
             <PreviewCategory name="Composición" icon={<SlChemistry />}>
-              <p>{monograph?.Cmp}</p>
+              <p>{monograph.Cmp}</p>
             </PreviewCategory>
           )}
 
-          {monograph && monograph?.Use !== "" && (
+          {monograph.Use !== "" && (
             <PreviewCategory name="Partes empleadas" icon={<ImLeaf />}>
-              <p>{monograph?.Use}</p>
+              <p>{monograph.Use}</p>
             </PreviewCategory>
           )}
 
-          {monograph && monograph?.Pro !== "" && (
+          {monograph.Pro !== "" && (
             <PreviewCategory name="Propiedades" icon={<FaBriefcaseMedical />}>
-              <p>{monograph?.Pro}</p>
+              <p>{monograph.Pro}</p>
             </PreviewCategory>
           )}
 
-          {monograph && monograph?.App !== "" && (
+          {monograph.App !== "" && (
             <PreviewCategory name="Aplicaciones" icon={<FaHandHoldingMedical />}>
-              <p>{monograph?.App}</p>
+              <p>{monograph.App}</p>
             </PreviewCategory>
           )}
 
-          {monograph && monograph?.Bib.length > 0 && (
+          {monograph.Bib.length > 0 && (
             <PreviewCategory name="Bibliografía" icon={<ImBooks />}>
-              {monograph?.Bib.map((bib) => (
+              {monograph.Bib.map((bib) => (
                 <p>· {bib}</p>
               ))}
             </PreviewCategory>

@@ -40,8 +40,8 @@ function HomePage() {
           <div className="p-2 h-full">
             <SearchResultsBlock>
               {monographs.length > 0 &&
-                monographs.map((monograph) => (
-                  <SearchResult key={monograph.Sc.raw} monograh={monograph} clickHandler={() => selectMonograph(monograph.Id)} />
+                monographs.map((monograph, i) => (
+                  <SearchResult key={i} monograh={monograph} clickHandler={() => selectMonograph(monograph.Id)} />
                 ))}
               {monographs.length === 0 && (
                 <div className="flex flex-col items-center justify-center h-full pb-20">
@@ -54,7 +54,7 @@ function HomePage() {
           </div>
         )}
 
-        <PreviewModal show={selectedMonograph !== null} setShow={closeModal} monograph={selectedMonograph} />
+        {selectedMonograph && <PreviewModal show={selectedMonograph !== null} setShow={closeModal} monograph={selectedMonograph} />}
 
         {loading && <Spinner />}
 
