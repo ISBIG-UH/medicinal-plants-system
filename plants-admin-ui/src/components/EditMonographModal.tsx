@@ -21,7 +21,7 @@ interface Props {
 
 function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
   
-  const { name, setName, family, setFamily, hab, setHab, des, setDes, cmp, setCmp, use, setUse, pro, setPro, cul, setCul, app, setApp, sy, setSy, vul, setVul, bib, setBib, handleSave } = useEditMonograph(monograph, setOpenModal);
+  const { name, setName, family, setFamily, subfamily, setSubfamily, hab, setHab, des, setDes, cmp, setCmp, use, setUse, pro, setPro, cul, setCul, app, setApp, sy, setSy, vul, setVul, bib, setBib, handleSave } = useEditMonograph(monograph, setOpenModal);
   const { handleConfirmation, handleDelete, confirmationOpen, setConfirmationOpen } = useDeleteMonograph(monograph, setOpenModal);
 
   return (
@@ -34,6 +34,8 @@ function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
         <Modal.Body>
           <div className="space-y-6">
             <EditTextCategory value={family} setter={setFamily} name="Familia" text={monograph.family} icon={<TbTournament />}/>
+            
+            <EditTextCategory value={subfamily} setter={setSubfamily} name="Subfamilia" text={monograph.subfamily} icon={<TbTournament />}/>
 
             <EditListCategory value={sy} setter={setSy} list={monograph.Sy} name="Sinónimos" icon={<FaEquals />}/>
            

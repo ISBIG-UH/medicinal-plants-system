@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 export function useEditMonograph(monograph: Monograph, setOpenModal: (x: boolean) => void) {
   const [name, setName] = useState(monograph.Name);
   const [family, setFamily] = useState(monograph.family);
+  const [subfamily, setSubfamily] = useState(monograph.subfamily);
   const [hab, setHab] = useState(monograph.Hab);
   const [des, setDes] = useState(monograph.Des);
   const [cmp, setCmp] = useState(monograph.Cmp);
@@ -19,6 +20,7 @@ export function useEditMonograph(monograph: Monograph, setOpenModal: (x: boolean
   useEffect(() => {
     setName(monograph.Name);
     setFamily(monograph.family);
+    setFamily(monograph.subfamily);
     setHab(monograph.Hab);
     setDes(monograph.Des);
     setCmp(monograph.Cmp);
@@ -49,6 +51,7 @@ export function useEditMonograph(monograph: Monograph, setOpenModal: (x: boolean
 
     // Remove only-spaces strings
     const finalFamily = family.trim() === "" ? "" : family;
+    const finalSubfamily = subfamily.trim() === "" ? "" : subfamily;
     const finalHab = hab.trim() === "" ? "" : hab;
     const finalDes = des.trim() === "" ? "" : des;
     const finalCmp = cmp.trim() === "" ? "" : cmp;
@@ -82,6 +85,7 @@ export function useEditMonograph(monograph: Monograph, setOpenModal: (x: boolean
 
     console.log(`Name: ${finalName}`);
     console.log(`Family: ${finalFamily}`);
+    console.log(`Subfamily: ${finalSubfamily}`);
     console.log(`Hab: ${finalHab}`);
     console.log(`Des: ${finalDes}`);
     console.log(`Cmp: ${finalCmp}`);
@@ -102,5 +106,5 @@ export function useEditMonograph(monograph: Monograph, setOpenModal: (x: boolean
     ////////////////////////////////////////////////
   }
 
-  return { name, setName, family, setFamily, hab, setHab, des, setDes, cmp, setCmp, use, setUse, pro, setPro, cul, setCul, app, setApp, sy, setSy, vul, setVul, bib, setBib, handleSave };
+  return { name, setName, family, setFamily, subfamily, setSubfamily, hab, setHab, des, setDes, cmp, setCmp, use, setUse, pro, setPro, cul, setCul, app, setApp, sy, setSy, vul, setVul, bib, setBib, handleSave };
 }
