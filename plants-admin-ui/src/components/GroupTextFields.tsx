@@ -1,5 +1,5 @@
 import { Label, TextInput, Textarea } from "flowbite-react";
-import { groupsTextFields } from "./AddMonographBoardFields";
+import { groupsTextFields } from "./MonographFormFields";
 
 interface Props{
     formData: { [key: string]: string | string[] };

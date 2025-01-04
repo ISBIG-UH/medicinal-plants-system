@@ -10,9 +10,9 @@ import AddMonographBoard from "./AddMonographBoard";
 
 const categories = [
   { icon: <PiPlantBold />, items: [
-    { label: "Nueva monografía", icon: <RiAddCircleLine size={24} />, element: <AddMonographBoard />},
-    { label: "Búsqueda por índice", icon: <TbListLetters size={24} />, element: <IndexSearchBoard />},
     { label: "Búsqueda contextual", icon: <IoIosSearch size={24} />, element: <ContextSearchBoard />},
+    { label: "Búsqueda por índice", icon: <TbListLetters size={24} />, element: <IndexSearchBoard />},
+    { label: "Nueva monografía", icon: <RiAddCircleLine size={24} />, element: <AddMonographBoard />},
   ]}
 ]
 

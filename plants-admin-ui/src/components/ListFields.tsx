@@ -1,7 +1,7 @@
 import { Label, TextInput } from "flowbite-react";
 import { MdDeleteForever } from "react-icons/md";
 import { IoMdAddCircle } from "react-icons/io";
-import { listFields } from "./AddMonographBoardFields";
+import { listFields } from "./MonographFormFields";
 
 interface Props {
   formData: { [key: string]: string | string[] };

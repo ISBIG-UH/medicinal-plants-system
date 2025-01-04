@@ -1,5 +1,5 @@
 import { Alert } from "flowbite-react";
-import { groupsTextFields } from "./AddMonographBoardFields";
+import { groupsTextFields } from "./MonographFormFields";
 import { ImWarning } from "react-icons/im";
 
 interface Props {
