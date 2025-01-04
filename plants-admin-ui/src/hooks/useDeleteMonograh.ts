@@ -4,7 +4,7 @@ export function useDeleteMonograph(monograph: Monograph, setOpenModal: (x: boole
   const [confirmationOpen, setConfirmationOpen] = useState(false);
 
   function handleDelete() {
-    const id = monograph.Id;
+    const id = monograph.id;
 
     // Delete monograph
     //////////////////////////////////////////////////

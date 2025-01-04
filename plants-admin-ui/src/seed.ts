@@ -1,7 +1,7 @@
 export const monographsSeed: Monograph[] = [
     {
-      Id: 1,
-      Name: "Abey",
+      id: 1,
+      name: "Abey",
       genus: "Jacaranda",
       subsp: "",
       f: "",
@@ -24,8 +24,8 @@ export const monographsSeed: Monograph[] = [
       ],
     },
     {
-      Id: 2,
-      Name: "Guayaba",
+      id: 2,
+      name: "Guayaba",
       genus: "Psidium",
       subsp: "",
       f: "",
@@ -46,8 +46,8 @@ export const monographsSeed: Monograph[] = [
       Bib: ["Roig y Mesa, Tomás: Plantas Medicinales, 1927."],
     },
     {
-      Id: 3,
-      Name: "Aloe Vera",
+      id: 3,
+      name: "Aloe Vera",
       genus: "Aloe",
       subsp: "",
       f: "",
@@ -70,8 +70,8 @@ export const monographsSeed: Monograph[] = [
       ],
     },
     {
-      Id: 4,
-      Name: "Manzanilla",
+      id: 4,
+      name: "Manzanilla",
       genus: "Matricaria",
       subsp: "",
       f: "",
@@ -92,8 +92,8 @@ export const monographsSeed: Monograph[] = [
       Bib: ["Blumenthal, M.: The Complete German Commission E Monographs, 1998."],
     },
     {
-      Id: 5,
-      Name: "Lavanda",
+      id: 5,
+      name: "Lavanda",
       genus: "Lavandula",
       subsp: "",
       f: "",
@@ -114,8 +114,8 @@ export const monographsSeed: Monograph[] = [
       Bib: ["Wichtl, M.: Herbal Drugs and Phytopharmaceuticals, 2004."],
     },
     {
-      Id: 6,
-      Name: "Menta",
+      id: 6,
+      name: "Menta",
       genus: "Mentha",
       subsp: "",
       f: "",

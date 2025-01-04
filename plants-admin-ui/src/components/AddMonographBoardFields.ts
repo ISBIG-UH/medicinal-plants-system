@@ -42,9 +42,9 @@ export const groupsTextFields = [
   {
     label: "Familia y Subfamilia",
     inputs: [
-      { id: "fam", placeholder: "Familia", required: false, useArea: false },
+      { id: "family", placeholder: "Familia", required: false, useArea: false },
       {
-        id: "subfam",
+        id: "subfamily",
         placeholder: "Subfamilia",
         required: false,
         useArea: false,

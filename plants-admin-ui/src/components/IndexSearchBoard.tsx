@@ -4,7 +4,7 @@ import EditMonographModal from "./EditMonographModal";
 
 
 function IndexSearchBoard() {
-  const { selectedLetter, plants, loading, handleSelectLetter, monograph, handleSelectMonograh, openModal, setOpenModal } = useIndexSearchBoard();
+  const { selectedLetter, monographBasics, loading, handleSelectLetter, monograph, handleSelectMonograh, openModal, setOpenModal } = useIndexSearchBoard();
   
   return (
     <div className="h-full">
@@ -30,13 +30,13 @@ function IndexSearchBoard() {
             "{selectedLetter}"
           </h2>
           {!loading &&
-            plants.map((p, i) => (
+            monographBasics.map((p, i) => (
               <div key={i} className={`mx-6 ${i % 2 === 0 ? "bg-gray-100" : "bg-gray-50"} rounded-xl`}>
                 <p
                   className={`mx-2 w-fit text-xl font-semibold text-primary hover:underline hover:cursor-pointer px-4 py-1 `}
                   onClick={() => handleSelectMonograh(p)}
                 >
-                  {p.Name}
+                  {p.name}
                 </p>
               </div>
             ))}
@@ -50,6 +50,7 @@ function IndexSearchBoard() {
 
       {monograph && (
         <EditMonographModal
+          key={monograph.id}
           openModal={openModal}
           setOpenModal={setOpenModal}
           monograph={monograph}

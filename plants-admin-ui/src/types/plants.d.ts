@@ -1,5 +1,6 @@
 interface Monograph {
-    Id: number,
+    id: number,
+    name: string,
     genus: string,
     subsp: string,
     f: string,
@@ -8,7 +9,6 @@ interface Monograph {
     family: string,
     var: string,
     subfamily: string,
-    Name: string,
     Sy: string[],
     Vul: string[],
     Hab: string,
@@ -22,6 +22,6 @@ interface Monograph {
 }
 
 interface MonographBasic {
-    Id: number,
-    Name: string
+    id: number,
+    name: string
 }

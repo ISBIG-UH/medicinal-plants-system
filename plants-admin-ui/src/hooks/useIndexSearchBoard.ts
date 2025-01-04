@@ -36,8 +36,10 @@ export function useIndexSearchBoard() {
 
     // Simulate data request to backend
     setTimeout(() => {
+      console.log("selected monograph", m);
+      const result = monographsSeed[m.id];
 
-      const result = monographsSeed[m.Id];
+      console.log("result", result);
       // Dado un id que me dio el servidor cuando cargué las plantas, pido la monografía completa
       //////////////////////////////////////////////////
       //////// 🚨🚨Implementar solicitud🚨🚨 /////////
@@ -60,7 +62,7 @@ export function useIndexSearchBoard() {
     getMonograhsByLetter(letters[0]);
   }, []);
 
-  return { selectedLetter, plants: monographBasics, loading, handleSelectLetter, monograph, handleSelectMonograh, openModal, setOpenModal };
+  return { selectedLetter, monographBasics, loading, handleSelectLetter, monograph, handleSelectMonograh, openModal, setOpenModal };
 }
 
 
@@ -79,5 +81,5 @@ const generateRandomWords = (letter: string) => {
     words.push(word.charAt(0).toUpperCase() + word.slice(1)); // Capitaliza la primera letra
   }
 
-  return words.map((w, i) => ({ Id: i, Name: w }));
+  return words.map((w, i) => ({ id: i, name: w }));
 };
