@@ -24,51 +24,51 @@ function GroupTextFields({ formData, handleTextChange }: Props) {
             }`}
           >
             {group.inputs.map((input, index) => (
-              <div key={index}>
+                <div key={index}>
                 {!input.useArea ? (
                   <TextInput
-                    id={input.id}
-                    type="text"
-                    className="mx-2 my-1"
-                    placeholder={
-                      input.required
-                        ? `${input.placeholder}*`
-                        : input.placeholder
-                    }
-                    required={input.required}
-                    value={formData[input.id] || ""}
-                    onChange={handleTextChange}
-                    onInvalid={(e) => {
-                      (e.target as HTMLInputElement).setCustomValidity(
-                        "Por favor, llene este campo."
-                      );
-                    }}
-                    onInput={(e) => {
-                      (e.target as HTMLInputElement).setCustomValidity("");
-                    }}
+                  id={input.id}
+                  type="text"
+                  className="mx-2 my-1"
+                  placeholder={
+                    input.required
+                    ? `${input.placeholder}*`
+                    : input.placeholder
+                  }
+                  required={input.required}
+                  value={formData[input.id] || ""}
+                  onChange={handleTextChange}
+                  onInvalid={(e) => {
+                    (e.target as HTMLInputElement).setCustomValidity(
+                    "Por favor, llene este campo."
+                    );
+                  }}
+                  onInput={(e) => {
+                    (e.target as HTMLInputElement).setCustomValidity("");
+                  }}
                   />
                 ) : (
                   <Textarea
-                    id={input.id}
-                    placeholder={input.placeholder}
-                    className="my-1 resize-none"
-                    value={formData[input.id] || ""}
-                    onChange={handleTextChange}
-                    style={{ height: "auto", overflow: "hidden" }}
-                    onInput={(e) => {
-                      const target = e.target as HTMLTextAreaElement;
-                      target.style.height = "auto";
-                      target.style.height = `${target.scrollHeight}px`;
-                    }}
-                    ref={(textarea) => {
-                      if (textarea) {
-                        textarea.style.height = "auto";
-                        textarea.style.height = `${textarea.scrollHeight}px`;
-                      }
-                    }}
+                  id={input.id}
+                  placeholder={input.placeholder}
+                  className="my-1 resize-none"
+                  value={formData[input.id] || ""}
+                  onChange={handleTextChange}
+                  style={{ height: "auto", overflow: "hidden" }}
+                  onInput={(e) => {
+                    const target = e.target as HTMLTextAreaElement;
+                    target.style.height = "auto";
+                    target.style.height = `${target.scrollHeight}px`;
+                  }}
+                  ref={(textarea) => {
+                    if (textarea && formData[input.id]) {
+                    textarea.style.height = "auto";
+                    textarea.style.height = `${textarea.scrollHeight}px`;
+                    }
+                  }}
                   />
                 )}
-              </div>
+                </div>
             ))}
           </div>
         </div>
