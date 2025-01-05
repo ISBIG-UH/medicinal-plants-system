@@ -1,17 +1,28 @@
 import { useState } from "react";
+import { setUser } from "../localStorageIntermediate";
+import { apiLogin } from "../services/apiServices";
 
 const useLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
 
-  function handleLogIn(e: React.FormEvent<HTMLFormElement>) {
+  async function handleLogIn(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
     const username = formData.get("username") as string;
     const password = formData.get("password") as string;
+    
+    const response = await apiLogin({ username, password });
 
-    alert(`Username: ${username} \nPassword: ${password}`);
-    throw new Error("Function not implemented.");
+    // Set user in local storage
+    if (response.user){
+      setUser(response.user);
+    }
+    
+    // window.location.href = "/";
+
+    // Return response for toastify
+    return response.toastResponse;
   }
 
   return {
