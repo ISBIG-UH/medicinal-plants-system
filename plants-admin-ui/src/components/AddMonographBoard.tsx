@@ -3,7 +3,8 @@ import { Button } from "flowbite-react";
 import GroupTextFields from "./GroupTextFields";
 import ListFields from "./ListFields";
 import EmptyFieldsWarning from "./EmptyFieldsWarning";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import { AiOutlineLoading } from "react-icons/ai";
 
 function AddMonographBoard() {
   const {
@@ -13,6 +14,7 @@ function AddMonographBoard() {
     handleListChange,
     handleDeleteListItem,
     handleAddListItem,
+    processingRequest,
   } = useAddMonographBoard();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -51,21 +53,11 @@ function AddMonographBoard() {
         <EmptyFieldsWarning formData={formData} />
 
         <div className="flex p-4 justify-end m-2 mt-6 text-center">
-          <Button type="submit" color="success">
+          <Button type="submit" color="success" disabled={processingRequest} isProcessing={processingRequest} processingSpinner={<AiOutlineLoading className="h-6 w-6 animate-spin" />}>
             Guardar
           </Button>
         </div>
       </div>
-
-      <ToastContainer
-        position="bottom-right"
-        autoClose={3000}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
     </form>
   );
 }

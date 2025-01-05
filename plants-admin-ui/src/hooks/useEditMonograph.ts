@@ -29,6 +29,9 @@ export function useEditMonograph(
     Bib: monograph.Bib,
   });
 
+  const [processingAdd, setProcessingAdd] = useState(false);
+
+
   const handleFormTextChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -75,11 +78,13 @@ export function useEditMonograph(
     });
   }
 
-  async function submit() {
-    setOpenModal(false);
+  async function submit() : Promise<ToastResponse> {
+    setProcessingAdd(true);
     const response = await apiEditMonograph({ formData: formData })
+    setProcessingAdd(false);
+    setOpenModal(false);
     return response.toastResponse;
   }
 
-  return { formData, handleFormTextChange, handleFormListChange, handleAddListItem, handleDeleteListItem, submit };
+  return { formData, handleFormTextChange, handleFormListChange, handleAddListItem, handleDeleteListItem, submit, processingAdd };
 }

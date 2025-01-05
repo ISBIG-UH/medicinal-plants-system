@@ -1,4 +1,4 @@
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import useSearch from "../hooks/useSearch";
 import SearchBar from "./SearchBar";
 import { Spinner } from "flowbite-react";
@@ -24,7 +24,7 @@ function ContextSearchBoard() {
   return (
     <>
       <div className="m-4 px-2 sm:px-12 md:px-24 lg:px-36 xl:px-56">
-        <SearchBar input={input} setInput={setInput} searchTrigger={() => handleSearch()} />
+        <SearchBar input={input} setInput={setInput} searchTrigger={() => handleSearch()} loading={loading} />
       </div>
       
       <div className="flex-grow lg:overflow-y-scroll lg:max-h-full lg:h-full">
@@ -53,16 +53,6 @@ function ContextSearchBoard() {
       </div>
 
       {selectedMonograph && <EditPlantModal key={selectedMonograph.id} monograph={selectedMonograph} openModal={openModal} setOpenModal={(x: boolean) => {setOpenModal(x)}} />}
-
-      <ToastContainer
-          position="bottom-right"
-          autoClose={3000}
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
     </>
   );
 }

@@ -1,12 +1,15 @@
+import { Button } from "flowbite-react";
+import { AiOutlineLoading } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
 
 interface Props {
   input: string;
   setInput: React.Dispatch<React.SetStateAction<string>>;
   searchTrigger: () => void;
+  loading: boolean;
 }
 
-function SearchBar({ input, setInput, searchTrigger }: Props) {
+function SearchBar({ input, setInput, searchTrigger, loading }: Props) {
   return (
     <div className="flex flex-row">
       <input
@@ -21,9 +24,9 @@ function SearchBar({ input, setInput, searchTrigger }: Props) {
           }
         }}
       />
-      <button className="bg-primary text-secondary font-bold py-2 px-4 rounded-full hover:bg-green-700" onClick={searchTrigger}>
-        <FaSearch size={18} />
-      </button>
+      <Button color="success" className="text-secondary font-bold rounded-full items-center" onClick={searchTrigger} disabled={loading} isProcessing={loading} processingSpinner={<AiOutlineLoading className="h-6 w-6 animate-spin" />}>
+        <FaSearch size={14} />
+      </Button>
     </div>
   );
 }

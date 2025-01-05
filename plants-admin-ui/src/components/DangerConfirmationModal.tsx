@@ -1,4 +1,5 @@
-import { Modal } from "flowbite-react";
+import { Button, Modal } from "flowbite-react";
+import { AiOutlineLoading } from "react-icons/ai";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 interface Props {
@@ -6,9 +7,10 @@ interface Props {
   setOpenModal: (x: boolean) => void;
   operationFunction: () => void;
   msg: string;
+  processing: boolean;
 }
 
-function DangerConfirmationModal({ openModal, setOpenModal, operationFunction, msg }: Props) {
+function DangerConfirmationModal({ openModal, setOpenModal, operationFunction, msg, processing }: Props) {
   return (
     <Modal
       show={openModal}
@@ -25,18 +27,22 @@ function DangerConfirmationModal({ openModal, setOpenModal, operationFunction, m
             {msg}
           </h3>
           <div className="flex justify-center gap-4">
-            <button
-              className="bg-danger px-6 py-2 rounded font-semibold hover:bg-red-600"
+            <Button
+              color="failure"
               onClick={() => operationFunction()}
+              disabled={processing}
+              isProcessing={processing}
+              processingSpinner={<AiOutlineLoading className="h-6 w-6 animate-spin" />}
             >
               Sí
-            </button>
-            <button
-              className="bg-gray-300 px-6 py-2 rounded font-semibold hover:bg-gray-400"
+            </Button>
+            <Button
+              color="gray"
               onClick={() => setOpenModal(false)}
+              disabled={processing}
             >
               No
-            </button>
+            </Button>
           </div>
         </div>
       </Modal.Body>

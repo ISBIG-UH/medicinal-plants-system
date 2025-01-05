@@ -2,7 +2,7 @@ import { Label, TextInput } from "flowbite-react";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import useLogin from "../hooks/useLogin";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 function LogIn() {
   const { showPassword, setShowPassword, handleLogIn } = useLogin();
@@ -95,16 +95,6 @@ function LogIn() {
           </form>
         </div>
       </div>
-
-      <ToastContainer
-        position="bottom-right"
-        autoClose={3000}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
     </div>
   );
 }

@@ -5,7 +5,8 @@ import { useEditMonograph } from "../hooks/useEditMonograph";
 import GroupTextFields from "./GroupTextFields";
 import ListFields from "./ListFields";
 import EmptyFieldsWarning from "./EmptyFieldsWarning";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import { AiOutlineLoading } from "react-icons/ai";
 
 interface Props {
   monograph: Monograph;
@@ -19,6 +20,7 @@ function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
     delete_,
     confirmationOpen,
     setConfirmationOpen,
+    processingDelete,
   } = useDeleteMonograph(monograph, setOpenModal);
 
   const {
@@ -28,24 +30,27 @@ function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
     handleAddListItem,
     handleDeleteListItem,
     submit,
+    processingAdd,
   } = useEditMonograph(monograph, setOpenModal);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+  try {
     const response = await submit();
 
-    if (response.type == "error") {
-      toast.error(response.msg);
-    } else if (response.type == "success") {
+    if (response.type === "success") {
       toast.success(response.msg);
-    } else if (response.type == "null") {
-      return;
+    } else if (response.type === "error") {
+      toast.error(response.msg);
     }
-  };
-
-  
+  } catch (error) {
+    toast.error("Ocurrió un error inesperado.");
+  }
+  }; 
 
   const handleDelete = async () => {
+    toast.dismiss();
     const response = await delete_();
     
     if (response.type == "error") {
@@ -80,13 +85,13 @@ function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
             <EmptyFieldsWarning formData={formData} />
 
             <div className="flex justify-end space-x-2">
-              <Button color="failure" onClick={handleConfirmation}>
+              <Button color="failure" size="xs" onClick={handleConfirmation} disabled={processingAdd || processingDelete} isProcessing={processingDelete} processingSpinner={<AiOutlineLoading className="h-4 w-4 animate-spin" />} >
                 Eliminar
               </Button>
-              <Button type="submit" color="success">
+              <Button type="submit" size="xs" color="success" disabled={processingAdd || processingDelete} isProcessing={processingAdd} processingSpinner={<AiOutlineLoading className="h-4 w-4 animate-spin" />}>
                 Guardar
               </Button>
-              <Button color="gray" onClick={() => setOpenModal(false)}>
+              <Button color="gray" size="xs" onClick={() => setOpenModal(false)} disabled={processingAdd || processingDelete}>
                 Cancelar
               </Button>
             </div>
@@ -99,16 +104,7 @@ function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
         setOpenModal={setConfirmationOpen}
         operationFunction={handleDelete}
         msg="¿Seguro que desea eliminar esta monografía?"
-      />
-
-      <ToastContainer
-        position="bottom-right"
-        autoClose={3000}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
+        processing={processingDelete}
       />
     </div>
   );

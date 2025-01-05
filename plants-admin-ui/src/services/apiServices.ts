@@ -86,7 +86,7 @@ export async function apiAddMonograph(request: AddMonographRequest) : Promise<Ad
     //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
     /////                CODE HERE               /////
     /////////////////////////////////////////////////
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 1000));
     let response: AddMonographResponse = { toastResponse: { type: "null", msg: "" } }
     response = { toastResponse: { type: "success", msg: "Monografía añadida correctamente" } }
     /////////////////////////////////////////////////
@@ -101,7 +101,7 @@ export async function apiEditMonograph(request: EditMonographRequest) : Promise<
     //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
     /////                CODE HERE               /////
     /////////////////////////////////////////////////
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 1000));
     let response: EditMonographResponse = { toastResponse: { type: "null", msg: "" } }
     response = { toastResponse: { type: "success", msg: "Monografía editada correctamente" } }
     /////////////////////////////////////////////////
@@ -116,7 +116,7 @@ export async function apiDeleteMonograph(request: DeleteMonographRequest) : Prom
     //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
     /////                CODE HERE               /////
     /////////////////////////////////////////////////
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 3000));
     let response: EditMonographResponse = { toastResponse: { type: "null", msg: "" } }
     response = { toastResponse: { type: "success", msg: "Monografía eliminada correctamente" } }
     /////////////////////////////////////////////////

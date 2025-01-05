@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import LogIn from "./components/LogIn";
 import Home from "./components/Home";
+import { ToastContainer } from "react-toastify";
 
 
 const routes = () => {
@@ -24,6 +25,15 @@ function App() {
           />
         ))}
       </Routes>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 }

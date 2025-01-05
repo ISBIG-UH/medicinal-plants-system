@@ -25,12 +25,40 @@ export function useAddMonographBoard() {
     Vul: [],
     Bib: [],
   });
+  const [processingRequest, setProcessingRequest] = useState(false);
 
 
   const submit = async () => {
+    setProcessingRequest(true);
     const response = await apiAddMonograph({ formData: formData })
+    setProcessingRequest(false);
+    clearFields();
     return response.toastResponse;
   };
+
+  function clearFields(){
+    setFormData({
+      name: "",
+      genus: "",
+      species: "",
+      authors: "",
+      subsp: "",
+      var: "",
+      f: "",
+      family: "",
+      subfamily: "",
+      Hab: "",
+      Des: "",
+      Cmp: "",
+      Use: "",
+      Pro: "",
+      App: "",
+      Cul: "",
+      Sy: [],
+      Vul: [],
+      Bib: [],
+    });
+  }
 
 
   const handleTextChange = (
@@ -73,5 +101,5 @@ export function useAddMonographBoard() {
     }));
   }
 
-  return { formData, submit, handleTextChange, handleListChange, handleDeleteListItem, handleAddListItem };
+  return { formData, submit, handleTextChange, handleListChange, handleDeleteListItem, handleAddListItem, processingRequest };
 }
