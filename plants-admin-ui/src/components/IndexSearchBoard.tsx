@@ -26,7 +26,7 @@ function IndexSearchBoard() {
           ))}
         </div>
         <div className="w-full flex flex-col my-4 lg:h-full lg:overflow-y-scroll">
-          <h2 className="text-center flex-grow text-3xl font-bold text-primary mb-4">
+          <h2 className="text-center text-3xl font-bold text-primary mb-4">
             "{selectedLetter}"
           </h2>
           {!loading &&

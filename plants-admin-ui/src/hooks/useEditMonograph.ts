@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiEditMonograph } from "../services/apiServices";
 
 export function useEditMonograph(
   monograph: Monograph,
@@ -74,17 +75,11 @@ export function useEditMonograph(
     });
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
-    e.preventDefault();
+  async function submit() {
     setOpenModal(false);
-
-    // Send data to the server
-    //////////////////////////////////////////////////
-    //////// 🚨🚨Implementar solicitud🚨🚨 /////////
-    ////////////////////////////////////////////////
-
-    console.log("Datos enviados:", formData);
+    const response = await apiEditMonograph({ formData: formData })
+    return response.toastResponse;
   }
 
-  return { formData, handleFormTextChange, handleFormListChange, handleAddListItem, handleDeleteListItem, handleSubmit };
+  return { formData, handleFormTextChange, handleFormListChange, handleAddListItem, handleDeleteListItem, submit };
 }

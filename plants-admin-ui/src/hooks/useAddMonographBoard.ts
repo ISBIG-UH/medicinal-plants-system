@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiAddMonograph } from "../services/apiServices";
 
 export function useAddMonographBoard() {
   const [formData, setFormData] = useState<{
@@ -26,15 +27,9 @@ export function useAddMonographBoard() {
   });
 
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Send data to the server
-    //////////////////////////////////////////////////
-    //////// 🚨🚨Implementar solicitud🚨🚨 /////////
-    ////////////////////////////////////////////////
-
-    console.log("Datos enviados:", formData);
+  const submit = async () => {
+    const response = await apiAddMonograph({ formData: formData })
+    return response.toastResponse;
   };
 
 
@@ -78,5 +73,5 @@ export function useAddMonographBoard() {
     }));
   }
 
-  return { formData, handleSubmit, handleTextChange, handleListChange, handleDeleteListItem, handleAddListItem };
+  return { formData, submit, handleTextChange, handleListChange, handleDeleteListItem, handleAddListItem };
 }

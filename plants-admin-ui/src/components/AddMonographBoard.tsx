@@ -3,16 +3,30 @@ import { Button } from "flowbite-react";
 import GroupTextFields from "./GroupTextFields";
 import ListFields from "./ListFields";
 import EmptyFieldsWarning from "./EmptyFieldsWarning";
+import { toast, ToastContainer } from "react-toastify";
 
 function AddMonographBoard() {
   const {
     formData,
-    handleSubmit,
+    submit,
     handleTextChange,
     handleListChange,
     handleDeleteListItem,
     handleAddListItem,
   } = useAddMonographBoard();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const response = await submit();
+
+    if (response.type == "error") {
+      toast.error(response.msg);
+    } else if (response.type == "success") {
+      toast.success(response.msg);
+    } else if (response.type == "null") {
+      return;
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col h-full">
@@ -42,6 +56,16 @@ function AddMonographBoard() {
           </Button>
         </div>
       </div>
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </form>
   );
 }

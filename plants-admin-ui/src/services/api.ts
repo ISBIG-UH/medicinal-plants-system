@@ -1,12 +1,13 @@
 import axios from "axios";
-import { clearUser } from "./localStorageIntermediate";
+import { clearUser } from "../localStorageIntermediate";
 
-const apiClient = axios.create({
+export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
+
 
 axios.interceptors.request.use(
   (config) => {
@@ -23,7 +24,7 @@ axios.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response.status === 401) {
-      console.log("Token expirado. Cerrando sesión...");
+      alert("Sesión expirada. Inicie sesión nuevamente.");
       clearUser()
       window.location.href = "/";
     }
@@ -31,4 +32,3 @@ axios.interceptors.response.use(
   }
 );
 
-export default apiClient;

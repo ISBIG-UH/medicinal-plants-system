@@ -9,8 +9,8 @@ function ContextSearchBoard() {
   const { input, setInput, monographs, loading, searchTrigger } = useSearch();
   const { selectedMonograph, openModal, setOpenModal, handleClick } = useContextSearchBoard();
 
-  const handleSearch = () => {
-    const response: ToastResponse = searchTrigger();
+  const handleSearch = async () => {
+    const response: ToastResponse = await searchTrigger();
 
     if (response.type == "error") {
       toast.error(response.msg);

@@ -7,8 +7,8 @@ import { ToastContainer, toast } from "react-toastify";
 function LogIn() {
   const { showPassword, setShowPassword, handleLogIn } = useLogin();
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    const response = handleLogIn(e);
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    const response = await handleLogIn(e);
 
     if (response.type == "error") {
       toast.error(response.msg);

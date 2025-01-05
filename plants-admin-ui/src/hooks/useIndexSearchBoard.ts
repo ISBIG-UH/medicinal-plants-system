@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { monographsSeed } from "../seed";
+import { apiGetIndex, apiGetMonograph } from "../services/apiServices";
 
 export const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
@@ -12,47 +12,26 @@ export function useIndexSearchBoard() {
   const [openModal, setOpenModal] = useState(false);
 
 
-  function getMonograhsByLetter(letter: string) {
-    console.log("called");
-
+  async function getMonograhsByLetter(letter: string) {
     setLoading(true);
 
-    // Simulate data request to backend
-    setTimeout(() => {
-
-      const result = generateRandomWords(letter);
-      // Dada una letra, pido al servidor las plantas que empiezan con esa letra
-      //////////////////////////////////////////////////
-      //////// 🚨🚨Implementar solicitud🚨🚨 /////////
-      ////////////////////////////////////////////////
-
-      setMonographBasics(result);
-      setLoading(false);
-    }, 500);
+    const result = await apiGetIndex({ letter: letter })
+    
+    setMonographBasics(result.monographsBasics);
+    setLoading(false);
   }
 
-  function handleSelectMonograh(m: MonographBasic) {
+  async function handleSelectMonograh(m: MonographBasic) {
     setLoading(true);
 
-    // Simulate data request to backend
-    setTimeout(() => {
-      console.log("selected monograph", m);
-      const result = monographsSeed[m.id];
+    const result = await apiGetMonograph({ id: m.id })
 
-      console.log("result", result);
-      // Dado un id que me dio el servidor cuando cargué las plantas, pido la monografía completa
-      //////////////////////////////////////////////////
-      //////// 🚨🚨Implementar solicitud🚨🚨 /////////
-      ////////////////////////////////////////////////
-
-      setMonograph(result);
-      setOpenModal(true);
-      setLoading(false);
-    }, 500);
+    setMonograph(result.monograph);
+    setOpenModal(true);
+    setLoading(false);
   }
 
   function handleSelectLetter(letter: string) {
-    console.log("selecting letter");
     setSelectedLetter(letter);
     setLoading(true);
     getMonograhsByLetter(letter);
@@ -64,22 +43,3 @@ export function useIndexSearchBoard() {
 
   return { selectedLetter, monographBasics, loading, handleSelectLetter, monograph, handleSelectMonograh, openModal, setOpenModal };
 }
-
-
-const generateRandomWords = (letter: string) => {
-  const words: string[] = [];
-  const characters = "abcdefghijklmnopqrstuvwxyz";
-
-  for (let i = 0; i < 40; i++) {
-    const wordLength = Math.floor(Math.random() * 7) + 3; // Longitud de palabra entre 3 y 10
-    let word = letter.toLowerCase();
-
-    for (let j = 1; j < wordLength; j++) {
-      word += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-
-    words.push(word.charAt(0).toUpperCase() + word.slice(1)); // Capitaliza la primera letra
-  }
-
-  return words.map((w, i) => ({ id: i, name: w }));
-};

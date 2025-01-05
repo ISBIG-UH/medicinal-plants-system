@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { monographsSeed } from "../seed";
+import { apiSearch } from "../services/apiServices";
 
 function useSearch() {
   const [input, setInput] = useState("");
@@ -7,28 +7,7 @@ function useSearch() {
   const [loading, setLoading] = useState(false);
 
 
-  ///////////////////////////// For temporal use /////////////////////////////
-  function getRandomSubset(monographs: Monograph[], subsetSize: number): Monograph[] {
-    if (subsetSize < 0) {
-      throw new Error("El tamaño del subconjunto no puede ser negativo.");
-    }
-  
-    if (subsetSize > monographs.length) {
-      throw new Error("El tamaño del subconjunto no puede ser mayor que la longitud de la lista.");
-    }
-  
-    const shuffled = [...monographs];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const randomIndex = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
-    }
-  
-    return shuffled.slice(0, subsetSize);
-  }
-  ///////////////////////////////////////////////////////////////////////////////////////
-
-
-  function searchTrigger() {
+  async function searchTrigger() {
     const trimmed = input.trim();
 
     if (!trimmed) {
@@ -47,21 +26,12 @@ function useSearch() {
     console.log(`Search started: ${trimmed}`);
     setLoading(true);
 
-    // Simulate data request to backend
-    setTimeout(() => {
+    const response = await apiSearch({ input: input })
 
-      const subset = getRandomSubset(monographsSeed, 3);
-      // Dada una palabra clave, pido al servidor las monografías que la contienen
-      //////////////////////////////////////////////////
-      //////// 🚨🚨Implementar solicitud🚨🚨 /////////
-      ////////////////////////////////////////////////
-
-      setMonographs(subset);
-      setLoading(false)
-      console.log("Search ended: Results updated.");
-    }, 500);
-
-    return { type: "null", msg: '' };
+    setMonographs(response.results);
+    setLoading(false)
+    
+    return response.toastResponse;
   }
 
   return {
