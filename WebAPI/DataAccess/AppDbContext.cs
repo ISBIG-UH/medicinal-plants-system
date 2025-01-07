@@ -256,9 +256,9 @@ public class AppDbContext : DbContext
     }
     private float CalculateTFIDF(int tokenCount, int totalWords, int totalDocuments, string term, Dictionary<string, List<string>> termDocumentRelationship)
     {
-        float tf = tokenCount / totalWords;
+        float tf = (float)tokenCount / totalWords;
 
-        float idf = totalDocuments / termDocumentRelationship[term].Count();
+        float idf = (float)Math.Log((float)totalDocuments / termDocumentRelationship[term].Count() + 1);
 
         return tf * idf;
       
