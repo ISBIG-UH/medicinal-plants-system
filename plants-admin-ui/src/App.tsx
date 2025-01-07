@@ -1,30 +1,41 @@
-import { useEffect, useState } from 'react';
-import apiClient from './api'
+import { Routes, Route } from "react-router-dom";
+import LogIn from "./components/LogIn";
+import Home from "./components/Home";
+import { ToastContainer } from "react-toastify";
 
-interface User {
-  id: number;
-  name: string;
+
+const routes = () => {
+  const role = localStorage.getItem('role');
+  return [
+    { label: "Inicio", href: "/", component: role ? <Home /> : <LogIn /> },
+    { label: "Login", href: "/login", component: <LogIn /> },
+    { label: "Home", href: "/home", component: <Home /> },
+  ]
 }
 
 function App() {
-  const [users, setUsers] = useState<User[]>([]);
-
-  useEffect(() => {
-      apiClient.get<User[]>("/users")
-          .then((response) => setUsers(response.data))
-          .catch((error) => console.error("Error fetching users:", error));
-  }, []);
-
   return (
     <>
-      <h1 className='text-4xl'>Admin project</h1>
-      {users.map((user) => (
-        <p key={user.id}>
-          {user.name}
-        </p>
-      ))}
+      <Routes>
+        {routes().map((route) => (
+          <Route
+            key={route.label}
+            path={route.href}
+            element={route.component}
+          />
+        ))}
+      </Routes>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
