@@ -32,7 +32,7 @@ public class AppDbContext : DbContext
             }
         ); 
 
-         // Define un comparador para la propiedad Monograph
+        // define a comparator for the Monograph property
         var monographComparer = new ValueComparer<Dictionary<string, object>>(
             (c1, c2) => c1 != null && c2 != null && c1.Count == c2.Count && !c1.Except(c2).Any(),  
             c => c == null ? 0 : c.Count,  
@@ -151,7 +151,10 @@ public class AppDbContext : DbContext
         Dictionary<string, JObject> monographsData = NJ.JsonConvert.DeserializeObject<Dictionary<string, JObject>>(monographsJson)
                                   ?? new Dictionary<string, JObject>();
 
+        // for each document, the total number of words is stored, and for each word, the count of its occurrences
         var dataProcessor = new Dictionary<string, (int, Dictionary<string, int>)>();
+
+        // for each term, the list of documents in which it appears is stored
         var termDocumentRelationship = new Dictionary<string, List<string>>();
 
         foreach (var(key, dataValue) in monographsData)
@@ -198,7 +201,7 @@ public class AppDbContext : DbContext
             dataProcessor[key] = (totalWords, tokenCounter);
         }
 
-        Console.WriteLine("Iniciando la siembra de datos TF-IDF...");
+        Console.WriteLine("🌱 Iniciando siembra de datos TF-IDF...");
         int id = 1;
         foreach (var (plantName, (totalWords, tokenOccurrences)) in dataProcessor)
         {
@@ -206,8 +209,6 @@ public class AppDbContext : DbContext
             {
                 try
                 {   
-                    float tf_idf = (float)CalculateTFIDF(count, totalWords, dataProcessor.Count, token, termDocumentRelationship);
-
                     var item = new TFIDF_Weights
                     {
                         Id = id,
@@ -215,7 +216,7 @@ public class AppDbContext : DbContext
                         TermCount = count,
                         PlantName = plantName,
                         TotalWords = totalWords,
-                        Value = tf_idf
+                        Value = (float)CalculateTFIDF(count, totalWords, dataProcessor.Count, token, termDocumentRelationship)
                     };
                     
                     modelBuilder.Entity<TFIDF_Weights>().HasData(item);
@@ -229,7 +230,8 @@ public class AppDbContext : DbContext
         }
     }
 
-
+    // this method tokenizes the input text, counts the frequency of each token,
+    // and updates the term-document relationship, associating each term with the documents (plant names) in which it appears.
     private int TokenizeAndCount(string text, Dictionary<string, int> tokenCounter, Dictionary<string, List<string>> termDocumentRelationship, string plantName, List<string> stopWords)
     {
         int totalWords = 0;

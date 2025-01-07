@@ -29,7 +29,7 @@ namespace DataAccess.Implementations
         }
 
         
-        // Searches for possible matches based on user query tokens.
+        // searches for possible matches based on user query tokens.
         public async Task<IEnumerable<(string PlantName, List<TermValue> TermValues)>> SearchAsync(IEnumerable<string> tokens)
         {
             if (tokens == null || !tokens.Any())

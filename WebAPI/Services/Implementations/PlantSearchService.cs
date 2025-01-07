@@ -34,12 +34,14 @@ namespace Services.Implementations
 
             List<string> tokens = ProcessQuery(query);
             
+            // find possible plants that match the query
             var searchResults = await _plantSearchService.SearchAsync(tokens);
 
             Dictionary<string, float> plantsRelevance = new Dictionary<string, float>();
             
             if (searchResults is IEnumerable<(string Key, List<TermValue> Terms)> searchPossibleMatches)
             {
+                // for each possible search result, we build the query vector based on each result to calculate its relevance.
                 foreach (var (plant, termValue) in searchPossibleMatches)
                 {
                     List<string> terms = termValue.Select(tv => tv.Term).ToList();
@@ -81,12 +83,12 @@ namespace Services.Implementations
 
             var queryVector = new List<float>(new float[terms.Count()]);
 
-            foreach (var term in tokens)
+            foreach (var token in tokens)
             {
-                if (termFrequencies.ContainsKey(term))
-                    termFrequencies[term]++;
+                if (termFrequencies.ContainsKey(token))
+                    termFrequencies[token]++;
                 else
-                    termFrequencies[term] = 1;
+                    termFrequencies[token] = 1;
             }
 
             int totalTokens = tokens.Count();
@@ -110,7 +112,7 @@ namespace Services.Implementations
         private float CalculateCosineSimilarity(List<float> vectorA, List<float> vectorB)
         {
             if (vectorA.Count != vectorB.Count)
-                throw new ArgumentException("Los vectores deben tener la misma longitud.");
+                throw new ArgumentException("Los vectores tienen que tener la misma longitud.");
 
             float dotProduct = vectorA.Zip(vectorB, (a, b) => a * b).Sum();
 
