@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Reflection.Metadata.Ecma335;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace DataAccess;
 
@@ -31,12 +32,20 @@ public class AppDbContext : DbContext
             }
         ); 
 
+         // Define un comparador para la propiedad Monograph
+        var monographComparer = new ValueComparer<Dictionary<string, object>>(
+            (c1, c2) => c1 != null && c2 != null && c1.Count == c2.Count && !c1.Except(c2).Any(),  
+            c => c == null ? 0 : c.Count,  
+            c => c == null ? null : new Dictionary<string, object>(c)  
+        );
+
         modelBuilder.Entity<Plant>()
             .Property(p => p.Monograph)
             .HasConversion(
                 v => NJ.JsonConvert.SerializeObject(v),  
-                v => NJ.JsonConvert.DeserializeObject<Dictionary<string, object>>(v) 
-            );
+                v => NJ.JsonConvert.DeserializeObject<Dictionary<string, object>>(v))
+            .Metadata.SetValueComparer(monographComparer);
+
  
         SeedPlants(modelBuilder);
 
@@ -46,14 +55,14 @@ public class AppDbContext : DbContext
             .ValueGeneratedOnAdd(); 
 
         modelBuilder.Entity<TFIDF_Weights>()
-            .HasIndex(t => new { t.Term, t.PlantName })  // Crear el índice único para Term + NamePlant
-            .IsUnique();  // Esto asegura que no haya duplicados de estas combinaciones
+            .HasIndex(t => new { t.Term, t.PlantName })  
+            .IsUnique();  
 
         modelBuilder.Entity<TFIDF_Weights>()
-            .HasOne(t => t.Plant)  // Relación con Plant (clave foránea NamePlant)
-            .WithMany()  // Plant no necesita saber de TokenFrequencyData (relación unidireccional)
-            .HasForeignKey(t => t.PlantName)  // Define la clave foránea explicitamente
-            .OnDelete(DeleteBehavior.Cascade);  // Eliminar TokenFrequencyData cuando se elimine Plant
+            .HasOne(t => t.Plant) 
+            .WithMany()  
+            .HasForeignKey(t => t.PlantName)  
+            .OnDelete(DeleteBehavior.Cascade); 
 
 
        SeedTFIDF_Weights(modelBuilder);
@@ -128,6 +137,7 @@ public class AppDbContext : DbContext
         }
     }
 
+
     private void SeedTFIDF_Weights(ModelBuilder modelBuilder)
     {
         string basePath = AppDomain.CurrentDomain.BaseDirectory;
@@ -195,7 +205,9 @@ public class AppDbContext : DbContext
             foreach (var (token, count) in tokenOccurrences)
             {
                 try
-                {
+                {   
+                    float tf_idf = (float)CalculateTFIDF(count, totalWords, dataProcessor.Count, token, termDocumentRelationship);
+
                     var item = new TFIDF_Weights
                     {
                         Id = id,
@@ -203,12 +215,11 @@ public class AppDbContext : DbContext
                         TermCount = count,
                         PlantName = plantName,
                         TotalWords = totalWords,
-                        Value = CalculateTFIDF(count, totalWords, dataProcessor.Count, token, termDocumentRelationship),
+                        Value = tf_idf
                     };
-
+                    
                     modelBuilder.Entity<TFIDF_Weights>().HasData(item);
                     id++;
-            
                 }
                 catch (Exception ex)
                 {
@@ -216,8 +227,8 @@ public class AppDbContext : DbContext
                 }
             }
         }
-        
     }
+
 
     private int TokenizeAndCount(string text, Dictionary<string, int> tokenCounter, Dictionary<string, List<string>> termDocumentRelationship, string plantName, List<string> stopWords)
     {
@@ -254,11 +265,13 @@ public class AppDbContext : DbContext
 
         return totalWords;
     }
-    private float CalculateTFIDF(int tokenCount, int totalWords, int totalDocuments, string term, Dictionary<string, List<string>> termDocumentRelationship)
-    {
-        float tf = (float)tokenCount / totalWords;
 
-        float idf = (float)Math.Log((float)totalDocuments / termDocumentRelationship[term].Count() + 1);
+
+    private double CalculateTFIDF(int tokenCount, int totalWords, int totalDocuments, string term, Dictionary<string, List<string>> termDocumentRelationship)
+    {
+        double tf = (double)tokenCount / totalWords;
+
+        double idf = (double)Math.Log(totalDocuments / termDocumentRelationship[term].Count() + 1);
 
         return tf * idf;
       

@@ -95,13 +95,13 @@ namespace DataAccess.Implementations
 
         private async Task<List<string>> GetPlantsByLevenshteinAsync(string token)
         {
-            var threshold = 6;  
+            var threshold = 3;  
             var tdw = await _context.TermDocumentWeights
                 .ToListAsync();
 
             var plants = tdw
                 .AsEnumerable() 
-                .Where(p => Math.Abs(p.Term.Length - token.Length) <= 6 && LevenshteinDistance(token, p.Term) <= threshold)
+                .Where(p => Math.Abs(p.Term.Length - token.Length) <= 2 && LevenshteinDistance(token, p.Term) <= threshold)
                 .Select(p => p.PlantName)
                 .Distinct()
                 .ToList();
