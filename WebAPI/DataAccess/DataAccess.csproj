@@ -21,7 +21,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <None Include="Resources\monographs.json">
+    <None Include="Resources\*.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
