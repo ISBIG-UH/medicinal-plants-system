@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using DataAccess;
 using Services.Interfaces;
 using Services.Implementations;
+using DataAccess.Interfaces;
+using DataAccess.Implementations;
+using Data;
 
 namespace Services;
 
@@ -29,6 +32,8 @@ public static class ServiceExtensions
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IQuerySearch<string, Plant>, PlantSearchService>();
+        services.AddScoped<IPlantSearch, PlantSearch>();
         return services;
     }
 
@@ -42,4 +47,8 @@ public static class ServiceExtensions
         services.AddScoped<IUserService, UserService>();
         return services;
     }
+}
+
+internal interface IQuerySearch
+{
 }
