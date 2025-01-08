@@ -73,7 +73,7 @@ public class AppDbContext : DbContext
     private void SeedPlants(ModelBuilder modelBuilder)
     {
         string basePath = AppDomain.CurrentDomain.BaseDirectory;
-        string filePath = Path.Combine(basePath, "Resources", "monographs.json");
+        string filePath = Path.Combine(basePath, "Resources", "data.json");
 
         if (!File.Exists(filePath))
         {
@@ -146,7 +146,7 @@ public class AppDbContext : DbContext
         var stopWordsJson = File.ReadAllText(stopWordsFilePath);
         List<string> stopWords = STJ.JsonSerializer.Deserialize<List<string>>(stopWordsJson) ?? new List<string>();
 
-        string monographsFilePath = Path.Combine(basePath, "Resources", "monographs.json");
+        string monographsFilePath = Path.Combine(basePath, "Resources", "data.json");
         var monographsJson = File.ReadAllText(monographsFilePath);
         Dictionary<string, JObject> monographsData = NJ.JsonConvert.DeserializeObject<Dictionary<string, JObject>>(monographsJson)
                                   ?? new Dictionary<string, JObject>();
