@@ -13,9 +13,11 @@ function HomePage() {
   const { selectedMonograph, closeModal, selectMonograph } = usePreview(monographs);
   
 
-  const handleSearch = () => {
-    const response: ToastResponse = searchTrigger();
+  const handleSearch = async () => {
+    const response: ToastResponse = await searchTrigger();
     closeModal();
+
+
 
     if (response.type == "error") {
       toast.error(response.msg);
@@ -33,6 +35,7 @@ function HomePage() {
           input={input}
           setInput={setInput}
           searchTrigger={() => handleSearch()}
+          disable={loading}
         />
       </div>
       <div className="p-2 h-full">
