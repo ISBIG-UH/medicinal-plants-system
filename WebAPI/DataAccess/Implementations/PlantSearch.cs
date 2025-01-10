@@ -44,24 +44,24 @@ namespace DataAccess.Implementations
 
                 if (await _context.TermDocumentWeights.AnyAsync(tdw => tdw.Term == token))
                 {
-                    plantsName = await GetPlantsByTermAsync(token);
+                    //plantsName = await GetPlantsByTermAsync(token);
                     foreach (var item in plantsName)
                     {
                         if (!plantsProcessed.Contains(item))
                         {
-                            await AddPlantValuesAsync(plantsWithValues, item);
+                            // await AddPlantValuesAsync(plantsWithValues, item);
                             plantsProcessed.Add(item); 
                         }
                     }
                 }
                 else
                 {
-                    plantsName = await GetPlantsByLevenshteinAsync(token);
+                    // plantsName = await GetPlantsByLevenshteinAsync(token);
                     foreach (var item in plantsName)
                     {
                         if (!plantsProcessed.Contains(item))
                         {
-                            await AddPlantValuesAsync(plantsWithValues, item);
+                            // await AddPlantValuesAsync(plantsWithValues, item);
                             plantsProcessed.Add(item);  
                         }
                     }
@@ -72,42 +72,42 @@ namespace DataAccess.Implementations
         }
 
 
-        private async Task<List<string>> GetPlantsByTermAsync(string term)
-        {
-            var plant = await _context.TermDocumentWeights
-                .Where(tdw => tdw.Term == term)
-                .Select(tdw => tdw.PlantName)
-                .Distinct()
-                .ToListAsync();
+        // private async Task<List<string>> GetPlantsByTermAsync(string term)
+        // {
+        //     var plant = await _context.TermDocumentWeights
+        //         .Where(tdw => tdw.Term == term)
+        //         .Select(tdw => tdw.PlantName)
+        //         .Distinct()
+        //         .ToListAsync();
 
-            return plant;
-        }
+        //     return plant;
+        // }
 
-        private async Task AddPlantValuesAsync(List<(string plant, List<TermValue> termValue)> plantsWithValues, string plantName)
-        {
-            var termValuePairs = await _context.TermDocumentWeights
-                .Where(tdw => tdw.PlantName == plantName)
-                .Select(tdw => new TermValue { Term = tdw.Term, Value = tdw.Value })
-                .ToListAsync();
+        // private async Task AddPlantValuesAsync(List<(string plant, List<TermValue> termValue)> plantsWithValues, string plantName)
+        // {
+        //     var termValuePairs = await _context.TermDocumentWeights
+        //         .Where(tdw => tdw.PlantName == plantName)
+        //         .Select(tdw => new TermValue { Term = tdw.Term, Value = tdw.Value })
+        //         .ToListAsync();
 
-            plantsWithValues.Add((plantName, termValuePairs));
-        }
+        //     plantsWithValues.Add((plantName, termValuePairs));
+        // }
 
-        private async Task<List<string>> GetPlantsByLevenshteinAsync(string token)
-        {
-            var threshold = 3;  
-            var tdw = await _context.TermDocumentWeights
-                .ToListAsync();
+        // private async Task<List<string>> GetPlantsByLevenshteinAsync(string token)
+        // {
+        //     var threshold = 3;  
+        //     var tdw = await _context.TermDocumentWeights
+        //         .ToListAsync();
 
-            var plants = tdw
-                .AsEnumerable() 
-                .Where(p => Math.Abs(p.Term.Length - token.Length) <= 2 && LevenshteinDistance(token, p.Term) <= threshold)
-                .Select(p => p.PlantName)
-                .Distinct()
-                .ToList();
+        //     var plants = tdw
+        //         .AsEnumerable() 
+        //         .Where(p => Math.Abs(p.Term.Length - token.Length) <= 2 && LevenshteinDistance(token, p.Term) <= threshold)
+        //         .Select(p => p.PlantName)
+        //         .Distinct()
+        //         .ToList();
 
-            return plants;
-        }
+        //     return plants;
+        // }
 
         private int LevenshteinDistance(string source, string target)
         {
