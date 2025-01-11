@@ -49,8 +49,8 @@ namespace DataAccess.TextProcessing
                 {
                     string text = value is string stringValue
                         ? stringValue.ToLower() 
-                        : value is IEnumerable<string> stringCollection && stringCollection != null
-                            ? string.Join(" ", stringCollection.Select(s => s.ToLower()))
+                        : value is IEnumerable<object> objectCollection
+                            ? string.Join(" ", objectCollection.Select(o => o?.ToString().ToLower()).ToList())
                             : string.Empty;
 
                     totalWords += TokenizeAndCount(text, tokenCounter, item.Name);
@@ -70,7 +70,7 @@ namespace DataAccess.TextProcessing
 
             foreach (var token in tokens)
             {
-                if (!stopWords.Contains(token) && Regex.IsMatch(token, @"^[a-záéíóúñ]{2,}$"))
+                if (!stopWords.Contains(token) && Regex.IsMatch(token, @"^[a-záéíóúñ]{3,}$"))
                 {
                     if (tokenCounter.ContainsKey(token))
                     {
