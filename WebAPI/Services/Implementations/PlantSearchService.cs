@@ -1,15 +1,15 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using Data;
 using DataAccess;
 using DataAccess.Interfaces;
 using DataAccess.AuxClasses;
 using Services.Interfaces;
+using Data.DTOs;
 
 
 namespace Services.Implementations
 {
-    public class PlantSearchService : IQuerySearch<string, Plant>
+    public class PlantSearchService : IQuerySearch<string, PlantDto>
     {
         private readonly IPlantSearch _plantSearchService;
         private readonly List<string> _stopWords;
@@ -27,22 +27,22 @@ namespace Services.Implementations
             _context = context;
         }
 
-        public async Task<IEnumerable<Plant>> QuerySearchAsync(string query)
+        public async Task<IEnumerable<PlantDto>> QuerySearchAsync(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
-                return Enumerable.Empty<Plant>();
+                return Enumerable.Empty<PlantDto>();
 
             List<string> tokens = ProcessQuery(query);
             
             // find possible plants that match the query
             var searchResults = await _plantSearchService.SearchAsync(tokens);
 
-            Dictionary<string, float> plantsRelevance = new Dictionary<string, float>();
+            Dictionary<int, float> plantsRelevance = new Dictionary<int, float>();
             
-            if (searchResults is IEnumerable<(string Key, List<TermValue> Terms)> searchPossibleMatches)
+            if (searchResults is IEnumerable<(int Key, List<TermValue> Terms)> searchPossibleMatches)
             {
                 // for each possible search result, we build the query vector based on each result to calculate its relevance.
-                foreach (var (plant, termValue) in searchPossibleMatches)
+                foreach (var (plantId, termValue) in searchPossibleMatches)
                 {
                     List<string> terms = termValue.Select(tv => tv.Term).ToList();
                     List<float> documentVector = termValue.Select(tv => tv.Value).ToList();
@@ -51,22 +51,22 @@ namespace Services.Implementations
 
                     float similarity = CalculateCosineSimilarity(documentVector, queryVector);
 
-                    if(!plantsRelevance.Keys.Contains(plant))
+                    if(!plantsRelevance.Keys.Contains(plantId))
                     {
-                        plantsRelevance[plant] = similarity;
+                        plantsRelevance[plantId] = similarity;
                     }
                 }
 
-                List<string> plantsName = plantsRelevance
+                List<int> plantsId = plantsRelevance
                     .OrderByDescending(pair => pair.Value) 
                     .Take(10)                              
                     .Select(pair => pair.Key)              
                     .ToList();                             
 
-                return await _plantSearchService.GetPlantsAsync(plantsName);
+                return await _plantSearchService.GetPlantsAsync(plantsId);
             }
 
-            return Enumerable.Empty<Plant>();
+            return Enumerable.Empty<PlantDto>();
         }
 
         private List<string> ProcessQuery(string query)

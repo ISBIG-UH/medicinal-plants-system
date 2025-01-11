@@ -2,6 +2,8 @@ using Data;
 using DataAccess.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using DataAccess.AuxClasses;
+using Data.DTOs;
+using System.Runtime.InteropServices;
 
 namespace DataAccess.Implementations
 {
@@ -14,54 +16,92 @@ namespace DataAccess.Implementations
             _context = context;
         }
 
-        public async Task<IEnumerable<Plant>> GetPlantsAsync(IEnumerable<string> plantNames)
+        public async Task<IEnumerable<PlantDto>> GetPlantsAsync(IEnumerable<int> plantsId)
         {
-            if (plantNames == null || !plantNames.Any())
+            if (plantsId == null || !plantsId.Any())
             {
-                return Enumerable.Empty<Plant>();
+                return Enumerable.Empty<PlantDto>();
             }
 
             var plants = await _context.Plants
-                .Where(plant => plantNames.Contains(plant.Name))  
-                .ToListAsync(); 
+                .Where(plant => plantsId.Contains(plant.Id))
+                .Select(plant => new
+                {
+                    plant.Id,
+                    plant.Name,
+                    plant.Monograph
+                })
+                .ToListAsync();
 
-            return plants;         
+            var plantDtos = plants.Select(plant => new PlantDto
+            {
+                id = plant.Id,
+                name = plant.Name,
+                monograph = MapMonograph(plant.Monograph)
+            }).ToList();
+
+            return plantDtos;
         }
 
-        
+        private MonographDto MapMonograph(Dictionary<string, object> monograph)
+        {
+            var monographDto = new MonographDto();
+            var monographProperties = typeof(MonographDto).GetProperties();
+
+            foreach (var property in monographProperties)
+            {
+                if (monograph.ContainsKey(property.Name))
+                {
+                    var value = monograph[property.Name];
+                    
+                    if (property.PropertyType == typeof(string) && value is string stringValue)
+                    {
+                        property.SetValue(monographDto, stringValue);
+                    }
+                    else if (value is IEnumerable<object> objectCollection)
+                    {
+                        var stringList = objectCollection.Select(o => o?.ToString()).ToList();
+                        property.SetValue(monographDto, stringList);
+                    }
+                }
+            }
+
+            return monographDto;
+        }
+
         // searches for possible matches based on user query tokens.
-        public async Task<IEnumerable<(string PlantName, List<TermValue> TermValues)>> SearchAsync(IEnumerable<string> tokens)
+        public async Task<IEnumerable<(int PlantId, List<TermValue> TermValues)>> SearchAsync(IEnumerable<string> tokens)
         {
             if (tokens == null || !tokens.Any())
-                return Enumerable.Empty<(string plantName, List<TermValue> termValue)>();
+                return Enumerable.Empty<(int plantId, List<TermValue> termValue)>();
 
-            var plantsWithValues = new List<(string plant, List<TermValue> termValue)>();
-            var plantsProcessed = new HashSet<string>();
+            var plantsWithValues = new List<(int plantId, List<TermValue> termValue)>();
+            var plantsProcessed = new HashSet<int>();
 
             foreach (var token in tokens)
             {   
-                List<string> plantsName = new List<string>();
+                List<int> plantsId = new List<int>();
 
                 if (await _context.TermDocumentWeights.AnyAsync(tdw => tdw.Term == token))
                 {
-                    //plantsName = await GetPlantsByTermAsync(token);
-                    foreach (var item in plantsName)
+                    plantsId = await GetPlantsByTermAsync(token);
+                    foreach (var id in plantsId)
                     {
-                        if (!plantsProcessed.Contains(item))
+                        if (!plantsProcessed.Contains(id))
                         {
-                            // await AddPlantValuesAsync(plantsWithValues, item);
-                            plantsProcessed.Add(item); 
+                            await AddPlantValuesAsync(plantsWithValues, id);
+                            plantsProcessed.Add(id); 
                         }
                     }
                 }
                 else
                 {
-                    // plantsName = await GetPlantsByLevenshteinAsync(token);
-                    foreach (var item in plantsName)
+                    plantsId = await GetPlantsByLevenshteinAsync(token);
+                    foreach (var item in plantsId)
                     {
                         if (!plantsProcessed.Contains(item))
                         {
-                            // await AddPlantValuesAsync(plantsWithValues, item);
+                            await AddPlantValuesAsync(plantsWithValues, item);
                             plantsProcessed.Add(item);  
                         }
                     }
@@ -72,42 +112,49 @@ namespace DataAccess.Implementations
         }
 
 
-        // private async Task<List<string>> GetPlantsByTermAsync(string term)
-        // {
-        //     var plant = await _context.TermDocumentWeights
-        //         .Where(tdw => tdw.Term == term)
-        //         .Select(tdw => tdw.PlantName)
-        //         .Distinct()
-        //         .ToListAsync();
+        private async Task<List<int>> GetPlantsByTermAsync(string term)
+        {
+            var plantsId = await _context.TermDocumentWeights
+                .Where(tdw => tdw.Term == term)
+                .Select(tdw => tdw.PlantId)
+                .Distinct()
+                .ToListAsync();
 
-        //     return plant;
-        // }
+            return plantsId;
+        }
 
-        // private async Task AddPlantValuesAsync(List<(string plant, List<TermValue> termValue)> plantsWithValues, string plantName)
-        // {
-        //     var termValuePairs = await _context.TermDocumentWeights
-        //         .Where(tdw => tdw.PlantName == plantName)
-        //         .Select(tdw => new TermValue { Term = tdw.Term, Value = tdw.Value })
-        //         .ToListAsync();
+        private async Task AddPlantValuesAsync(List<(int plantId, List<TermValue> termValue)> plantsWithValues, int plantId)
+        {
+            var plant = await _context.Plants
+                .Where(p => p.Id == plantId)
+                .Include(p => p.TermWeight)  
+                .FirstOrDefaultAsync();
 
-        //     plantsWithValues.Add((plantName, termValuePairs));
-        // }
+            if (plant != null)
+            {
+                var termValuePairs = plant.TermWeight
+                    .Select(tdw => new TermValue { Term = tdw.Term, Value = tdw.Value })
+                    .ToList();
 
-        // private async Task<List<string>> GetPlantsByLevenshteinAsync(string token)
-        // {
-        //     var threshold = 3;  
-        //     var tdw = await _context.TermDocumentWeights
-        //         .ToListAsync();
+                plantsWithValues.Add((plant.Id, termValuePairs));
+            }
+        }
 
-        //     var plants = tdw
-        //         .AsEnumerable() 
-        //         .Where(p => Math.Abs(p.Term.Length - token.Length) <= 2 && LevenshteinDistance(token, p.Term) <= threshold)
-        //         .Select(p => p.PlantName)
-        //         .Distinct()
-        //         .ToList();
+        private async Task<List<int>> GetPlantsByLevenshteinAsync(string token)
+        {
+            var threshold = 3;  
+            var tdw = await _context.TermDocumentWeights
+                .ToListAsync();
 
-        //     return plants;
-        // }
+            var plantsId = tdw
+                .AsEnumerable() 
+                .Where(p => Math.Abs(p.Term.Length - token.Length) <= 2 && LevenshteinDistance(token, p.Term) <= threshold)
+                .Select(p => p.PlantId)
+                .Distinct()
+                .ToList();
+
+            return plantsId;
+        }
 
         private int LevenshteinDistance(string source, string target)
         {
