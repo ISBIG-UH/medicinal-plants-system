@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { searchQuery } from "../api";
+import { searchQuery } from "../services/apiServices";
 
 function useSearch() {
   const [input, setInput] = useState("");
