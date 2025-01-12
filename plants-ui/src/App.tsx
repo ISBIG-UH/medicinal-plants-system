@@ -1,12 +1,14 @@
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './components/HomePage';
+import AppPage from './components/AppPage';
 import AboutPage from './components/AboutPage';
 import NavMenu from './components/NavMenu';
 import Footer from './components/Footer';
 
 
 const routes: RouteItem[] = [
-  { label: "Inicio", href: "/", component: <HomePage /> },
+  { label: "Buscar planta", href: "/", component: <HomePage /> },
+  { label: "Aplicaciones", href: "/aplicaciones", component: <AppPage /> },
   { label: "Sobre nosotros", href: "/sobre-nosotros", component: <AboutPage /> },
 ];
 
@@ -15,11 +17,11 @@ const navItems: NavItem[] = routes.map(route => ({ label: route.label, href: rou
 
 function App() {
   return (
-    <div className='flex flex-col justify-between h-screen'>
-      <div>
+    <div className='flex flex-col h-screen'>
+      <div className='h-fit'>
         <NavMenu navItems={navItems} />
       </div>
-      <div className='flex flex-grow'>
+      <div className='flex-grow overflow-y-hidden'>
         <Routes>
           {
             routes.map((route) => (
@@ -28,7 +30,7 @@ function App() {
           }
         </Routes>
       </div>
-      <div>
+      <div className='h-fit'>
         <Footer />
       </div>
     </div>

@@ -29,8 +29,8 @@ function HomePage() {
   };
 
   return (
-    <div className="p-4 mx-4 sm:mx-10 md:mx-20 2xl:mx-48 flex-grow">
-      <div className="sm:mx-10 md:mx-20 lg:mx-28 xl:mx-32">
+    <div className="py-4 h-full">
+      <div className="p-2 px-6 sm:px-20 md:px-36 lg:px-48 xl:px-64 2xl:px-96">
         <SearchBar
           input={input}
           setInput={setInput}
@@ -38,7 +38,7 @@ function HomePage() {
           disable={loading}
         />
       </div>
-      <div className="p-2 h-full">
+      <div className={`p-2 px-4 sm:px-12 md:px-32 lg:px-42 xl:px-48 h-full ${monographs.length > 0 ? "overflow-y-auto" : ""}`}>
         {!loading && (
           <div className="p-2 h-full">
             <SearchResultsBlock>
@@ -47,10 +47,8 @@ function HomePage() {
                   <SearchResult key={i} monograh={monograph} clickHandler={() => selectMonograph(monograph.Id)} />
                 ))}
               {monographs.length === 0 && (
-                <div className="flex flex-col items-center justify-center h-full pb-20">
-                  <div className="p-3">
-                    <img className="h-28" src="2.png" />
-                  </div>
+                <div className="flex justify-center items-center py-20">
+                  <img className="h-28 w-28" src="2.png" />
                 </div>
               )}
             </SearchResultsBlock>

@@ -21,3 +21,15 @@ interface Monograph {
     Cul: string,
     Bib: string[]
 }
+
+interface AppItem {
+    id: number,
+    name: string,
+}
+
+interface App {
+    id: number,
+    name: string,
+    plants: string[],
+    sys: string[]
+}
