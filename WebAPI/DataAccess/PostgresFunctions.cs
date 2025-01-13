@@ -7,4 +7,10 @@ public static class PostgresFunctions
     {
         throw new NotImplementedException("This method is for use with Entity Framework Core LINQ queries only.");
     }
+
+    [DbFunction("unaccent", Schema = "public")]
+    public static string Unaccent(string text)
+    {
+        throw new NotImplementedException();
+    }
 }

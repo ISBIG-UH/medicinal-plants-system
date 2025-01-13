@@ -66,5 +66,10 @@ public class AppDbContext : DbContext
             .HasName("similarity")
             .HasSchema("pg_catalog");
 
+        modelBuilder
+            .HasDbFunction(() => PostgresFunctions.Unaccent(default))
+            .HasName("unaccent")
+            .HasSchema("public");
+
     }
 }

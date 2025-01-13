@@ -31,30 +31,32 @@ namespace Services.Implementations
         {
             if (string.IsNullOrWhiteSpace(query))
                 return Enumerable.Empty<PlantDto>();
-
-            List<string> tokens = ProcessQuery(query);
+            
+            Dictionary<string, int> tokens = ProcessQuery(query);
             
             // find possible plants that match the query
-            var searchResults = await _plantSearchService.SearchAsync(tokens);
+            var searchResults = await _plantSearchService.SearchAsync(tokens.Keys);
 
             Dictionary<int, float> plantsRelevance = new Dictionary<int, float>();
             
             if (searchResults is IEnumerable<(int Key, List<TermValue> Terms)> searchPossibleMatches)
             {
+                int totalDocumentos = _context.Plants.Count();
+
                 // for each possible search result, we build the query vector based on each result to calculate its relevance.
                 foreach (var (plantId, termValue) in searchPossibleMatches)
                 {
-                    List<string> terms = termValue.Select(tv => tv.Term).ToList();
+                    List<string> terms = termValue.Select(tv => tv.Term.ToLower()).ToList();
                     List<float> documentVector = termValue.Select(tv => tv.Value).ToList();
+                    
+                    List<float> queryVector = VectorizeQuery(tokens, terms, totalDocumentos);
 
-                    List<float> queryVector = VectorizeQuery(tokens, terms);
+                    float similarity = queryVector.Count > 0 
+                        ? CalculateCosineSimilarity(documentVector, queryVector) 
+                        : 0;
 
-                    float similarity = CalculateCosineSimilarity(documentVector, queryVector);
-
-                    if(!plantsRelevance.Keys.Contains(plantId))
-                    {
-                        plantsRelevance[plantId] = similarity;
-                    }
+                    plantsRelevance[plantId] = similarity;
+                    
                 }
 
                 List<int> plantsId = plantsRelevance
@@ -69,36 +71,31 @@ namespace Services.Implementations
             return Enumerable.Empty<PlantDto>();
         }
 
-        private List<string> ProcessQuery(string query)
+        private Dictionary<string, int> ProcessQuery(string query)
         {
             return Regex.Matches(query, @"\w+")
                         .Select(match => match.Value.ToLower())
                         .Where(token => !_stopWords.Contains(token))
-                        .ToList();
+                        .GroupBy(token => token)
+                        .ToDictionary(group => group.Key, group => group.Count());
         }
 
-        private List<float> VectorizeQuery(List<string> tokens, List<string> terms)
-        {
-            var termFrequencies = new Dictionary<string, int>();
 
+        private List<float> VectorizeQuery(Dictionary<string, int> termFrequencies, List<string> terms, int totalDocumentos)
+        {
+            if (!termFrequencies.Keys.Any(term => terms.Contains(term)))
+            {
+                return new List<float>();
+            }
             var queryVector = new List<float>(new float[terms.Count()]);
 
-            foreach (var token in tokens)
-            {
-                if (termFrequencies.ContainsKey(token))
-                    termFrequencies[token]++;
-                else
-                    termFrequencies[token] = 1;
-            }
-
-            int totalTokens = tokens.Count();
+            int totalTokens = termFrequencies.Count();
 
             for (int i = 0; i < terms.Count(); i++)
             {
                 string term = terms[i];
                 float tf = termFrequencies.ContainsKey(term) ? (float)termFrequencies[term] / totalTokens : 0;
                 
-                int totalDocumentos = _context.Plants.Count();
                 int termFrequency = _context.TermDocumentWeights.Count(tf => tf.Term == term);
 
                 float idf = termFrequency > 0 ? (float)Math.Log((float)totalDocumentos / termFrequency + 1) : 0;
