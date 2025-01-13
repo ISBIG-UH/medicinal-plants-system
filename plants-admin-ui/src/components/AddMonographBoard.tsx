@@ -31,12 +31,12 @@ function AddMonographBoard() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col h-full">
-      <h2 className="mx-4 my-6 text-center text-2xl lg:text-4xl font-semibold text-nowrap">
-        Agregar Monografía
+    <form onSubmit={handleSubmit} className="flex flex-col h-full overflow-y-auto">
+      <h2 className="px-4 m-1 py-4 text-center text-xl lg:text-2xl bg-primary text-secondary rounded-lg font-semibold text-nowrap">
+        Nueva Monografía
       </h2>
 
-      <div className="h-full px-6 sm:px-20 md:px-32 xl:px-64 overflow-y-scroll">
+      <div className="h-full pt-4 px-6 sm:px-20 md:px-32 xl:px-64">
         <div className="space-y-4 mb-6">
           <GroupTextFields
             formData={formData}
