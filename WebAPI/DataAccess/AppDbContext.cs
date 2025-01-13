@@ -61,5 +61,10 @@ public class AppDbContext : DbContext
             .HasForeignKey(t => t.PlantId)  
             .OnDelete(DeleteBehavior.Cascade); 
 
+        modelBuilder
+            .HasDbFunction(() => PostgresFunctions.Similarity(default, default))
+            .HasName("similarity")
+            .HasSchema("pg_catalog");
+
     }
 }
