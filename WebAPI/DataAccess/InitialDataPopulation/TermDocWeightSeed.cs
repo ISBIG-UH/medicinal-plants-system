@@ -48,6 +48,8 @@ namespace DataAccess.InitialDataPopulation
                                 Plant = plant
                             };
 
+                            plant.TermWeight.Add(register);
+                            
                             tfidfData.Add(register);
                             counter++;
 
