@@ -32,7 +32,7 @@ function AddMonographBoard() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col h-full overflow-y-auto">
-      <h2 className="px-4 m-1 py-4 text-center text-xl lg:text-2xl bg-primary text-secondary rounded-lg font-semibold text-nowrap">
+      <h2 className="px-4 m-1 py-2 text-center text-xl lg:text-2xl bg-primary text-secondary rounded-lg font-semibold text-nowrap">
         Nueva Monografía
       </h2>
 
