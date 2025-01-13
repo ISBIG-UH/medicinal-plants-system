@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using DataAccess.AuxClasses;
 using Data.DTOs;
 using System.Runtime.InteropServices;
+using System.Dynamic;
 
 namespace DataAccess.Implementations
 {
@@ -40,7 +41,9 @@ namespace DataAccess.Implementations
                 monograph = MapMonograph(plant.Monograph)
             }).ToList();
 
-            return plantDtos;
+            return plantsId
+                .Select(id => plantDtos.First(plant => plant.id == id)) 
+                .ToList(); 
         }
 
         private MonographDto MapMonograph(Dictionary<string, object> monograph)
@@ -84,26 +87,27 @@ namespace DataAccess.Implementations
 
                 if (await _context.TermDocumentWeights.AnyAsync(tdw => tdw.Term == token))
                 {
+                    // if an exact match is found, retrieve plants by the exact term
                     plantsId = await GetPlantsByTermAsync(token);
-                    foreach (var id in plantsId)
-                    {
-                        if (!plantsProcessed.Contains(id))
-                        {
-                            await AddPlantValuesAsync(plantsWithValues, id);
-                            plantsProcessed.Add(id); 
-                        }
-                    }
                 }
                 else
                 {
-                    plantsId = await GetPlantsByLevenshteinAsync(token);
-                    foreach (var item in plantsId)
+                    // if no exact match is found:
+
+                    //search possible matches to plant names by calculating the Levenshtein distance
+                    var aux1 = await GetPlantsByLevenshteinAsync(token);
+
+                    // search plants using a trigram-based on all vocabulary terms
+                    var aux2 = await GetPlantsByTrigramAsync(token);
+
+                    plantsId = aux1.Union(aux2).ToList();
+                }
+                foreach (var id in plantsId)
+                {
+                    if (!plantsProcessed.Contains(id))
                     {
-                        if (!plantsProcessed.Contains(item))
-                        {
-                            await AddPlantValuesAsync(plantsWithValues, item);
-                            plantsProcessed.Add(item);  
-                        }
+                        await AddPlantValuesAsync(plantsWithValues, id);
+                        plantsProcessed.Add(id); 
                     }
                 }
             }
@@ -142,14 +146,16 @@ namespace DataAccess.Implementations
 
         private async Task<List<int>> GetPlantsByLevenshteinAsync(string token)
         {
-            var threshold = 3;  
-            var tdw = await _context.TermDocumentWeights
-                .ToListAsync();
+            var threshold = 2;  
+            var plants = await _context.Plants.ToListAsync();
 
-            var plantsId = tdw
+            
+            var plantsId = plants
                 .AsEnumerable() 
-                .Where(p => Math.Abs(p.Term.Length - token.Length) <= 2 && LevenshteinDistance(token, p.Term) <= threshold)
-                .Select(p => p.PlantId)
+                .Where(p => p.Name.ToLower()
+                            .Split(' ')  
+                            .Any(word => Math.Abs(word.Length - token.Length) <= 2 && LevenshteinDistance(token, word) <= threshold)) // Verificar cada palabra
+                .Select(p => p.Id)
                 .Distinct()
                 .ToList();
 
@@ -177,6 +183,18 @@ namespace DataAccess.Implementations
             }
 
             return distance[sourceLength, targetLength];
+        }
+
+        private async Task<List<int>> GetPlantsByTrigramAsync(string token)
+        {
+            double similarityThreshold = 0.5; 
+            var results = await _context.TermDocumentWeights
+            .FromSqlRaw("SELECT * FROM \"TermDocumentWeights\" WHERE similarity(\"Term\", {0}) > {1}", token, similarityThreshold)
+            .Select(tdw => tdw.PlantId)
+            .ToListAsync();
+
+            return results;
+
         }
     }
 }

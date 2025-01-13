@@ -33,17 +33,8 @@ namespace DataAccess.TextProcessing
                 var tokenCounter = new Dictionary<string, int>();
                 
                 string normalizedPlantName = item.Name.ToLower();
-                tokenCounter[normalizedPlantName] = 1;
-                int totalWords = 1;
 
-                if (!TermDocumentRelationship.ContainsKey(normalizedPlantName))
-                {
-                    TermDocumentRelationship[normalizedPlantName] = new List<string>();
-                }
-                if (!TermDocumentRelationship[normalizedPlantName].Contains(item.Name))
-                {
-                    TermDocumentRelationship[normalizedPlantName].Add(item.Name);
-                }
+                int totalWords = TokenizeAndCount(normalizedPlantName, tokenCounter, item.Name);
 
                 foreach (var (property, value) in item.Monograph)
                 {
