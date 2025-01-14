@@ -1,9 +1,10 @@
 import { Label, TextInput } from "flowbite-react";
-import { MdDeleteForever } from "react-icons/md";
-import { IoMdAddCircle } from "react-icons/io";
-import { listFields } from "./MonographFormFields";
+import { IoMdAddCircle, IoIosRemoveCircle } from "react-icons/io";
+import { monographListFields } from "./MonographFormFields";
+import { appListFields } from "./AppFormFields";
 
 interface Props {
+  type?: string;
   formData: { [key: string]: string | string[] };
   handleFormListChange: (id: string, index: number, value: string) => void;
   handleAddListItem: (id: string) => void;
@@ -11,14 +12,19 @@ interface Props {
 }
 
 function ListFields({
+  type,
   formData,
   handleFormListChange,
   handleAddListItem,
   handleDeleteListItem,
 }: Props) {
+
+  let groups = monographListFields;
+  if (type === "app") { groups = appListFields }
+
   return (
     <>
-      {listFields.map((list, index) => (
+      {groups.map((list, index) => (
         <div key={index}>
           <div className="flex items-center">
             <list.icon />
@@ -53,7 +59,7 @@ function ListFields({
                       handleDeleteListItem(list.id, idx);
                     }}
                   >
-                    <MdDeleteForever size={30} />
+                    <IoIosRemoveCircle size={30} />
                   </button>
                 </div>
               ))}

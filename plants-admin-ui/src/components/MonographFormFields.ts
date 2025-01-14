@@ -7,7 +7,7 @@ import { SlChemistry } from "react-icons/sl";
 import { PiPlantBold } from "react-icons/pi";
 import { ImBooks, ImLeaf } from "react-icons/im";
 
-export const groupsTextFields = [
+export const monographGroupsTextFields = [
   {
     label: "Nombre de la planta",
     inputs: [
@@ -141,7 +141,7 @@ export const groupsTextFields = [
   },
 ];
 
-export const listFields = [
+export const monographListFields = [
   {
     label: "Sinónimos",
     id: "Sy",

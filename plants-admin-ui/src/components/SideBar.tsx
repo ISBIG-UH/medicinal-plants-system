@@ -24,7 +24,7 @@ function SideBar({ categories }: Props) {
         </button>
       </div>
 
-      <div className="flex flex-row h-full">
+      <div className="flex flex-row overflow-y-auto h-full">
         <div
           className={`bg-gray-200 overflow-hidden transition-max-width duration-500 ease-in-out ${
             mobileOpenMenu ? "max-w-full" : "max-w-0"
@@ -57,7 +57,7 @@ function SideBar({ categories }: Props) {
           }
         </div>
 
-        <div className={`overflow-hidden transition-max-width duration-500 ease-in-out ${
+        <div className={`lg:overflow-hidden overflow-x-hidden transition-max-width duration-500 ease-in-out ${
             !mobileOpenMenu ? "max-w-full" : "max-w-0"
           } lg:max-w-none h-full flex flex-col flex-grow`}>
             {selectedCategory}

@@ -51,7 +51,6 @@ function AppPage(){
                         <FaHandHoldingMedical/>
                         <p className="font-semibold text-lg">Aplicaciones</p>
                     </div>
-                    <hr />
                     <div className="space-y-2 p-2 overflow-y-auto">
                         {apps.map(app => (
                             <div key={app.id} className={`px-2 py-1 ${app.id === selectedApp?.id ? "text-black font-bold" : "text-gray-500"}  hover:text-black hover:cursor-pointer`} onClick={() => handleSelect(app.id)}>
