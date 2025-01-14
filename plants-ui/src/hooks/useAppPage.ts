@@ -6,7 +6,7 @@ export function useAppPage() {
 
   const [apps, setApps] = useState<AppItem[]>([]);
   const [selectedApp, setSelectedApp] = useState<App | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [loadingApp, setLoadingApp] = useState(false);
 
   useEffect(() => {

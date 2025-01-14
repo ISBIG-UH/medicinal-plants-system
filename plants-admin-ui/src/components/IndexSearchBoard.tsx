@@ -9,7 +9,7 @@ function IndexSearchBoard() {
   return (
     <div className="h-full">
       <div className="flex lg:flex-col h-full">
-        <div className="flex flex-col space-y-2 lg:space-y-0 lg:flex-row lg:justify-center p-4 bg-gray-100 rounded-r-3xl lg:rounded-r-none lg:rounded-b-3xl shadow-xl">
+        <div className="flex flex-col space-y-2 overflow-y-auto lg:space-y-0 lg:flex-row lg:justify-center p-4 bg-gray-100 lg:rounded-r-none lg:rounded-b-3xl shadow-xl">
           {letters.map((letter) => (
             <button
               key={letter}

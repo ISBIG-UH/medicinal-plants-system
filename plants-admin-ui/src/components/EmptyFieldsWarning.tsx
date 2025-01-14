@@ -1,5 +1,5 @@
 import { Alert } from "flowbite-react";
-import { groupsTextFields } from "./MonographFormFields";
+import { monographGroupsTextFields } from "./MonographFormFields";
 import { ImWarning } from "react-icons/im";
 
 interface Props {
@@ -11,7 +11,7 @@ function EmptyFieldsWarning({ formData }: Props) {
     <>
       {Object.keys(formData).some(
         (key) =>
-          !groupsTextFields.some((group) =>
+          !monographGroupsTextFields.some((group) =>
             group.inputs.some((input) => input.id === key && input.required)
           ) && formData[key] === ""
       ) && (

@@ -49,3 +49,31 @@ interface DeleteMonographRequest {
 interface DeleteMonographResponse {
   toastResponse: ToastResponse;
 }
+
+interface GetAppRequest {
+  id: number;
+}
+interface GetAppResponse {
+  app: App;
+}
+
+interface AddAppRequest {
+  formData: { [key: string]: string | string[] };
+}
+interface AddAppResponse {
+  toastResponse: ToastResponse;
+}
+
+interface EditAppRequest {
+  formData: { [key: string]: string | string[] };
+}
+interface EditAppResponse {
+  toastResponse: ToastResponse;
+}
+
+interface DeleteAppRequest {
+  id: number;
+}
+interface DeleteAppResponse {
+  toastResponse: ToastResponse;
+}

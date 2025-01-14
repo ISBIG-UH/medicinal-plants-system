@@ -1,16 +1,21 @@
 import { Label, TextInput, Textarea } from "flowbite-react";
-import { groupsTextFields } from "./MonographFormFields";
+import { monographGroupsTextFields } from "./MonographFormFields";
+import { appTextFields } from "./AppFormFields";
 
 interface Props{
-    formData: { [key: string]: string | string[] };
-    handleTextChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  type?: string;
+  formData: { [key: string]: string | string[] };
+  handleTextChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
-function GroupTextFields({ formData, handleTextChange }: Props) {
+function GroupTextFields({ type, formData, handleTextChange }: Props) {
+
+  let groups = monographGroupsTextFields;
+  if (type === "app") { groups = appTextFields}
 
   return (
     <>
-      {groupsTextFields.map((group, index) => (
+      {groups.map((group, index) => (
         <div key={index}>
           <div className="flex items-center space-x-2">
             <group.icon />

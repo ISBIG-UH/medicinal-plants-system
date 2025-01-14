@@ -25,3 +25,22 @@ interface MonographBasic {
     id: number,
     name: string
 }
+
+
+interface AppItem {
+    id: number,
+    name: string,
+}
+
+interface App {
+    id: number,
+    name: string,
+    plants: string[],
+    sys: string[]
+}
+
+interface AppInfo {
+    name: string,
+    plants: string[],
+    sys: string[]
+}

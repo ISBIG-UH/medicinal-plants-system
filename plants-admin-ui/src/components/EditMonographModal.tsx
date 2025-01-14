@@ -30,7 +30,7 @@ function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
     handleAddListItem,
     handleDeleteListItem,
     submit,
-    processingAdd,
+    processingEdit,
   } = useEditMonograph(monograph, setOpenModal);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -85,13 +85,13 @@ function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
             <EmptyFieldsWarning formData={formData} />
 
             <div className="flex justify-end space-x-2">
-              <Button color="failure" size="xs" onClick={handleConfirmation} disabled={processingAdd || processingDelete} isProcessing={processingDelete} processingSpinner={<AiOutlineLoading className="h-4 w-4 animate-spin" />} >
+              <Button color="failure" size="xs" onClick={handleConfirmation} disabled={processingEdit || processingDelete} isProcessing={processingDelete} processingSpinner={<AiOutlineLoading className="h-4 w-4 animate-spin" />} >
                 Eliminar
               </Button>
-              <Button type="submit" size="xs" color="success" disabled={processingAdd || processingDelete} isProcessing={processingAdd} processingSpinner={<AiOutlineLoading className="h-4 w-4 animate-spin" />}>
+              <Button type="submit" size="xs" color="success" disabled={processingEdit || processingDelete} isProcessing={processingEdit} processingSpinner={<AiOutlineLoading className="h-4 w-4 animate-spin" />}>
                 Guardar
               </Button>
-              <Button color="gray" size="xs" onClick={() => setOpenModal(false)} disabled={processingAdd || processingDelete}>
+              <Button color="gray" size="xs" onClick={() => setOpenModal(false)} disabled={processingEdit || processingDelete}>
                 Cancelar
               </Button>
             </div>

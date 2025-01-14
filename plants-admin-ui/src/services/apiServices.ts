@@ -2,6 +2,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { apiClient } from "./api";
 import { monographsSeed } from "../seed";
+import { apps } from "./apps";
 
 //🔗 Requests Login to server
 export async function apiLogin(request: LoginRequest): Promise<LoginResponse> {
@@ -169,6 +170,107 @@ export async function apiDeleteMonograph(
 
 
 
+
+export async function requestAppsList() : Promise<AppItem[]>{
+  // const ENDPOINT = "/listapps";
+  console.log("requestAppsItems");
+
+  //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
+  /////                CODE HERE               /////
+  /////////////////////////////////////////////////
+  await new Promise((resolve) => setTimeout(resolve, 300));
+
+  return apps.map(a => ({ id: a.id, name: a.name }))
+}
+
+
+//🔗 Gets an App
+export async function apiGetApp(
+  request: GetAppRequest
+): Promise<GetAppResponse> {
+  const ENDPOINT = "/app";
+  console.log("apiGetApp:", request);
+
+  //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
+  /////                CODE HERE               /////
+  /////////////////////////////////////////////////
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  const response = { app: apps[request.id] };
+  /////////////////////////////////////////////////
+  console.log("Response:", response);
+  return response;
+}
+
+
+//🔗 Puts an App
+export async function apiAddApp(
+  request: AddAppRequest
+): Promise<AddAppResponse> {
+  const ENDPOINT = "/app";
+  console.log("apiAddApp:", request);
+
+  //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
+  /////                CODE HERE               /////
+  /////////////////////////////////////////////////
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  let response: AddAppResponse = {
+    toastResponse: { type: "null", msg: "" },
+  };
+  response = {
+    toastResponse: { type: "success", msg: "Aplicación añadida correctamente" },
+  };
+  /////////////////////////////////////////////////
+  console.log("Response:", response);
+  return response;
+}
+
+//🔗 Puts an App
+export async function apiEditApp(
+  request: EditAppRequest
+): Promise<EditAppResponse> {
+  const ENDPOINT = "/app";
+  console.log("apiEditApp:", request);
+
+  //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
+  /////                CODE HERE               /////
+  /////////////////////////////////////////////////
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  let response: EditAppResponse = {
+    toastResponse: { type: "null", msg: "" },
+  };
+  response = {
+    toastResponse: { type: "success", msg: "Aplicación editada correctamente" },
+  };
+  /////////////////////////////////////////////////
+  console.log("Response:", response);
+  return response;
+}
+
+//🔗 Removes a monograph
+export async function apiDeleteApp(
+  request: DeleteAppRequest
+): Promise<DeleteAppResponse> {
+  const ENDPOINT = "/app";
+
+  console.log("apiDeleteApp:", request);
+
+  //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
+  /////                CODE HERE               /////
+  /////////////////////////////////////////////////
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  let response: DeleteAppResponse = {
+    toastResponse: { type: "null", msg: "" },
+  };
+  response = {
+    toastResponse: {
+      type: "success",
+      msg: "Aplicacion eliminada correctamente",
+    },
+  };
+  /////////////////////////////////////////////////
+  console.log("Response:", response);
+  return response;
+}
 
 
 

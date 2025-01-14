@@ -19,9 +19,9 @@ function DangerConfirmationModal({ openModal, setOpenModal, operationFunction, m
       popup
       position="center"
     >
-      <Modal.Header />
+      {/* <Modal.Header /> */}
       <Modal.Body>
-        <div className="text-center">
+        <div className="text-center mt-6">
           <HiOutlineExclamationCircle className="mx-auto mb-4 h-20 w-20 text-gray-300 dark:text-gray-200" />
           <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
             {msg}
