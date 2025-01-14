@@ -10,7 +10,7 @@ export function usePreview(monographs: Monograph[]) {
   }
 
   function selectMonograph(id: number){
-    const monograph = monographs.find(monograph => monograph.Id === id)
+    const monograph = monographs.find(monograph => monograph.id === id)
     if(monograph){
       setSelectedMonograph(monograph)
     }

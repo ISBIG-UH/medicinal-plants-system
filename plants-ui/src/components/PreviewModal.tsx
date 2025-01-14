@@ -24,7 +24,7 @@ function PreviewModal({ show, setShow, monograph }: Props) {
       <Modal.Header className="shadow-lg shadow-gray-200">
         <div className="flex items-center space-x-2">
             <div><img className="w-8" src="1.png"/></div>
-            <p className="text-primary text-4xl">{monograph.Name}</p>
+            <p className="text-primary text-4xl">{monograph.name}</p>
         </div>
         <p className="text-gray-400 text-md">
           {monograph.genus} {monograph.species} {monograph.authors}{" "}
@@ -39,17 +39,17 @@ function PreviewModal({ show, setShow, monograph }: Props) {
             </PreviewCategory>
           )}
 
-          {monograph.Sy.length > 0 && (
+          {monograph.sy.length > 0 && (
             <PreviewCategory name="Sinónimos" icon={<FaEquals />}>
-              {monograph.Sy.map((syn) => (
+              {monograph.sy.map((syn) => (
                 <p>· {syn}</p>
               ))}
             </PreviewCategory>
           )}
 
-          {monograph.Vul.length > 0 && (
+          {monograph.vul.length > 0 && (
             <PreviewCategory name="Otros nombre vulgares" icon={<FaList />}>
-              {monograph.Vul.map((vul) => (
+              {monograph.vul.map((vul) => (
                 <p>
                 · {vul}
                 </p>
@@ -57,45 +57,45 @@ function PreviewModal({ show, setShow, monograph }: Props) {
             </PreviewCategory>
           )}
 
-          {monograph.Hab !== "" && (
+          {monograph.hab !== "" && (
             <PreviewCategory name="Hábitat y Distribución" icon={<MdForest />}>
-              <p>{monograph.Hab}</p>
+              <p>{monograph.hab}</p>
             </PreviewCategory>
           )}
 
-          {monograph.Des !== "" && (
+          {monograph.des !== "" && (
             <PreviewCategory name="Descripción Botánica" icon={<PiTreeFill />}>
-              <p>{monograph.Des}</p>
+              <p>{monograph.des}</p>
             </PreviewCategory>
           )}
 
-          {monograph.Cmp !== "" && (
+          {monograph.cmp !== "" && (
             <PreviewCategory name="Composición" icon={<SlChemistry />}>
-              <p>{monograph.Cmp}</p>
+              <p>{monograph.cmp}</p>
             </PreviewCategory>
           )}
 
-          {monograph.Use !== "" && (
+          {monograph.use !== "" && (
             <PreviewCategory name="Partes empleadas" icon={<ImLeaf />}>
-              <p>{monograph.Use}</p>
+              <p>{monograph.use}</p>
             </PreviewCategory>
           )}
 
-          {monograph.Pro !== "" && (
+          {monograph.pro !== "" && (
             <PreviewCategory name="Propiedades" icon={<FaBriefcaseMedical />}>
-              <p>{monograph.Pro}</p>
+              <p>{monograph.pro}</p>
             </PreviewCategory>
           )}
 
-          {monograph.App !== "" && (
+          {monograph.app !== "" && (
             <PreviewCategory name="Aplicaciones" icon={<FaHandHoldingMedical />}>
-              <p>{monograph.App}</p>
+              <p>{monograph.app}</p>
             </PreviewCategory>
           )}
 
-          {monograph.Bib.length > 0 && (
+          {monograph.bib.length > 0 && (
             <PreviewCategory name="Bibliografía" icon={<ImBooks />}>
-              {monograph.Bib.map((bib) => (
+              {monograph.bib.map((bib) => (
                 <p>· {bib}</p>
               ))}
             </PreviewCategory>

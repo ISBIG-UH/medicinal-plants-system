@@ -44,7 +44,7 @@ function HomePage() {
             <SearchResultsBlock>
               {monographs.length > 0 &&
                 monographs.map((monograph, i) => (
-                  <SearchResult key={i} monograh={monograph} clickHandler={() => selectMonograph(monograph.Id)} />
+                  <SearchResult key={i} monograh={monograph} clickHandler={() => selectMonograph(monograph.id)} />
                 ))}
               {monographs.length === 0 && (
                 <div className="flex justify-center items-center py-20">
