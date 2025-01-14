@@ -20,6 +20,20 @@ export default {
         background: '#f5f5f5',  // Light Gray
         text: '#212121',        // Charcoal
       },
+      fontFamily: {
+        montserrat: [
+          'Montserrat',
+          'sans-serif',
+        ],
+        quicksand: [
+          'Quicksand',
+          'sans-serif',
+        ],
+        sniglet: [
+          'Sniglet',
+          'cursive',
+        ],
+      },
     },
   },
   plugins: [
