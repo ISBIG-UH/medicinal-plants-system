@@ -13,9 +13,9 @@ function NavMenu({navItems}: Props) {
   return (
     <nav className="bg-primary lg:flex lg:justify-between lg:items-center lg:px-32">
       <div className="flex items-center justify-between px-4 pt-4 pb-2 lg:pt-2">
-        <Link className="text-white font-bold text-4xl flex items-center" to="/">
+        <Link className="text-white font-bold text-4xl flex items-center space-x-1" to="/">
           <img className="max-h-10 lg:max-h-12" src="1.png" />
-          <img className="max-h-10 ml-1" src="BotaniQ_bg_secondary.png" />
+          <h1 className="font-montserrat font-light text-secondary">BotaniQ</h1>
         </Link>
         <button
           className="text-secondary lg:hidden"
@@ -40,7 +40,7 @@ function NavMenu({navItems}: Props) {
             <Link
               to={item.href}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="block text-secondary font-medium hover:underline"
+              className="block font-montserrat text-secondary font-medium hover:underline"
             >
               {item.label}
             </Link>

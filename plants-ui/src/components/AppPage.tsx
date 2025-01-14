@@ -18,7 +18,7 @@ function AppPage(){
                     <Button className="w-full bg-primary text-secondary" color="success" disabled={loadingApp} onClick={() => setIsOpen(true)}>
                         <div className="flex items-center justify-between space-x-1">
                             <MdChangeCircle size={20} />
-                            <div>
+                            <div className="font-quicksand">
                                 <p>{selectedApp?.name}</p>
                                 {selectedApp && selectedApp.sys.length > 0 && <p className="text-xs font-light">({selectedApp?.sys})</p>}
                             </div>
@@ -29,13 +29,13 @@ function AppPage(){
                     <div className="flex justify-between px-2 pl-4 py-2 mb-2 items-center bg-primary text-secondary rounded-lg">
                         <div className="flex items-center space-x-2">
                             <FaHandHoldingMedical/>
-                            <p className="text-center font-semibold text-xl">Aplicaciones</p>
+                            <p className="text-center font-montserrat font-semibold text-xl">Aplicaciones</p>
                         </div>
                         <button className="hover:bg-green-800" onClick={() => setIsOpen(false)}><IoClose size={30}/></button>
                     </div>
                     <div className="overflow-y-scroll">
                         {apps?.map((app) => (
-                            <button key={app.id} className={`py-2 px-4 ${app.id === selectedApp?.id ? "bg-secondary" : "bg-gray-100"} w-full text-left rounded-r-xl border-b-2 hover:cursor-pointer`} onClick={() => {handleSelect(app.id);setIsOpen(false);}}>
+                            <button key={app.id} className={`py-2 px-4 ${app.id === selectedApp?.id ? "bg-secondary" : "bg-gray-100"} w-full text-left font-quicksand font-extrabold rounded-r-xl border-b-2 hover:cursor-pointer`} onClick={() => {handleSelect(app.id);setIsOpen(false);}}>
                                 {app.name}
                             </button>
                         ))}
@@ -49,11 +49,11 @@ function AppPage(){
                 <div className="hidden lg:flex lg:flex-col h-full min-w-56">
                     <div className="flex items-center p-2 px-4 space-x-2 border-r bg-primary text-secondary rounded-b-md">
                         <FaHandHoldingMedical/>
-                        <p className="font-semibold text-lg">Aplicaciones</p>
+                        <p className="font-semibold font-montserrat text-lg">Aplicaciones</p>
                     </div>
                     <div className="space-y-2 p-2 overflow-y-auto">
                         {apps.map(app => (
-                            <div key={app.id} className={`px-2 py-1 ${app.id === selectedApp?.id ? "text-black font-bold" : "text-gray-500"}  hover:text-black hover:cursor-pointer`} onClick={() => handleSelect(app.id)}>
+                            <div key={app.id} className={`px-2 py-1 ${app.id === selectedApp?.id ? "text-black font-quicksand font-extrabold" : "text-gray-500"}  hover:text-black hover:cursor-pointer`} onClick={() => handleSelect(app.id)}>
                                 {app.name}
                             </div>
                         ))}
@@ -61,22 +61,22 @@ function AppPage(){
                 </div>
 
                 {!loadingApp && <div className="w-full overflow-y-auto">
-                    <div className="hidden lg:flex items-center space-x-2 font-semibold text-xl bg-primary text-secondary rounded-md m-1 px-4 py-2">
+                    <div className="hidden lg:flex items-center space-x-2 font-quicksand font-semibold text-xl bg-primary text-secondary rounded-md m-1 px-4 py-2">
                         <p className="">{selectedApp?.name}</p>
                         {selectedApp && selectedApp.sys.length > 0 && <p className="text-sm font-light">({selectedApp?.sys})</p>}
                     </div>
 
                     <ul className="flex-grow grid md:grid-cols-2 xl:grid-cols-3">
                         {selectedApp?.plants.map((plant, i) => (
-                            <li key={i} className="mx-4 rounded-lg my-1 px-4 py-1 bg-gray-100 text-gray-600 font-serif">
+                            <li key={i} className="mx-4 rounded-lg my-1 px-4 py-1 bg-gray-100 text-gray-600 font-quicksand font-bold">
                                 <p className="text-lg">{plant}</p>
                             </li>
                         ))}
                     </ul>
 
                     <Alert className="m-4" color="info">
-                        <div className="flex items-center">
-                            <span className="font-bold mr-2">
+                        <div className="flex font-quicksand items-center">
+                            <span className="mr-2">
                                 <CiCircleAlert size={20}/>
                             </span>
                             Solo se muestra la planta si su propiedad es bien notoria y reconocida

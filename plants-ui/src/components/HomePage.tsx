@@ -29,7 +29,7 @@ function HomePage() {
   };
 
   return (
-    <div className="py-4 h-full">
+    <div className={`py-4 h-full ${monographs.length > 0 &&  "overflow-y-auto"}`}>
       <div className="p-2 px-6 sm:px-20 md:px-36 lg:px-48 xl:px-64 2xl:px-96">
         <SearchBar
           input={input}
@@ -38,7 +38,7 @@ function HomePage() {
           disable={loading}
         />
       </div>
-      <div className={`p-2 px-4 sm:px-12 md:px-32 lg:px-42 xl:px-48 h-full ${monographs.length > 0 ? "overflow-y-auto" : ""}`}>
+      <div className="p-2 px-4 sm:px-12 md:px-32 lg:px-42 xl:px-48 h-full">
         {!loading && (
           <div className="p-2 h-full">
             <SearchResultsBlock>

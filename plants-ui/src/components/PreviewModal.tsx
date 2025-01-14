@@ -24,9 +24,9 @@ function PreviewModal({ show, setShow, monograph }: Props) {
       <Modal.Header className="shadow-lg shadow-gray-200">
         <div className="flex items-center space-x-2">
             <div><img className="w-8" src="1.png"/></div>
-            <p className="text-primary text-4xl">{monograph.name}</p>
+            <p className="text-primary font-montserrat font-bold text-4xl">{monograph.name}</p>
         </div>
-        <p className="text-gray-400 text-md">
+        <p className="text-gray-400 font-quicksand text-md">
           {monograph.genus} {monograph.species} {monograph.authors}{" "}
           {monograph.var} {monograph.subsp} {monograph.f}
         </p>

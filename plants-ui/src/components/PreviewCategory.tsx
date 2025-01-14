@@ -8,10 +8,10 @@ interface Props {
 
 function PreviewCategory({ name, children, icon }: Props) {
   return (
-    <div>
+    <div className="font-quicksand">
       <div className="flex items-center space-x-2">
         {icon}
-        <p className="text-xl font-serif font-semibold">{name}</p>
+        <p className="text-xl font-sniglet font-semibold">{name}</p>
       </div>
       {children}
     </div>
