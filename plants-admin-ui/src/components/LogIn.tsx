@@ -91,6 +91,7 @@ function LogIn() {
               type="submit"
               color="yellow"
               className="bg-secondary hover:bg-yellow-100 text-primary font-semibold"
+              disabled={loading}
               isProcessing={loading}
               processingSpinner={
                 <AiOutlineLoading className="h-4 w-4 animate-spin" />

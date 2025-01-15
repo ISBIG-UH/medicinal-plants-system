@@ -53,7 +53,7 @@ function AddMonographBoard() {
         <EmptyFieldsWarning formData={formData} />
 
         <div className="flex p-4 justify-end m-2 mt-6 text-center">
-          <Button type="submit" className="font-quicksand" color="success" disabled={processingRequest} isProcessing={processingRequest} processingSpinner={<AiOutlineLoading className="h-6 w-6 animate-spin" />}>
+          <Button type="submit" className="font-quicksand bg-primary" color="success" disabled={processingRequest} isProcessing={processingRequest} processingSpinner={<AiOutlineLoading className="h-6 w-6 animate-spin" />}>
             Guardar
           </Button>
         </div>

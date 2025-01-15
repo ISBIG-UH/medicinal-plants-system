@@ -24,7 +24,7 @@ function SearchBar({ input, setInput, searchTrigger, loading }: Props) {
           }
         }}
       />
-      <Button color="success" className="text-secondary font-bold rounded-full items-center" onClick={searchTrigger} disabled={loading} isProcessing={loading} processingSpinner={<AiOutlineLoading className="h-6 w-6 animate-spin" />}>
+      <Button color="success" className="text-secondary bg-primary font-bold rounded-full items-center" onClick={searchTrigger} disabled={loading} isProcessing={loading} processingSpinner={<AiOutlineLoading className="h-6 w-6 animate-spin" />}>
         <FaSearch size={14} />
       </Button>
     </div>

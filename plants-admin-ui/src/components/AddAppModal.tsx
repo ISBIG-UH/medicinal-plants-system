@@ -68,6 +68,7 @@ function AddAppModal({ openModal, setOpenModal, reloadFunction }: Props) {
                 type="submit"
                 size="xs"
                 color="success"
+                className="bg-primary"
                 disabled={processingAdd}
                 isProcessing={processingAdd}
                 processingSpinner={

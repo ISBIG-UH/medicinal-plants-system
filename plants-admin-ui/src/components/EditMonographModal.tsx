@@ -88,7 +88,7 @@ function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
               <Button color="failure" size="xs" onClick={handleConfirmation} disabled={processingEdit || processingDelete} isProcessing={processingDelete} processingSpinner={<AiOutlineLoading className="h-4 w-4 animate-spin" />} >
                 Eliminar
               </Button>
-              <Button type="submit" size="xs" color="success" disabled={processingEdit || processingDelete} isProcessing={processingEdit} processingSpinner={<AiOutlineLoading className="h-4 w-4 animate-spin" />}>
+              <Button type="submit" size="xs" color="success" className="bg-primary" disabled={processingEdit || processingDelete} isProcessing={processingEdit} processingSpinner={<AiOutlineLoading className="h-4 w-4 animate-spin" />}>
                 Guardar
               </Button>
               <Button color="gray" size="xs" onClick={() => setOpenModal(false)} disabled={processingEdit || processingDelete}>

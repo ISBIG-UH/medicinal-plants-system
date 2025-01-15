@@ -69,6 +69,7 @@ function EditAppModal({ openModal, setOpenModal, app, reloadFunction }: Props) {
                 type="submit"
                 size="xs"
                 color="success"
+                className="bg-primary"
                 disabled={processingEdit}
                 isProcessing={processingEdit}
                 processingSpinner={

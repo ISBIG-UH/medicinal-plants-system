@@ -19,7 +19,7 @@ function SearchBar({ input, setInput, searchTrigger, disable }: Props) {
         onChange={(e) => setInput(e.target.value)}
         disabled={disable}
       />
-      <Button className="bg-primary w-14 text-secondary font-bold py-2 px-4 rounded-full hover:bg-green-700" disabled={disable} onClick={searchTrigger}>
+      <Button className="bg-primary w-14 text-secondary font-bold py-2 px-4 rounded-full hover:bg-green-700" color="success" disabled={disable} onClick={searchTrigger}>
         <FaSearch size={18} />
       </Button>
     </form>
