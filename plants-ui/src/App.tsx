@@ -1,9 +1,10 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import AppPage from './components/AppPage';
 import AboutPage from './components/AboutPage';
 import NavMenu from './components/NavMenu';
 import Footer from './components/Footer';
+import NotFound from './components/NotFoundPage';
 
 
 const routes: RouteItem[] = [
@@ -16,13 +17,18 @@ const navItems: NavItem[] = routes.map(route => ({ label: route.label, href: rou
 
 
 function App() {
+  // Hook para obtener la ubicación actual
+  const location = useLocation();
+  const isNotFoundPage = routes.some(route => route.href === location.pathname);
+
   return (
     <div className='flex flex-col h-screen'>
-      <div className='h-fit'>
+      {isNotFoundPage && <div className='h-fit'>
         <NavMenu navItems={navItems} />
-      </div>
+      </div>}
       <div className='flex-grow overflow-y-hidden'>
         <Routes>
+          <Route path='*' element={<NotFound/>}/>
           {
             routes.map((route) => (
               <Route key={route.label} path={route.href} element={route.component} />
@@ -30,9 +36,9 @@ function App() {
           }
         </Routes>
       </div>
-      <div className='h-fit'>
+      {isNotFoundPage && <div className='h-fit'>
         <Footer />
-      </div>
+      </div>}
     </div>
   )
 }

@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import LogIn from "./components/LogIn";
 import Home from "./components/Home";
 import { ToastContainer } from "react-toastify";
+import NotFoundPage from "./components/NotFoundPage";
 
 
 const routes = () => {
@@ -17,6 +18,7 @@ function App() {
   return (
     <>
       <Routes>
+        <Route path="*" element={<NotFoundPage/>} />
         {routes().map((route) => (
           <Route
             key={route.label}
