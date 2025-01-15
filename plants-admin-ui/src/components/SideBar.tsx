@@ -30,7 +30,7 @@ function SideBar({ categories }: Props) {
             mobileOpenMenu ? "max-w-full" : "max-w-0"
           } lg:max-w-none lg:rounded-r-xl flex-grow lg:flex-none flex flex-col`}
         >
-          <p className="m-2 text-center text-xl font-semibold font-serif py-2">
+          <p className="m-2 text-center text-xl font-semibold font-montserrat py-2">
             Menu
           </p>
 

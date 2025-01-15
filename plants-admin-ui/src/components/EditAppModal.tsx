@@ -44,7 +44,7 @@ function EditAppModal({ openModal, setOpenModal, app, reloadFunction }: Props) {
     <div>
       <Modal show={openModal} size="5xl" onClose={() => setOpenModal(false)}>
         <Modal.Header className="shadow-lg shadow-gray-200">
-          <p className="text-2xl font-semibold">Editar Aplicación</p>
+          <p className="text-2xl font-montserrat font-semibold">Editar Aplicación</p>
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -64,7 +64,7 @@ function EditAppModal({ openModal, setOpenModal, app, reloadFunction }: Props) {
 
             <EmptyFieldsWarning formData={formData} />
 
-            <div className="flex justify-end space-x-2">
+            <div className="flex justify-end font-quicksand space-x-2">
               <Button
                 type="submit"
                 size="xs"

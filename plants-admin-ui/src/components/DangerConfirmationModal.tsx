@@ -21,7 +21,7 @@ function DangerConfirmationModal({ openModal, setOpenModal, operationFunction, m
     >
       {/* <Modal.Header /> */}
       <Modal.Body>
-        <div className="text-center mt-6">
+        <div className="text-center mt-6 font-quicksand">
           <HiOutlineExclamationCircle className="mx-auto mb-4 h-20 w-20 text-gray-300 dark:text-gray-200" />
           <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
             {msg}

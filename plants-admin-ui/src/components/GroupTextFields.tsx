@@ -19,7 +19,7 @@ function GroupTextFields({ type, formData, handleTextChange }: Props) {
         <div key={index}>
           <div className="flex items-center space-x-2">
             <group.icon />
-            <Label className="text-md mx-2 text-nowrap" value={group.label} />
+            <Label className="text-md mx-2 font-sniglet text-nowrap" value={group.label} />
           </div>
           <div
             className={`${
@@ -34,7 +34,7 @@ function GroupTextFields({ type, formData, handleTextChange }: Props) {
                   <TextInput
                   id={input.id}
                   type="text"
-                  className="mx-2 my-1"
+                  className="mx-2 my-1 font-quicksand"
                   placeholder={
                     input.required
                     ? `${input.placeholder}*`
@@ -56,7 +56,7 @@ function GroupTextFields({ type, formData, handleTextChange }: Props) {
                   <Textarea
                   id={input.id}
                   placeholder={input.placeholder}
-                  className="my-1 resize-none"
+                  className="my-1 resize-none font-quicksand"
                   value={formData[input.id] || ""}
                   onChange={handleTextChange}
                   style={{ height: "auto", overflow: "hidden" }}

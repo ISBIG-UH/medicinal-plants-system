@@ -36,12 +36,12 @@ function ContextSearchBoard() {
                 <div className="bg-gray-100 border border-gray-200 hover:bg-gray-200 hover:cursor-pointer p-2 rounded-md sm:mx-8 md:mx-14 lg:mx-24 xl:mx-32 max-w-full whitespace-nowrap overflow-hidden text-ellipsis"
                   onClick={() => handleClick(monograph)}
                 >
-                  <p className="text-xl truncate">{monograph.name}</p>
-                  <p className="text-info text-sm truncate">
+                  <p className="text-xl font-semibold font-montserrat text-primary truncate">{monograph.name}</p>
+                  <p className="text-info font-quicksand text-sm truncate">
                   {monograph.genus} {monograph.species} {monograph.authors}{" "}
                   {monograph.var} {monograph.subsp} {monograph.f}
                   </p>
-                  <p className="text-sm truncate">{monograph.Des}</p>
+                  <p className="text-sm font-quicksand truncate">{monograph.Des}</p>
                 </div>
               </div>
             </li>

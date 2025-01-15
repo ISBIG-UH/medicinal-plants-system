@@ -32,7 +32,7 @@ function AddMonographBoard() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col h-full overflow-y-auto">
-      <h2 className="px-4 m-1 py-2 text-center text-xl lg:text-2xl bg-primary text-secondary rounded-lg font-semibold text-nowrap">
+      <h2 className="px-4 m-1 py-2 text-center text-xl lg:text-2xl bg-primary text-secondary rounded-lg font-montserrat font-semibold text-nowrap">
         Nueva Monografía
       </h2>
 
@@ -53,7 +53,7 @@ function AddMonographBoard() {
         <EmptyFieldsWarning formData={formData} />
 
         <div className="flex p-4 justify-end m-2 mt-6 text-center">
-          <Button type="submit" color="success" disabled={processingRequest} isProcessing={processingRequest} processingSpinner={<AiOutlineLoading className="h-6 w-6 animate-spin" />}>
+          <Button type="submit" className="font-quicksand" color="success" disabled={processingRequest} isProcessing={processingRequest} processingSpinner={<AiOutlineLoading className="h-6 w-6 animate-spin" />}>
             Guardar
           </Button>
         </div>

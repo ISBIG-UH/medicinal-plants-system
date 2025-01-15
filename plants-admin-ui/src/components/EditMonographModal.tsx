@@ -66,7 +66,7 @@ function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
     <div>
       <Modal show={openModal} size="5xl" onClose={() => setOpenModal(false)}>
         <Modal.Header className="shadow-lg shadow-gray-200">
-          <p className="text-2xl font-semibold">Editar Monografía</p>
+          <p className="text-2xl font-montserrat text-primary font-semibold">Editar Monografía</p>
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -84,7 +84,7 @@ function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
 
             <EmptyFieldsWarning formData={formData} />
 
-            <div className="flex justify-end space-x-2">
+            <div className="flex font-quicksand justify-end space-x-2">
               <Button color="failure" size="xs" onClick={handleConfirmation} disabled={processingEdit || processingDelete} isProcessing={processingDelete} processingSpinner={<AiOutlineLoading className="h-4 w-4 animate-spin" />} >
                 Eliminar
               </Button>

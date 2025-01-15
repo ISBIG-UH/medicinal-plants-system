@@ -14,7 +14,7 @@ function SearchBar({ input, setInput, searchTrigger, loading }: Props) {
     <div className="flex flex-row">
       <input
         type="text"
-        className="p-3 w-full rounded-full mr-2 bg-gray-200 border border-gray-400"
+        className="p-3 w-full font-quicksand rounded-full mr-2 bg-gray-200 border border-gray-400"
         placeholder="Buscar monografía..."
         value={input}
         onChange={(e) => setInput(e.target.value)}

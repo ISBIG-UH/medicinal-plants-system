@@ -39,7 +39,7 @@ function AppsBoard(){
                     <Button className="w-full bg-primary text-secondary" color="success" disabled={loadingApp} onClick={() => setAddOpen(true)}>
                         <div className="flex items-center justify-between space-x-1">
                             <IoAddCircle size={20} />
-                            <p>Nueva Aplicación</p>
+                            <p className="font-quicksand">Nueva Aplicación</p>
                         </div>
                     </Button>
 
@@ -48,7 +48,7 @@ function AppsBoard(){
                             <div className="flex items-center justify-between space-x-1">
                                 <MdChangeCircle size={20} />
                                 <div>
-                                    <p>{selectedApp?.name}</p>
+                                    <p className="font-quicksand">{selectedApp?.name}</p>
                                     {selectedApp && selectedApp.sys.length > 0 && <p className="text-xs font-light">({selectedApp?.sys})</p>}
                                 </div>
                             </div>
@@ -65,13 +65,13 @@ function AppsBoard(){
                     <div className="flex justify-between px-2 pl-4 py-2 mb-2 items-center bg-gray-300 rounded-lg">
                         <div className="flex items-center space-x-2">
                             <FaHandHoldingMedical/>
-                            <p className="text-center font-semibold text-xl">Aplicaciones</p>
+                            <p className="text-center font-montserrat font-semibold text-xl">Aplicaciones</p>
                         </div>
                         <button className="hover:bg-green-800" onClick={() => setIsOpen(false)}><IoClose size={30}/></button>
                     </div>
                     <div className="overflow-y-scroll">
                         {apps?.map((app) => (
-                            <button key={app.id} className={`py-2 px-4 ${app.id === selectedApp?.id ? "bg-secondary" : "bg-gray-100"} w-full text-left rounded-r-xl border-b-2 hover:cursor-pointer`} onClick={() => {handleSelect(app.id);setIsOpen(false);}}>
+                            <button key={app.id} className={`py-2 px-4 font-quicksand ${app.id === selectedApp?.id ? "bg-secondary" : "bg-gray-100"} w-full text-left rounded-r-xl border-b-2 hover:cursor-pointer`} onClick={() => {handleSelect(app.id);setIsOpen(false);}}>
                                 {app.name}
                             </button>
                         ))}
@@ -93,11 +93,11 @@ function AppsBoard(){
                     </div>
                     <div className="flex items-center p-2 px-4 space-x-2 border-r bg-gray-200 rounded-r-md">
                         <FaHandHoldingMedical/>
-                        <p className="font-semibold text-lg">Aplicaciones</p>
+                        <p className="font-montserrat font-semibold text-lg">Aplicaciones</p>
                     </div>
                     <div className="space-y-2 p-2 overflow-y-auto">
                         {apps.map(app => (
-                            <div key={app.id} className={`px-2 py-1 ${app.id === selectedApp?.id ? "text-black font-bold" : "text-gray-500"}  hover:text-black hover:cursor-pointer`} onClick={() => handleSelect(app.id)}>
+                            <div key={app.id} className={`px-2 py-1 font-quicksand ${app.id === selectedApp?.id ? "text-black font-bold" : "text-gray-500"}  hover:text-black hover:cursor-pointer`} onClick={() => handleSelect(app.id)}>
                                 {app.name}
                             </div>
                         ))}
@@ -108,10 +108,10 @@ function AppsBoard(){
                     {/* App header */}
                     <div className="hidden lg:flex justify-between items-center space-x-2 font-semibold text-xl bg-gray-200 m-2 rounded-md px-4 py-2">
                         <div className="flex items-center space-x-1">
-                            <p className="">{selectedApp?.name}</p>
+                            <p className="font-quicksand">{selectedApp?.name}</p>
                             {selectedApp && selectedApp.sys.length > 0 && <p className="text-sm font-light">({selectedApp?.sys})</p>}
                         </div>
-                        <div className="flex space-x-2">
+                        <div className="flex space-x-2 font-quicksand">
                             <Button color="gray" size="sm" onClick={() => setEditOpen(true)}><FaRegEdit size={20}/>Editar</Button>
                             <Button color="failure" size="sm" onClick={() => setDangerOpen(true)}><MdDelete size={20}/>Borrar</Button>
                         </div>
@@ -121,7 +121,7 @@ function AppsBoard(){
                     <ul className="flex-grow grid md:grid-cols-2 xl:grid-cols-3">
                         {selectedApp?.plants.map((plant, i) => (
                             <li key={i} className="mx-4 rounded-lg my-1 px-4 py-1 bg-gray-100 text-gray-600 font-serif">
-                                <p className="text-lg">{plant}</p>
+                                <p className="text-lg font-quicksand font-bold">{plant}</p>
                             </li>
                         ))}
                     </ul>
@@ -138,7 +138,7 @@ function AppsBoard(){
                 <Spinner color="success" className="h-16 w-16" />
             </div>}
             
-            {selectedApp && <DangerConfirmationModal openModal={dangerOpen} setOpenModal={setDangerOpen} operationFunction={() => handleDelete(selectedApp?.id)} msg={`¿Seguro que desea eliminar la aplicación ${selectedApp.name}?`} processing={processingDelete} />}
+            {selectedApp && <DangerConfirmationModal openModal={dangerOpen} setOpenModal={setDangerOpen} operationFunction={() => handleDelete(selectedApp?.id)} msg={`¿Seguro que desea eliminar la aplicación: ${selectedApp.name}?`} processing={processingDelete} />}
             
             {selectedApp && <AddAppModal openModal={addOpen} setOpenModal={setAddOpen} reloadFunction={reload} />}
             

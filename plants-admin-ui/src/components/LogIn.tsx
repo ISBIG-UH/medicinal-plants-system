@@ -1,11 +1,12 @@
-import { Label, TextInput } from "flowbite-react";
+import { Button, Label, TextInput } from "flowbite-react";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import useLogin from "../hooks/useLogin";
 import { toast } from "react-toastify";
+import { AiOutlineLoading } from "react-icons/ai";
 
 function LogIn() {
-  const { showPassword, setShowPassword, handleLogIn } = useLogin();
+  const { showPassword, setShowPassword, handleLogIn, loading } = useLogin();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     const response = await handleLogIn(e);
@@ -24,15 +25,15 @@ function LogIn() {
       <div className="border w-full max-w-96 border-gray-300 rounded-lg p-8 mx-8 bg-primary">
         <div className="flex justify-center items-center mb-6 gap-1">
           <img className="w-12" src="1.png" />
-          <img className="h-12" src="BotaniQ_bg_secondary.png" />
+          <h1 className="font-montserrat text-4xl text-secondary">BotaniQ</h1>
         </div>
         <div className="">
-          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          <form className="flex flex-col gap-4 font-quicksand" onSubmit={handleSubmit}>
             <div>
               <div className="mb-2 block">
                 <Label
                   htmlFor="username"
-                  className="text-secondary"
+                  className="font-sniglet text-secondary"
                   value="Nombre de usuario"
                 />
               </div>
@@ -57,7 +58,7 @@ function LogIn() {
               <div className="mb-2 block">
                 <Label
                   htmlFor="password"
-                  className="text-secondary"
+                  className="font-sniglet text-secondary"
                   value="Contraseña"
                 />
               </div>
@@ -86,12 +87,17 @@ function LogIn() {
                 </button>
               </div>
             </div>
-            <button
+            <Button
               type="submit"
-              className="bg-secondary hover:bg-yellow-100 text-primary font-semibold p-2 rounded-lg"
+              color="yellow"
+              className="bg-secondary hover:bg-yellow-100 text-primary font-semibold"
+              isProcessing={loading}
+              processingSpinner={
+                <AiOutlineLoading className="h-4 w-4 animate-spin" />
+              }
             >
               Iniciar sesión
-            </button>
+            </Button>
           </form>
         </div>
       </div>

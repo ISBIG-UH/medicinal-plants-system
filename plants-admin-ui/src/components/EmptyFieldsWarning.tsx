@@ -15,8 +15,8 @@ function EmptyFieldsWarning({ formData }: Props) {
             group.inputs.some((input) => input.id === key && input.required)
           ) && formData[key] === ""
       ) && (
-        <Alert color="warning" icon={ImWarning}>
-          <span className="font-medium">Atención!</span> Los campos no
+        <Alert color="warning" className="font-quicksand" icon={ImWarning}>
+          <span className="font-bold ">Atención!</span> Los campos no
           obligatorios que quedan vacíos se guardarán como vacíos.
         </Alert>
       )}

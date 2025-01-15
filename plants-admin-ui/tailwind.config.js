@@ -22,6 +22,20 @@ export default {
       backgroundImage: {
         'leaf-wall': "url('/leafs_bg.png')"
       },
+      fontFamily: {
+        montserrat: [
+          'Montserrat',
+          'sans-serif',
+        ],
+        quicksand: [
+          'Quicksand',
+          'sans-serif',
+        ],
+        sniglet: [
+          'Sniglet',
+          'cursive',
+        ],
+      },
     },
   },
   plugins: [

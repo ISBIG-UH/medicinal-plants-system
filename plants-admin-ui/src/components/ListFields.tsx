@@ -28,7 +28,7 @@ function ListFields({
         <div key={index}>
           <div className="flex items-center">
             <list.icon />
-            <Label className="text-md mx-2 text-nowrap" value={list.label} />
+            <Label className="text-md mx-2 text-nowrap font-sniglet" value={list.label} />
           </div>
           <div className="flex flex-col">
             {Array.isArray(formData[list.id]) &&
@@ -37,7 +37,7 @@ function ListFields({
                   <TextInput
                     type="text"
                     placeholder={list.placeholder}
-                    className="my-1 flex-grow"
+                    className="my-1 flex-grow font-quicksand"
                     value={value}
                     required={list.required}
                     onChange={(e) =>
@@ -76,7 +76,7 @@ function ListFields({
                 handleAddListItem(list.id);
               }}
             >
-              <IoMdAddCircle size={40} />
+              <IoMdAddCircle size={34} />
             </button>
           </div>
         </div>

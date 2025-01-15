@@ -20,7 +20,7 @@ function LogOut() {
       >
         <div className="flex">
           <MdOutlineExitToApp size={24} />
-          <button className="mx-2 font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
+          <button className="mx-2 font-quicksand whitespace-nowrap overflow-hidden text-ellipsis">
             Cerrar sesión
           </button>
         </div>
@@ -31,6 +31,7 @@ function LogOut() {
         setOpenModal={setOpenModal}
         operationFunction={handleLogout}
         msg="¿Seguro que desea cerrar la sesión?"
+        processing={false}
       />
     </>
   );

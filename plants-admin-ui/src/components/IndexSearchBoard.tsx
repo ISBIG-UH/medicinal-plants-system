@@ -15,7 +15,7 @@ function IndexSearchBoard() {
               key={letter}
               disabled={loading}
               onClick={() => handleSelectLetter(letter)}
-              className={`disabled text-xl lg:text-lg font-bold px-2 rounded-full transition-all duration-125 ${
+              className={`disabled font-montserrat text-xl lg:text-lg font-bold px-2 rounded-full transition-all duration-125 ${
                 selectedLetter === letter
                   ? "text-green-500 scale-125 bg-gray-200"
                   : "text-gray-700"
@@ -26,14 +26,14 @@ function IndexSearchBoard() {
           ))}
         </div>
         <div className="w-full flex flex-col my-4 lg:h-full lg:overflow-y-scroll">
-          <h2 className="text-center text-3xl font-bold text-primary mb-4">
+          <h2 className="text-center text-3xl font-montserrat font-bold text-primary mb-4">
             "{selectedLetter}"
           </h2>
           {!loading &&
             monographBasics.map((p, i) => (
               <div key={i} className={`mx-6 ${i % 2 === 0 ? "bg-gray-100" : "bg-gray-50"} rounded-xl`}>
                 <p
-                  className={`mx-2 w-fit text-xl font-semibold text-primary hover:underline hover:cursor-pointer px-4 py-1 `}
+                  className={`mx-2 w-fit text-xl font-quicksand font-semibold text-primary hover:underline hover:cursor-pointer px-4 py-1 `}
                   onClick={() => handleSelectMonograh(p)}
                 >
                   {p.name}
