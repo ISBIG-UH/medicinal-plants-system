@@ -11,8 +11,7 @@ namespace DataAccess.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql("CREATE EXTENSION IF NOT EXISTS pg_trgm;");
-
-            migrationBuilder.Sql("CREATE INDEX idx_terms_trgm ON \"TermDocumentWeights\" USING gin (\"Term\" gin_trgm_ops);");
+            migrationBuilder.Sql("CREATE INDEX idx_terms_trgm ON \"Terms\" USING gin (\"Name\" gin_trgm_ops);");
         }
 
         /// <inheritdoc />
@@ -20,7 +19,6 @@ namespace DataAccess.Migrations
         {
             migrationBuilder.Sql("DROP INDEX IF EXISTS idx_terms_trgm;");
             migrationBuilder.Sql("DROP EXTENSION IF EXISTS pg_trgm;");
-
         }
     }
 }

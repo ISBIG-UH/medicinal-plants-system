@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250112061449_AddPg_TrgmExtension")]
-    partial class AddPg_TrgmExtension
+    [Migration("20250115171602_AddUnaccentExtension")]
+    partial class AddUnaccentExtension
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,15 +40,34 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("TotalWords")
-                        .HasColumnType("integer");
+                    b.PrimitiveCollection<float[]>("Vector")
+                        .IsRequired()
+                        .HasColumnType("real[]");
 
                     b.HasKey("Id");
 
                     b.ToTable("Plants");
                 });
 
-            modelBuilder.Entity("Data.TFIDF_Weights", b =>
+            modelBuilder.Entity("Data.PlantTerm", b =>
+                {
+                    b.Property<int>("PlantId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TermId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TermOccurrences")
+                        .HasColumnType("integer");
+
+                    b.HasKey("PlantId", "TermId");
+
+                    b.HasIndex("TermId");
+
+                    b.ToTable("PlantTerms");
+                });
+
+            modelBuilder.Entity("Data.Term", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -56,27 +75,13 @@ namespace DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("PlantId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Term")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("TermCount")
-                        .HasColumnType("integer");
-
-                    b.Property<float>("Value")
-                        .HasColumnType("real");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("PlantId");
-
-                    b.HasIndex("Term", "PlantId")
-                        .IsUnique();
-
-                    b.ToTable("TermDocumentWeights");
+                    b.ToTable("Terms");
                 });
 
             modelBuilder.Entity("Data.User", b =>
@@ -103,20 +108,33 @@ namespace DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Data.TFIDF_Weights", b =>
+            modelBuilder.Entity("Data.PlantTerm", b =>
                 {
                     b.HasOne("Data.Plant", "Plant")
-                        .WithMany("TermWeight")
+                        .WithMany("PlantTerms")
                         .HasForeignKey("PlantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Data.Term", "Term")
+                        .WithMany("PlantTerms")
+                        .HasForeignKey("TermId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Plant");
+
+                    b.Navigation("Term");
                 });
 
             modelBuilder.Entity("Data.Plant", b =>
                 {
-                    b.Navigation("TermWeight");
+                    b.Navigation("PlantTerms");
+                });
+
+            modelBuilder.Entity("Data.Term", b =>
+                {
+                    b.Navigation("PlantTerms");
                 });
 #pragma warning restore 612, 618
         }

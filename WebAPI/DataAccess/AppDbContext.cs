@@ -47,6 +47,10 @@ public class AppDbContext : DbContext
                 v => NJ.JsonConvert.DeserializeObject<Dictionary<string, object>>(v))
             .Metadata.SetValueComparer(monographComparer);
 
+        modelBuilder.Entity<Plant>()
+            .Property(p => p.Vector)
+            .HasColumnType("real[]");
+
 
         modelBuilder.Entity<Term>()
             .Property(p => p.Id)

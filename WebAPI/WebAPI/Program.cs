@@ -43,7 +43,7 @@ builder.Services.AddSwaggerGen(c =>
 
 // Registrar los Seeders en el contenedor de dependencias
 builder.Services.AddTransient<PlantSeed>(); 
-builder.Services.AddTransient<TermDocWeightSeed>(); 
+builder.Services.AddTransient<PlantTermSeed>(); 
 
 var app = builder.Build();
 
@@ -75,8 +75,8 @@ using (var scope = app.Services.CreateScope())
     var plantSeedService = services.GetRequiredService<PlantSeed>();
     await plantSeedService.SeedPlantsAsync();
 
-    var tfidfSeedService = services.GetRequiredService<TermDocWeightSeed>();
-    await tfidfSeedService.SeedTFIDFDataAsync();
+    var tfidfSeedService = services.GetRequiredService<PlantTermSeed>();
+    await tfidfSeedService.SeedPlantTermRelationshipAsync();
 }
 
 app.Run();
