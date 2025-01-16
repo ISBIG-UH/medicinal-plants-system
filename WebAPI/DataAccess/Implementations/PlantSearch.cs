@@ -73,23 +73,25 @@ namespace DataAccess.Implementations
         }
 
         // searches for possible matches based on user query tokens.
-        public async Task<IEnumerable<(int PlantId, List<TermValue> TermValues)>> SearchAsync(IEnumerable<string> tokens)
+        public async Task<HashSet<int>> SearchAsync(IEnumerable<string> tokens)
         {
             if (tokens == null || !tokens.Any())
-                return Enumerable.Empty<(int plantId, List<TermValue> termValue)>();
+                return new  HashSet<int>();
 
-            var plantsWithValues = new List<(int plantId, List<TermValue> termValue)>();
-            var plantsProcessed = new HashSet<int>();
+            // var plantsWithValues = new List<(int plantId, List<TermValue> termValue)>();
+            // var plantsProcessed = new HashSet<int>();
+            var searchPossibleMatches = new HashSet<int>();
 
             foreach (var token in tokens)
             {   
                 HashSet<int> plantsId = new HashSet<int>();
-                if (await _context.TermDocumentWeights
+                if (await _context.Terms
                     .FromSqlRaw(
-                        "SELECT * FROM \"TermDocumentWeights\" WHERE unaccent(lower(\"Term\")) = unaccent(lower({0}))", 
+                        "SELECT * FROM \"Terms\" WHERE unaccent(\"Name\") = unaccent({0})", 
                         token)
-                    .AnyAsync())
+                    .AnyAsync() || await _context.Terms.AnyAsync(t => t.Name == token))
                 {
+                    // if an exact match is found, retrieve plants by the exact term
                     plantsId = await GetPlantsByTermAsync(token);
                 }
                 // if (await _context.TermDocumentWeights.AnyAsync(tdw => tdw.Term == token))
@@ -109,49 +111,56 @@ namespace DataAccess.Implementations
 
                     plantsId = aux1.Union(aux2).ToHashSet();
                 }
-                foreach (var id in plantsId)
-                {
-                    if (!plantsProcessed.Contains(id))
-                    {
-                        await AddPlantValuesAsync(plantsWithValues, id);
-                        plantsProcessed.Add(id); 
-                    }
-                }
+                // foreach (var id in plantsId)
+                // {
+                //     if (!plantsProcessed.Contains(id))
+                //     {
+                //         await AddPlantValuesAsync(plantsWithValues, id);
+                //         plantsProcessed.Add(id); 
+                //     }
+                // }
+
+                searchPossibleMatches.UnionWith(plantsId);
             }
 
-            return plantsWithValues;
+            return searchPossibleMatches;
         }
 
 
         private async Task<HashSet<int>> GetPlantsByTermAsync(string term)
         {
-            var plantsId = await _context.TermDocumentWeights
+            var terms = await _context.Terms
                 .FromSqlRaw(
-                    "SELECT DISTINCT \"PlantId\" FROM \"TermDocumentWeights\" WHERE unaccent(lower(\"Term\")) = unaccent(lower({0}))", 
+                    @"SELECT * FROM ""Terms"" WHERE unaccent(""Name"") = unaccent({0})", 
                     term)
-                .Select(tdw => tdw.PlantId)
+                .Include(t => t.PlantTerms) 
+                .ToListAsync();
+
+            var plantsId = terms
+                .SelectMany(t => t.PlantTerms)
+                .Select(pt => pt.PlantId)
                 .Distinct()
-                .ToHashSetAsync();
+                .ToHashSet();
 
             return plantsId;
         }
 
-        private async Task AddPlantValuesAsync(List<(int plantId, List<TermValue> termValue)> plantsWithValues, int plantId)
-        {
-            var plant = await _context.Plants
-                .Where(p => p.Id == plantId)
-                .Include(p => p.TermWeight)  
-                .FirstOrDefaultAsync();
+        // private async Task AddPlantValuesAsync(List<(int plantId, List<TermValue> termValue)> plantsWithValues, int plantId)
+        // {
+        //     var plant = await _context.Plants
+        //         .Where(p => p.Id == plantId)
+        //         .Include(p => p.TermWeight)  
+        //         .FirstOrDefaultAsync();
 
-            if (plant != null)
-            {
-                var termValuePairs = plant.TermWeight
-                    .Select(tdw => new TermValue { Term = tdw.Term, Value = tdw.Value })
-                    .ToList();
+        //     if (plant != null)
+        //     {
+        //         var termValuePairs = plant.TermWeight
+        //             .Select(tdw => new TermValue { Term = tdw.Term, Value = tdw.Value })
+        //             .ToList();
 
-                plantsWithValues.Add((plant.Id, termValuePairs));
-            }
-        }
+        //         plantsWithValues.Add((plant.Id, termValuePairs));
+        //     }
+        // }
 
         private async Task<HashSet<int>> GetPlantsByLevenshteinAsync(string token)
         {
@@ -163,7 +172,7 @@ namespace DataAccess.Implementations
                 .AsEnumerable() 
                 .Where(p => p.Name.ToLower()
                             .Split(' ')  
-                            .Any(word => Math.Abs(word.Length - token.Length) <= 2 && LevenshteinDistance(token, word) <= threshold)) // Verificar cada palabra
+                            .Any(word => Math.Abs(word.Length - token.Length) <= 2 && LevenshteinDistance(token, word) <= threshold)) 
                 .Select(p => p.Id)
                 .Distinct()
                 .ToHashSet();
@@ -197,13 +206,20 @@ namespace DataAccess.Implementations
         private async Task<HashSet<int>> GetPlantsByTrigramAsync(string token)
         {
             double similarityThreshold = 0.5; 
-            var results = await _context.TermDocumentWeights
-            .FromSqlRaw("SELECT * FROM \"TermDocumentWeights\" WHERE similarity(\"Term\", {0}) > {1}", token, similarityThreshold)
-            .Select(tdw => tdw.PlantId)
-            .ToHashSetAsync();
+            var terms = await _context.Terms
+                .FromSqlRaw(
+                    "SELECT * FROM \"Terms\" WHERE similarity(\"Name\", {0}) > {1}", 
+                    token, similarityThreshold)
+                .Include(t => t.PlantTerms) 
+                .ToListAsync();;
 
-            return results;
+            var plantsId = terms
+                .SelectMany(t => t.PlantTerms)
+                .Select(pt => pt.PlantId)
+                .Distinct()
+                .ToHashSet();
 
+            return plantsId;
         }
     }
 }

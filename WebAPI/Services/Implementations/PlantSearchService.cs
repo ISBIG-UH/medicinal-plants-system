@@ -5,6 +5,7 @@ using DataAccess.Interfaces;
 using DataAccess.AuxClasses;
 using Services.Interfaces;
 using Data.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Services.Implementations
@@ -39,23 +40,25 @@ namespace Services.Implementations
 
             Dictionary<int, float> plantsRelevance = new Dictionary<int, float>();
             
-            if (searchResults is IEnumerable<(int Key, List<TermValue> Terms)> searchPossibleMatches)
+            if (searchResults is HashSet<int> searchPossibleMatches)
             {
                 int totalDocumentos = _context.Plants.Count();
 
                 // for each possible search result, we build the query vector based on each result to calculate its relevance.
-                foreach (var (plantId, termValue) in searchPossibleMatches)
+                foreach (var id in searchPossibleMatches)
                 {
-                    List<string> terms = termValue.Select(tv => tv.Term.ToLower()).ToList();
-                    List<float> documentVector = termValue.Select(tv => tv.Value).ToList();
-                    
-                    List<float> queryVector = VectorizeQuery(tokens, terms, totalDocumentos);
+                    float[] documentVector = (await _context.Plants
+                        .Where(p => p.Id == id)
+                        .Select(p => p.Vector)
+                        .FirstOrDefaultAsync())?.ToArray();
 
-                    float similarity = queryVector.Count > 0 
+                    float[] queryVector = await VectorizeQuery(tokens, totalDocumentos);
+
+                    float similarity = queryVector.Any(item => item != 0) 
                         ? CalculateCosineSimilarity(documentVector, queryVector) 
                         : 0;
 
-                    plantsRelevance[plantId] = similarity;
+                    plantsRelevance[id] = similarity;
                     
                 }
 
@@ -81,34 +84,54 @@ namespace Services.Implementations
         }
 
 
-        private List<float> VectorizeQuery(Dictionary<string, int> termFrequencies, List<string> terms, int totalDocumentos)
+        private async Task<float[]> VectorizeQuery(Dictionary<string, int> tokenFrequencies, int totalDocumentos)
         {
-            if (!termFrequencies.Keys.Any(term => terms.Contains(term)))
+            int lenVocabulary = await _context.Terms.CountAsync();
+            
+            // Verificar si existen términos en la base de datos
+            if (!tokenFrequencies.Keys.Any(term => _context.Terms.Any(t => t.Name == term)))
             {
-                return new List<float>();
+                return new float[lenVocabulary];
             }
-            var queryVector = new List<float>(new float[terms.Count()]);
 
-            int totalTokens = termFrequencies.Count();
+            // Crear un arreglo de vector con valores por defecto (0)
+            float[] queryVector = new float[lenVocabulary];
 
-            for (int i = 0; i < terms.Count(); i++)
+            // Cargar todos los términos y sus correspondientes counts en una sola consulta
+            var termCounts = await _context.PlantTerms
+                .GroupBy(pt => pt.TermId)
+                .Select(g => new { TermId = g.Key, Count = g.Count() })
+                .ToListAsync();
+
+            // Crear un diccionario para acceso rápido a la cantidad de apariciones por TermId
+            var termCountDict = termCounts.ToDictionary(tc => tc.TermId, tc => tc.Count);
+
+            // Total de tokens
+            int totalTokens = tokenFrequencies.Count;
+
+            // Iterar sobre los términos y calcular el TF-IDF
+            int index = 0;
+            foreach (var item in _context.Terms)
             {
-                string term = terms[i];
-                float tf = termFrequencies.ContainsKey(term) ? (float)termFrequencies[term] / totalTokens : 0;
-                
-                int termFrequency = _context.TermDocumentWeights.Count(tf => tf.Term == term);
+                // Calcular TF (frecuencia de término)
+                double tf = tokenFrequencies.ContainsKey(item.Name) ? (double)tokenFrequencies[item.Name] / totalTokens : 0;
 
-                float idf = termFrequency > 0 ? (float)Math.Log((float)totalDocumentos / termFrequency + 1) : 0;
+                // Calcular IDF (frecuencia inversa de documento)
+                int count = termCountDict.ContainsKey(item.Id) ? termCountDict[item.Id] : 0;
+                double idf = count > 0 ? (double)Math.Log(totalDocumentos / (count + 1)) : 0;
 
-                queryVector[i] = tf * idf;
+                // Asignar el valor calculado en el vector
+                queryVector[index] = (float)(tf * idf);
+                index++;
             }
 
             return queryVector;
         }
 
-        private float CalculateCosineSimilarity(List<float> vectorA, List<float> vectorB)
+
+        private float CalculateCosineSimilarity(float[] vectorA, float[] vectorB)
         {
-            if (vectorA.Count != vectorB.Count)
+            if (vectorA.Length != vectorB.Length)
                 throw new ArgumentException("Los vectores tienen que tener la misma longitud.");
 
             float dotProduct = vectorA.Zip(vectorB, (a, b) => a * b).Sum();

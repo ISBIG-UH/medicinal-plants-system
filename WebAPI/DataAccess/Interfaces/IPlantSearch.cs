@@ -4,7 +4,7 @@ using DataAccess.AuxClasses;
 
 namespace DataAccess.Interfaces
 {
-    public interface IPlantSearch : ISearch<string, IEnumerable<(int PlantId, List<TermValue> TermValues)>>
+    public interface IPlantSearch : ISearch<string, HashSet<int>>
     {
         Task<IEnumerable<PlantDto>> GetPlantsAsync(IEnumerable<int> plantsName);
     }
