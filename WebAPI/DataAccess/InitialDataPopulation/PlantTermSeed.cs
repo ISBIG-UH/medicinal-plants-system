@@ -15,16 +15,16 @@ namespace DataAccess.InitialDataPopulation
 
         public async Task SeedPlantTermRelationshipAsync()
         {
-            if (!_context.PlantTerms.Any())
+            if (! await _context.PlantTerms.AnyAsync())
             {
                 TextProcessor textProcessor = new TextProcessor();
-                var plants = _context.Plants.ToList();
+                var plants = await _context.Plants.ToListAsync();
                 textProcessor.ProcessPlantMonographs(plants);
                 
                 await SeedTermsAsync(textProcessor.TermDocumentRelationship.Keys.ToList());
 
-                var relationship = new List<PlantTerm>();
-                int batchSize = 2000; 
+                // var relationship = new List<PlantTerm>();
+                int batchSize = 1000; 
                 int counter = 0;
 
                 foreach (var item in textProcessor.DataProcessor)
@@ -32,22 +32,12 @@ namespace DataAccess.InitialDataPopulation
                     string plantName = item.Key;
                     (int totalWords, Dictionary<string, int> TokenOccurrences) = item.Value;
 
-                    var plant = _context.Plants.FirstOrDefault(p => p.Name == plantName);
+                    // var plant = await _context.Plants.FirstOrDefaultAsync(p => p.Name == plantName);
+                    var plant = plants.FirstOrDefault(x => x.Name == plantName);
+
 
                     foreach (var (token, count) in TokenOccurrences)
                     {   
-                        // bool termExists = await _context.Terms.AnyAsync(t => t.Name == token);
-                        // if (!termExists)
-                        // {
-                        //     var newTerm = new Term
-                        //     {
-                        //         Name = token
-                        //     };
-
-                        //     await _context.Terms.AddAsync(newTerm);
-                        //     await _context.SaveChangesAsync();
-                        // }
-
                         var term = _context.Terms.FirstOrDefault(p => p.Name == token);
                         var register = new PlantTerm
                         {
@@ -60,29 +50,22 @@ namespace DataAccess.InitialDataPopulation
 
                         plant.PlantTerms.Add(register);
                         term.PlantTerms.Add(register);
-                        relationship.Add(register);
                         counter++;
 
                         if (counter >= batchSize)
                         {
-                            await _context.PlantTerms.AddRangeAsync(relationship);
+                            
                             await _context.SaveChangesAsync();
-                            relationship.Clear(); 
                             counter = 0;
                         }
-
                     }
                 }
 
-                if(relationship.Any())
+                if(counter > 0)
                 {
-                    await _context.PlantTerms.AddRangeAsync(relationship);
                     await _context.SaveChangesAsync();
                 }
-                // if(counter > 0)
-                // {
-                //     await _context.SaveChangesAsync();
-                // }
+
 
                 DocumentVector  documentVector = new DocumentVector(_context);
                 documentVector.BuildDocumentVectorAsync();

@@ -5,7 +5,7 @@
 namespace DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class ModifyModel : Migration
+    public partial class ExplicitConversion : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -13,8 +13,8 @@ namespace DataAccess.Migrations
             migrationBuilder.Sql(
                 @"ALTER TABLE ""Plants"" 
                 ALTER COLUMN ""Vector"" 
-                TYPE jsonb 
-                USING to_jsonb(""Vector"")");
+                TYPE json
+                USING to_json(""Vector"")");
         }
 
         /// <inheritdoc />

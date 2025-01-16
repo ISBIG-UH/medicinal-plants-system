@@ -50,7 +50,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Plant>()
             .Property(p => p.Vector)
             .HasConversion(
-                v => Newtonsoft.Json.JsonConvert.SerializeObject(v),  
+                v => NJ.JsonConvert.SerializeObject(v),  
                 v => NJ.JsonConvert.DeserializeObject<float[]>(v) 
             );
 

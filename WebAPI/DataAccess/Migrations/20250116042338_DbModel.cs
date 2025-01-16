@@ -19,7 +19,7 @@ namespace DataAccess.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Monograph = table.Column<string>(type: "json", nullable: false),
-                    Vector = table.Column<float[]>(type: "real[]", nullable: false)
+                    Vector = table.Column<string>(type: "json", nullable: false)
                 },
                 constraints: table =>
                 {

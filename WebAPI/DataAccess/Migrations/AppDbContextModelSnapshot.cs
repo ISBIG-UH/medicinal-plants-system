@@ -39,7 +39,7 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Vector")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("json");
 
                     b.HasKey("Id");
 

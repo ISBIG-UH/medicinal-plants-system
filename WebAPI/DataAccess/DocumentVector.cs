@@ -18,12 +18,16 @@ public class DocumentVector
 
     public async Task BuildDocumentVectorAsync()
     {
-        var plants = _context.Plants.ToList();
-        var plantTerms = _context.PlantTerms.ToList();
+        List<int> plantsId =  await _context.Plants.Select(id => id.Id).ToListAsync();
+        var plantTerms = await _context.PlantTerms.ToListAsync();
 
-        foreach (var plant in plants)
+        int batchSize = 2; 
+        int counter = 0;
+
+        foreach (var id in plantsId)
         {
-            List<PlantTerm> relationship = plant.PlantTerms.ToList();
+            var plant = await _context.Plants.FirstOrDefaultAsync(x => x.Id == id);
+            var relationship = plant.PlantTerms;
 
             int totalWords = relationship.Sum(o => o.TermOccurrences);
                                 
@@ -36,7 +40,7 @@ public class DocumentVector
             {
                 int itemId = terms[i];
 
-                int totalOccuurences = plantTerms
+                int totalOccuurences =  plantTerms
                     .Where(pt => pt.TermId == itemId) 
                     .Count(); 
 
@@ -45,15 +49,24 @@ public class DocumentVector
                     .Select(p => p.TermOccurrences)  
                     .FirstOrDefault(); 
 
-                float tf_idf = (float)CalculateTFIDF(termOccurrences, totalWords, plants.Count(), totalOccuurences);
+                float tf_idf = (float)CalculateTFIDF(termOccurrences, totalWords, plantsId.Count(), totalOccuurences);
                 vector[itemId-1] = tf_idf;
             }
-            
-            plant.Vector = vector;
 
+            plant.Vector = vector;
+            
+            if(counter >= batchSize)
+            {
+                await _context.SaveChangesAsync();
+                counter = 0;
+            }
+          
         }
 
-        await _context.SaveChangesAsync();
+        if (counter > 0)
+        {
+            await _context.SaveChangesAsync();
+        }
         
     }
 

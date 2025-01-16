@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250115171320_AddPg_TrgmExtension")]
-    partial class AddPg_TrgmExtension
+    [Migration("20250116042338_DbModel")]
+    partial class DbModel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,9 +40,9 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.PrimitiveCollection<float[]>("Vector")
+                    b.Property<string>("Vector")
                         .IsRequired()
-                        .HasColumnType("real[]");
+                        .HasColumnType("json");
 
                     b.HasKey("Id");
 
