@@ -70,7 +70,7 @@ namespace DataAccess.InitialDataPopulation
                         {
                             Name = plantName,
                             Monograph = JsonConvert.DeserializeObject<Dictionary<string, object>>(plantMonograph.ToString()),
-                            TotalWords = 0
+                            Vector = Array.Empty<float>()
                         };
 
                         plants.Add(plant);
