@@ -22,17 +22,17 @@ function PreviewModal({ show, setShow, monograph }: Props) {
   return (
     <Modal show={show} onClose={() => setShow(false)} size="5xl">
       <Modal.Header className="shadow-lg shadow-gray-200">
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center mb-2 space-x-2">
             <div><img className="w-8" src="1.png"/></div>
-            <p className="text-primary font-montserrat font-bold text-4xl">{monograph.name}</p>
+            <p className="text-primary font-montserrat font-bold text-2xl lg:text-4xl">{monograph.name}</p>
         </div>
-        <p className="text-gray-400 font-quicksand text-md">
+        <p className="text-gray-400 font-quicksand text-base lg:text-md">
           {monograph.genus} {monograph.species} {monograph.authors}{" "}
           {monograph.var} {monograph.subsp} {monograph.f}
         </p>
       </Modal.Header>
       <Modal.Body>
-        <div className="space-y-6">
+        <div className="space-y-6 whitespace-pre-line">
           {monograph.family !== "" && (
             <PreviewCategory name="Familia" icon={<TbTournament />}>
               <p>{monograph.family}</p>
