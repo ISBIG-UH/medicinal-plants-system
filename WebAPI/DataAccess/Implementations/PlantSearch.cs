@@ -27,47 +27,54 @@ namespace DataAccess.Implementations
                 {
                     plant.Id,
                     plant.Name,
-                    plant.Monograph
+                    plant.Monograph 
                 })
                 .ToListAsync();
 
-            var plantDtos = plants.Select(plant => new PlantDto
+            var plantDtos = plants.Select(plant =>
             {
-                id = plant.Id,
-                name = plant.Name,
-                monograph = MapMonograph(plant.Monograph)
+                var plantDto = new PlantDto
+                {
+                    id = plant.Id,
+                    name = plant.Name
+                };
+
+                var mappedPlantDto = MapPropertiesFromMonograph(plant.Monograph, plantDto);
+
+                return mappedPlantDto;
             }).ToList();
 
             return plantsId
-                .Select(id => plantDtos.First(plant => plant.id == id)) 
-                .ToList(); 
+                .Select(id => plantDtos.First(plant => plant.id == id))
+                .ToList();
         }
 
-        private MonographDto MapMonograph(Dictionary<string, object> monograph)
+        private PlantDto MapPropertiesFromMonograph(Dictionary<string, object> monograph, PlantDto plantDto)
         {
-            var monographDto = new MonographDto();
-            var monographProperties = typeof(MonographDto).GetProperties();
+            var properties = typeof(PlantDto).GetProperties()
+                .Skip(2); 
 
-            foreach (var property in monographProperties)
+            foreach (var property in properties)
             {
                 if (monograph.ContainsKey(property.Name))
                 {
                     var value = monograph[property.Name];
-                    
+
                     if (property.PropertyType == typeof(string) && value is string stringValue)
                     {
-                        property.SetValue(monographDto, stringValue);
+                        property.SetValue(plantDto, stringValue);
                     }
-                    else if (value is IEnumerable<object> objectCollection)
+                    else if (property.PropertyType == typeof(List<string>) && value is IEnumerable<object> objectCollection)
                     {
                         var stringList = objectCollection.Select(o => o?.ToString()).ToList();
-                        property.SetValue(monographDto, stringList);
+                        property.SetValue(plantDto, stringList);
                     }
                 }
             }
 
-            return monographDto;
+            return plantDto;
         }
+
 
         // searches for possible matches based on user query tokens.
         public async Task<HashSet<int>> SearchAsync(IEnumerable<string> tokens)

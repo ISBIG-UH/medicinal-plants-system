@@ -1,4 +1,5 @@
 using Data;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -15,7 +16,7 @@ namespace DataAccess.InitialDataPopulation
 
         public async Task SeedPlantsAsync()
         {
-            if (!_context.Plants.Any())
+            if (! await _context.Plants.AnyAsync())
             {
                 string basePath = AppDomain.CurrentDomain.BaseDirectory;
                 string filePath = Path.Combine(basePath, "Resources", "data.json");
