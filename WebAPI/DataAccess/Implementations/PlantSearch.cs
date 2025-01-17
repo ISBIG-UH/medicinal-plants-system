@@ -1,10 +1,7 @@
 using Data;
 using DataAccess.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using DataAccess.AuxClasses;
 using Data.DTOs;
-using System.Runtime.InteropServices;
-using System.Dynamic;
 
 namespace DataAccess.Implementations
 {
@@ -78,8 +75,6 @@ namespace DataAccess.Implementations
             if (tokens == null || !tokens.Any())
                 return new  HashSet<int>();
 
-            // var plantsWithValues = new List<(int plantId, List<TermValue> termValue)>();
-            // var plantsProcessed = new HashSet<int>();
             var searchPossibleMatches = new HashSet<int>();
 
             foreach (var token in tokens)
@@ -94,11 +89,6 @@ namespace DataAccess.Implementations
                     // if an exact match is found, retrieve plants by the exact term
                     plantsId = await GetPlantsByTermAsync(token);
                 }
-                // if (await _context.TermDocumentWeights.AnyAsync(tdw => tdw.Term == token))
-                // {
-                //     // if an exact match is found, retrieve plants by the exact term
-                //     plantsId = await GetPlantsByTermAsync(token);
-                // }
                 else
                 {
                     // if no exact match is found:
@@ -111,15 +101,7 @@ namespace DataAccess.Implementations
 
                     plantsId = aux1.Union(aux2).ToHashSet();
                 }
-                // foreach (var id in plantsId)
-                // {
-                //     if (!plantsProcessed.Contains(id))
-                //     {
-                //         await AddPlantValuesAsync(plantsWithValues, id);
-                //         plantsProcessed.Add(id); 
-                //     }
-                // }
-
+               
                 searchPossibleMatches.UnionWith(plantsId);
             }
 
@@ -145,28 +127,10 @@ namespace DataAccess.Implementations
             return plantsId;
         }
 
-        // private async Task AddPlantValuesAsync(List<(int plantId, List<TermValue> termValue)> plantsWithValues, int plantId)
-        // {
-        //     var plant = await _context.Plants
-        //         .Where(p => p.Id == plantId)
-        //         .Include(p => p.TermWeight)  
-        //         .FirstOrDefaultAsync();
-
-        //     if (plant != null)
-        //     {
-        //         var termValuePairs = plant.TermWeight
-        //             .Select(tdw => new TermValue { Term = tdw.Term, Value = tdw.Value })
-        //             .ToList();
-
-        //         plantsWithValues.Add((plant.Id, termValuePairs));
-        //     }
-        // }
-
         private async Task<HashSet<int>> GetPlantsByLevenshteinAsync(string token)
         {
             var threshold = 2;  
             var plants = await _context.Plants.ToListAsync();
-
             
             var plantsId = plants
                 .AsEnumerable() 

@@ -2,7 +2,6 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using DataAccess;
 using DataAccess.Interfaces;
-using DataAccess.AuxClasses;
 using Services.Interfaces;
 using Data.DTOs;
 using Microsoft.EntityFrameworkCore;
@@ -40,22 +39,36 @@ namespace Services.Implementations
 
             Dictionary<int, float> plantsRelevance = new Dictionary<int, float>();
             
-            if (searchResults is HashSet<int> searchPossibleMatches)
+            if (searchResults is HashSet<int> searchPossibleMatches && searchResults.Count() > 0)
             {
-                int totalDocumentos = _context.Plants.Count();
+                var plants = await _context.Plants.ToListAsync();
+                int totalPlants = plants.Count();
+                
+                // get all terms and their occurrence counts in the document collection
+                var termCounts = await _context.PlantTerms
+                .GroupBy(pt => pt.TermId)
+                .Select(g => new { TermId = g.Key, Count = g.Count() })
+                .ToListAsync();
+                var termCountDict = termCounts.ToDictionary(tc => tc.TermId, tc => tc.Count);
+
+                // map list of terms and assign them to a list with their indexes
+                var terms = await _context.Terms.ToListAsync();
+                var termsWithIndex = terms
+                    .Select((term, index) => (term.Name, term.Id, Index: index))  
+                    .ToList();
 
                 // for each possible search result, we build the query vector based on each result to calculate its relevance.
-                foreach (var id in searchPossibleMatches)
+                foreach (var id in searchResults)
                 {
-                    float[] documentVector = (await _context.Plants
+                    float[] plantVector = plants
                         .Where(p => p.Id == id)
                         .Select(p => p.Vector)
-                        .FirstOrDefaultAsync())?.ToArray();
+                        .FirstOrDefault();
 
-                    float[] queryVector = await VectorizeQuery(tokens, totalDocumentos);
+                    float[] queryVector = await VectorizeQuery(tokens, totalPlants, plantVector.Length, termCountDict, termsWithIndex);
 
-                    float similarity = queryVector.Any(item => item != 0) 
-                        ? CalculateCosineSimilarity(documentVector, queryVector) 
+                    float similarity = (queryVector.Length > 0)
+                        ? CalculateCosineSimilarity(plantVector, queryVector) 
                         : 0;
 
                     plantsRelevance[id] = similarity;
@@ -84,45 +97,30 @@ namespace Services.Implementations
         }
 
 
-        private async Task<float[]> VectorizeQuery(Dictionary<string, int> tokenFrequencies, int totalDocumentos)
+        private async Task<float[]> VectorizeQuery(Dictionary<string, int> tokenFrequencies, int totalDocumentos, int lenVocabulary, Dictionary<int, int> termCountDict, List<(string Name, int Id, int Index)> termsWithIndex)
         {
-            int lenVocabulary = await _context.Terms.CountAsync();
-            
-            // Verificar si existen términos en la base de datos
             if (!tokenFrequencies.Keys.Any(term => _context.Terms.Any(t => t.Name == term)))
             {
-                return new float[lenVocabulary];
+                return new float[0];
             }
 
-            // Crear un arreglo de vector con valores por defecto (0)
             float[] queryVector = new float[lenVocabulary];
 
-            // Cargar todos los términos y sus correspondientes counts en una sola consulta
-            var termCounts = await _context.PlantTerms
-                .GroupBy(pt => pt.TermId)
-                .Select(g => new { TermId = g.Key, Count = g.Count() })
-                .ToListAsync();
+            int totalTokens = tokenFrequencies.Sum(x => x.Value);
 
-            // Crear un diccionario para acceso rápido a la cantidad de apariciones por TermId
-            var termCountDict = termCounts.ToDictionary(tc => tc.TermId, tc => tc.Count);
-
-            // Total de tokens
-            int totalTokens = tokenFrequencies.Count;
-
-            // Iterar sobre los términos y calcular el TF-IDF
-            int index = 0;
-            foreach (var item in _context.Terms)
+            foreach (var item in tokenFrequencies.Keys)
             {
-                // Calcular TF (frecuencia de término)
-                double tf = tokenFrequencies.ContainsKey(item.Name) ? (double)tokenFrequencies[item.Name] / totalTokens : 0;
+                var term = termsWithIndex.FirstOrDefault(t => t.Name == item);
+                
+                if (term.Name != null)  
+                {
+                    double tf = (double)tokenFrequencies[item] / totalTokens;
 
-                // Calcular IDF (frecuencia inversa de documento)
-                int count = termCountDict.ContainsKey(item.Id) ? termCountDict[item.Id] : 0;
-                double idf = count > 0 ? (double)Math.Log(totalDocumentos / (count + 1)) : 0;
+                    int count = termCountDict.GetValueOrDefault(term.Id, 0);  // Manejar cuando no se encuentre el término
+                    double idf = (double)Math.Log(totalDocumentos / (count + 1));
 
-                // Asignar el valor calculado en el vector
-                queryVector[index] = (float)(tf * idf);
-                index++;
+                    queryVector[term.Index] = (float)(tf * idf);
+                }
             }
 
             return queryVector;
