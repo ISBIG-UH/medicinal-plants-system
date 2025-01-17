@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class AddModel : Migration
+    public partial class DbModel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,11 +19,24 @@ namespace DataAccess.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Monograph = table.Column<string>(type: "json", nullable: false),
-                    TotalWords = table.Column<int>(type: "integer", nullable: false)
+                    Vector = table.Column<string>(type: "json", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Plants", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Terms",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Terms", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -40,23 +53,26 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TermDocumentWeights",
+                name: "PlantTerms",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Term = table.Column<string>(type: "text", nullable: false),
-                    TermCount = table.Column<int>(type: "integer", nullable: false),
                     PlantId = table.Column<int>(type: "integer", nullable: false),
-                    Value = table.Column<float>(type: "real", nullable: false)
+                    TermId = table.Column<int>(type: "integer", nullable: false),
+                    TermOccurrences = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TermDocumentWeights", x => x.Id);
+                    table.PrimaryKey("PK_PlantTerms", x => new { x.PlantId, x.TermId });
                     table.ForeignKey(
-                        name: "FK_TermDocumentWeights_Plants_PlantId",
+                        name: "FK_PlantTerms_Plants_PlantId",
                         column: x => x.PlantId,
                         principalTable: "Plants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PlantTerms_Terms_TermId",
+                        column: x => x.TermId,
+                        principalTable: "Terms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -67,28 +83,25 @@ namespace DataAccess.Migrations
                 values: new object[] { 1, "Admin" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_TermDocumentWeights_PlantId",
-                table: "TermDocumentWeights",
-                column: "PlantId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TermDocumentWeights_Term_PlantId",
-                table: "TermDocumentWeights",
-                columns: new[] { "Term", "PlantId" },
-                unique: true);
+                name: "IX_PlantTerms_TermId",
+                table: "PlantTerms",
+                column: "TermId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TermDocumentWeights");
+                name: "PlantTerms");
 
             migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Plants");
+
+            migrationBuilder.DropTable(
+                name: "Terms");
         }
     }
 }

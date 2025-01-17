@@ -12,7 +12,8 @@ public class AppDbContext : DbContext
     // Entities
     public DbSet<User> Users { get; set; }
     public DbSet<Plant> Plants { get; set; }
-    public DbSet<TFIDF_Weights> TermDocumentWeights { get; set; }
+    public DbSet<Term> Terms { get; set; }
+    public DbSet<PlantTerm> PlantTerms { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -46,20 +47,43 @@ public class AppDbContext : DbContext
                 v => NJ.JsonConvert.DeserializeObject<Dictionary<string, object>>(v))
             .Metadata.SetValueComparer(monographComparer);
 
- 
-        modelBuilder.Entity<TFIDF_Weights>()
+        modelBuilder.Entity<Plant>()
+            .Property(p => p.Vector)
+            .HasConversion(
+                v => NJ.JsonConvert.SerializeObject(v),  
+                v => NJ.JsonConvert.DeserializeObject<float[]>(v) 
+            );
+
+
+
+        modelBuilder.Entity<Term>()
             .Property(p => p.Id)
-            .ValueGeneratedOnAdd(); 
+            .ValueGeneratedOnAdd();
 
-        modelBuilder.Entity<TFIDF_Weights>()
-            .HasIndex(t => new { t.Term, t.PlantId })  
-            .IsUnique();  
 
-        modelBuilder.Entity<TFIDF_Weights>()
-            .HasOne(t => t.Plant) 
-            .WithMany(p => p.TermWeight)  
-            .HasForeignKey(t => t.PlantId)  
-            .OnDelete(DeleteBehavior.Cascade); 
+        modelBuilder.Entity<PlantTerm>()
+            .HasKey(pt => new { pt.PlantId, pt.TermId });
+
+        modelBuilder.Entity<PlantTerm>()
+            .HasOne(pt => pt.Plant)
+            .WithMany(p => p.PlantTerms)
+            .HasForeignKey(pt => pt.PlantId);
+
+        modelBuilder.Entity<PlantTerm>()
+            .HasOne(pt => pt.Term)
+            .WithMany(t => t.PlantTerms)
+            .HasForeignKey(pt => pt.TermId);
+
+
+        modelBuilder
+            .HasDbFunction(() => PostgresFunctions.Similarity(default, default))
+            .HasName("similarity")
+            .HasSchema("pg_catalog");
+
+        modelBuilder
+            .HasDbFunction(() => PostgresFunctions.Unaccent(default))
+            .HasName("unaccent")
+            .HasSchema("public");
 
     }
 }

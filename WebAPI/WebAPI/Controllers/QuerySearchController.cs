@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 using Data;
+using Data.DTOs;
 
 
 namespace WebAPI.Controllers;
@@ -9,9 +10,9 @@ namespace WebAPI.Controllers;
 [Route("api/search")]
 public class QueryController : ControllerBase
 {
-    private readonly IQuerySearch<string, Plant> _plantQueryService;
+    private readonly IQuerySearch<string, PlantDto> _plantQueryService;
 
-    public QueryController(IQuerySearch<string, Plant> plantQueryService)
+    public QueryController(IQuerySearch<string, PlantDto> plantQueryService)
     {
         _plantQueryService = plantQueryService;
     }

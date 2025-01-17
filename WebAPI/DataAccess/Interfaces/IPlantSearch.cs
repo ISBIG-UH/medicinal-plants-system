@@ -1,10 +1,9 @@
-using Data;
-using DataAccess.AuxClasses;
+using Data.DTOs;
 
 namespace DataAccess.Interfaces
 {
-    public interface IPlantSearch : ISearch<string, IEnumerable<(string PlantName, List<TermValue> TermValues)>>
+    public interface IPlantSearch : ISearch<string, HashSet<int>>
     {
-        Task<IEnumerable<Plant>> GetPlantsAsync(IEnumerable<string> plantsName);
+        Task<IEnumerable<PlantDto>> GetPlantsAsync(IEnumerable<int> plantsName);
     }
 }

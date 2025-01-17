@@ -33,24 +33,15 @@ namespace DataAccess.TextProcessing
                 var tokenCounter = new Dictionary<string, int>();
                 
                 string normalizedPlantName = item.Name.ToLower();
-                tokenCounter[normalizedPlantName] = 1;
-                int totalWords = 1;
 
-                if (!TermDocumentRelationship.ContainsKey(normalizedPlantName))
-                {
-                    TermDocumentRelationship[normalizedPlantName] = new List<string>();
-                }
-                if (!TermDocumentRelationship[normalizedPlantName].Contains(item.Name))
-                {
-                    TermDocumentRelationship[normalizedPlantName].Add(item.Name);
-                }
+                int totalWords = TokenizeAndCount(normalizedPlantName, tokenCounter, item.Name);
 
                 foreach (var (property, value) in item.Monograph)
                 {
                     string text = value is string stringValue
                         ? stringValue.ToLower() 
-                        : value is IEnumerable<string> stringCollection && stringCollection != null
-                            ? string.Join(" ", stringCollection.Select(s => s.ToLower()))
+                        : value is IEnumerable<object> objectCollection
+                            ? string.Join(" ", objectCollection.Select(o => o?.ToString().ToLower()).ToList())
                             : string.Empty;
 
                     totalWords += TokenizeAndCount(text, tokenCounter, item.Name);
@@ -70,7 +61,7 @@ namespace DataAccess.TextProcessing
 
             foreach (var token in tokens)
             {
-                if (!stopWords.Contains(token) && Regex.IsMatch(token, @"^[a-záéíóúñ]{2,}$"))
+                if (!stopWords.Contains(token) && Regex.IsMatch(token, @"^[a-záéíóúñ]{3,}$"))
                 {
                     if (tokenCounter.ContainsKey(token))
                     {

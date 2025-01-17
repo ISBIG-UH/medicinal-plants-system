@@ -1,7 +1,7 @@
 using Data;
 using DataAccess.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using DataAccess.AuxClasses;
+using Data.DTOs;
 
 namespace DataAccess.Implementations
 {
@@ -14,100 +14,135 @@ namespace DataAccess.Implementations
             _context = context;
         }
 
-        public async Task<IEnumerable<Plant>> GetPlantsAsync(IEnumerable<string> plantNames)
+        public async Task<IEnumerable<PlantDto>> GetPlantsAsync(IEnumerable<int> plantsId)
         {
-            if (plantNames == null || !plantNames.Any())
+            if (plantsId == null || !plantsId.Any())
             {
-                return Enumerable.Empty<Plant>();
+                return Enumerable.Empty<PlantDto>();
             }
 
             var plants = await _context.Plants
-                .Where(plant => plantNames.Contains(plant.Name))  
-                .ToListAsync(); 
+                .Where(plant => plantsId.Contains(plant.Id))
+                .Select(plant => new
+                {
+                    plant.Id,
+                    plant.Name,
+                    plant.Monograph
+                })
+                .ToListAsync();
 
-            return plants;         
+            var plantDtos = plants.Select(plant => new PlantDto
+            {
+                id = plant.Id,
+                name = plant.Name,
+                monograph = MapMonograph(plant.Monograph)
+            }).ToList();
+
+            return plantsId
+                .Select(id => plantDtos.First(plant => plant.id == id)) 
+                .ToList(); 
         }
 
-        
-        // searches for possible matches based on user query tokens.
-        public async Task<IEnumerable<(string PlantName, List<TermValue> TermValues)>> SearchAsync(IEnumerable<string> tokens)
+        private MonographDto MapMonograph(Dictionary<string, object> monograph)
         {
-            if (tokens == null || !tokens.Any())
-                return Enumerable.Empty<(string plantName, List<TermValue> termValue)>();
+            var monographDto = new MonographDto();
+            var monographProperties = typeof(MonographDto).GetProperties();
 
-            var plantsWithValues = new List<(string plant, List<TermValue> termValue)>();
-            var plantsProcessed = new HashSet<string>();
-
-            foreach (var token in tokens)
-            {   
-                List<string> plantsName = new List<string>();
-
-                if (await _context.TermDocumentWeights.AnyAsync(tdw => tdw.Term == token))
+            foreach (var property in monographProperties)
+            {
+                if (monograph.ContainsKey(property.Name))
                 {
-                    //plantsName = await GetPlantsByTermAsync(token);
-                    foreach (var item in plantsName)
+                    var value = monograph[property.Name];
+                    
+                    if (property.PropertyType == typeof(string) && value is string stringValue)
                     {
-                        if (!plantsProcessed.Contains(item))
-                        {
-                            // await AddPlantValuesAsync(plantsWithValues, item);
-                            plantsProcessed.Add(item); 
-                        }
+                        property.SetValue(monographDto, stringValue);
                     }
-                }
-                else
-                {
-                    // plantsName = await GetPlantsByLevenshteinAsync(token);
-                    foreach (var item in plantsName)
+                    else if (value is IEnumerable<object> objectCollection)
                     {
-                        if (!plantsProcessed.Contains(item))
-                        {
-                            // await AddPlantValuesAsync(plantsWithValues, item);
-                            plantsProcessed.Add(item);  
-                        }
+                        var stringList = objectCollection.Select(o => o?.ToString()).ToList();
+                        property.SetValue(monographDto, stringList);
                     }
                 }
             }
 
-            return plantsWithValues;
+            return monographDto;
+        }
+
+        // searches for possible matches based on user query tokens.
+        public async Task<HashSet<int>> SearchAsync(IEnumerable<string> tokens)
+        {
+            if (tokens == null || !tokens.Any())
+                return new  HashSet<int>();
+
+            var searchPossibleMatches = new HashSet<int>();
+
+            foreach (var token in tokens)
+            {   
+                HashSet<int> plantsId = new HashSet<int>();
+                if (await _context.Terms
+                    .FromSqlRaw(
+                        "SELECT * FROM \"Terms\" WHERE unaccent(\"Name\") = unaccent({0})", 
+                        token)
+                    .AnyAsync() || await _context.Terms.AnyAsync(t => t.Name == token))
+                {
+                    // if an exact match is found, retrieve plants by the exact term
+                    plantsId = await GetPlantsByTermAsync(token);
+                }
+                else
+                {
+                    // if no exact match is found:
+
+                    //search possible matches to plant names by calculating the Levenshtein distance
+                    var aux1 = await GetPlantsByLevenshteinAsync(token);
+
+                    // search plants using a trigram-based on all vocabulary terms
+                    var aux2 = await GetPlantsByTrigramAsync(token);
+
+                    plantsId = aux1.Union(aux2).ToHashSet();
+                }
+               
+                searchPossibleMatches.UnionWith(plantsId);
+            }
+
+            return searchPossibleMatches;
         }
 
 
-        // private async Task<List<string>> GetPlantsByTermAsync(string term)
-        // {
-        //     var plant = await _context.TermDocumentWeights
-        //         .Where(tdw => tdw.Term == term)
-        //         .Select(tdw => tdw.PlantName)
-        //         .Distinct()
-        //         .ToListAsync();
+        private async Task<HashSet<int>> GetPlantsByTermAsync(string term)
+        {
+            var terms = await _context.Terms
+                .FromSqlRaw(
+                    @"SELECT * FROM ""Terms"" WHERE unaccent(""Name"") = unaccent({0})", 
+                    term)
+                .Include(t => t.PlantTerms) 
+                .ToListAsync();
 
-        //     return plant;
-        // }
+            var plantsId = terms
+                .SelectMany(t => t.PlantTerms)
+                .Select(pt => pt.PlantId)
+                .Distinct()
+                .ToHashSet();
 
-        // private async Task AddPlantValuesAsync(List<(string plant, List<TermValue> termValue)> plantsWithValues, string plantName)
-        // {
-        //     var termValuePairs = await _context.TermDocumentWeights
-        //         .Where(tdw => tdw.PlantName == plantName)
-        //         .Select(tdw => new TermValue { Term = tdw.Term, Value = tdw.Value })
-        //         .ToListAsync();
+            return plantsId;
+        }
 
-        //     plantsWithValues.Add((plantName, termValuePairs));
-        // }
+        private async Task<HashSet<int>> GetPlantsByLevenshteinAsync(string token)
+        {
+            var threshold = 2;  
+            var plants = await _context.Plants.ToListAsync();
+            
+            var plantsId = plants
+                .AsEnumerable() 
+                .Where(p => p.Name.ToLower()
+                            .Split(' ')  
+                            .Any(word => Math.Abs(word.Length - token.Length) <= 2 && LevenshteinDistance(token, word) <= threshold)) 
+                .Select(p => p.Id)
+                .Distinct()
+                .ToHashSet();
 
-        // private async Task<List<string>> GetPlantsByLevenshteinAsync(string token)
-        // {
-        //     var threshold = 3;  
-        //     var tdw = await _context.TermDocumentWeights
-        //         .ToListAsync();
-
-        //     var plants = tdw
-        //         .AsEnumerable() 
-        //         .Where(p => Math.Abs(p.Term.Length - token.Length) <= 2 && LevenshteinDistance(token, p.Term) <= threshold)
-        //         .Select(p => p.PlantName)
-        //         .Distinct()
-        //         .ToList();
-
-        //     return plants;
-        // }
+            return plantsId;
+        }
 
         private int LevenshteinDistance(string source, string target)
         {
@@ -130,6 +165,25 @@ namespace DataAccess.Implementations
             }
 
             return distance[sourceLength, targetLength];
+        }
+
+        private async Task<HashSet<int>> GetPlantsByTrigramAsync(string token)
+        {
+            double similarityThreshold = 0.5; 
+            var terms = await _context.Terms
+                .FromSqlRaw(
+                    "SELECT * FROM \"Terms\" WHERE similarity(\"Name\", {0}) > {1}", 
+                    token, similarityThreshold)
+                .Include(t => t.PlantTerms) 
+                .ToListAsync();;
+
+            var plantsId = terms
+                .SelectMany(t => t.PlantTerms)
+                .Select(pt => pt.PlantId)
+                .Distinct()
+                .ToHashSet();
+
+            return plantsId;
         }
     }
 }
