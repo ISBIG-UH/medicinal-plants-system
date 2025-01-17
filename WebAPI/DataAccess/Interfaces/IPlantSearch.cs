@@ -1,6 +1,4 @@
-using Data;
 using Data.DTOs;
-using DataAccess.AuxClasses;
 
 namespace DataAccess.Interfaces
 {
