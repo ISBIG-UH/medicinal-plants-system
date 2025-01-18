@@ -67,12 +67,14 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<PlantTerm>()
             .HasOne(pt => pt.Plant)
             .WithMany(p => p.PlantTerms)
-            .HasForeignKey(pt => pt.PlantId);
+            .HasForeignKey(pt => pt.PlantId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<PlantTerm>()
             .HasOne(pt => pt.Term)
             .WithMany(t => t.PlantTerms)
-            .HasForeignKey(pt => pt.TermId);
+            .HasForeignKey(pt => pt.TermId)
+            .OnDelete(DeleteBehavior.Cascade);
 
 
         modelBuilder
