@@ -96,8 +96,6 @@ namespace DataAccess.Implementations
                 }
             }
 
-            await _context.SaveChangesAsync();
-
             var plant = await _context.Plants.FirstOrDefaultAsync(p => p.Id == id);
             _context.Plants.Remove(plant);
             await _context.SaveChangesAsync();

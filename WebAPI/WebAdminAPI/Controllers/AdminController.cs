@@ -19,7 +19,6 @@ public class AdminController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddPlant([FromBody] PlantDto plantDto) 
     {
-        // NO SE SI AQUI SE MAPEEN LAS PROPIEDADES DIRECTAMENTE
         try
         {
             await _adminService.AddPlantAsync(plantDto);
@@ -60,7 +59,6 @@ public class AdminController : ControllerBase
         try
         {
             await _adminService.UpdatePlantAsync(plantDto);
-
             return Ok(new { message = "Planta actualizada exitosamente." });
         }
         catch (PlantNotFoundException ex)
@@ -71,5 +69,24 @@ public class AdminController : ControllerBase
         {
             return StatusCode(500, new { message = "Ocurrió un error al actualizar la planta.", details = ex.Message });
         }
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetPlantById(int id)
+    {
+        try
+        {
+            var plant = await _adminService.GetPlantAsync(id);
+            return Ok(plant);
+        }
+        catch (PlantNotFoundException ex)
+        {
+            return Conflict(new { message = ex.Message }); 
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Ocurrió un error al actualizar la planta.", details = ex.Message });
+        }
+
     }
 }

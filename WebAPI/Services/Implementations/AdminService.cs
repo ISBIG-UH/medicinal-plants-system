@@ -12,12 +12,14 @@ namespace Services.Implementations
     {
         private readonly ICrudOperation _crudOperationService;
         private readonly IDocumentVector _documentVectorService;
+        private readonly IPlantSearch _plantSearchService;
         private readonly AppDbContext _context;
 
-        public AdminService(ICrudOperation crudOperationService, IDocumentVector documentVectorService, AppDbContext context)
+        public AdminService(ICrudOperation crudOperationService, IDocumentVector documentVectorService, IPlantSearch plantSearchService, AppDbContext context)
         {
             _crudOperationService = crudOperationService;
             _documentVectorService = documentVectorService;
+            _plantSearchService = plantSearchService;
             _context = context;
         }
 
@@ -69,6 +71,17 @@ namespace Services.Implementations
             await _crudOperationService.UpdateAsync(plantDto);
             await _documentVectorService.BuildDocumentVectorAsync();
 
+        }
+
+        public async Task<IEnumerable<PlantDto>> GetPlantAsync(int id)
+        {
+            if (! await _context.Plants.AnyAsync(p => p.Id == id))
+            {
+                throw new PlantNotFoundException($"No existe una planta asociada a este id: '{id}'.");
+            }
+
+            return await _plantSearchService.GetPlantsAsync(new List<int> {id});
+            
         }
     }
 }

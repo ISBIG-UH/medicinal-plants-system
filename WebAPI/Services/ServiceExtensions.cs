@@ -49,6 +49,7 @@ public static class ServiceExtensions
         services.AddScoped<IDocumentVector, DocumentVector>();
         services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<ICrudOperation, CrudOperations>();
+         services.AddScoped<IPlantSearch, PlantSearch>();
         return services;
     }
 }
