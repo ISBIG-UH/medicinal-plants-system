@@ -76,7 +76,7 @@ public class AdminController : ControllerBase
     {
         try
         {
-            var plant = await _adminService.GetPlantAsync(id);
+            var plant = await _adminService.GetPlantByIdAsync(id);
             return Ok(plant);
         }
         catch (PlantNotFoundException ex)
@@ -88,5 +88,38 @@ public class AdminController : ControllerBase
             return StatusCode(500, new { message = "Ocurrió un error al actualizar la planta.", details = ex.Message });
         }
 
+    }
+}
+
+
+
+
+[ApiController]
+[Route("api/index")]
+public class IndexController : ControllerBase
+{
+    private readonly IAdminService _adminService;
+
+    public IndexController(IAdminService adminService)
+    {
+        _adminService = adminService;
+    }
+
+    [HttpGet("{letter}")]
+    public async Task<IActionResult> GetPlantsByLetter(string letter)
+    {
+        try
+        {
+            var plants = await _adminService.GetPlantsByFirstLetterAsync(letter);
+            return Ok(plants);
+        }
+        catch (PlantNotFoundException ex)
+        {
+            return Conflict(new { message = ex.Message }); 
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Ocurrió un error.", details = ex.Message });
+        }
     }
 }

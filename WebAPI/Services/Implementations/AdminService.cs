@@ -73,7 +73,7 @@ namespace Services.Implementations
 
         }
 
-        public async Task<IEnumerable<PlantDto>> GetPlantAsync(int id)
+        public async Task<IEnumerable<PlantDto>> GetPlantByIdAsync(int id)
         {
             if (! await _context.Plants.AnyAsync(p => p.Id == id))
             {
@@ -82,6 +82,26 @@ namespace Services.Implementations
 
             return await _plantSearchService.GetPlantsAsync(new List<int> {id});
             
+        }
+
+        public async Task<IEnumerable<Dictionary<int, string>>> GetPlantsByFirstLetterAsync(string letter)
+        {
+            var plants = await _context.Plants
+                .FromSqlRaw(
+                    @"SELECT ""Id"", ""Name"" 
+                    FROM ""Plants""
+                    WHERE LEFT(unaccent(""Name""), 1) ILIKE unaccent({0})", letter)
+                .Select(p => new { p.Id, p.Name })
+                .ToListAsync();
+
+
+            var result = plants.Select(p => new Dictionary<int, string>
+            {
+                { p.Id, p.Name }
+            });
+
+            return result;
+                    
         }
     }
 }
