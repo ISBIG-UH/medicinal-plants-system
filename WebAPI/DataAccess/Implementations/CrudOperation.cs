@@ -15,12 +15,14 @@ namespace DataAccess.Implementations
             _context = context;
         }
 
+        // POST
         public async Task PostAsync(PlantDto plantDto)
         {
             var plant = new Plant
             {
                 Name = plantDto.name,
-                Monograph = MapPropertiesToMonograph(plantDto)
+                Monograph = MapPropertiesToMonograph(plantDto),
+                Vector = Array.Empty<float>()
             };
 
             _context.Plants.Add(plant);
@@ -65,25 +67,50 @@ namespace DataAccess.Implementations
                 await _context.SaveChangesAsync();  
 
             }
+                
+        }
+        
 
-            // recalculate vectors
-            var plants = await _context.Plants.ToListAsync();
-            var plantTerms = await _context.PlantTerms.ToListAsync();
-            var terms = await _context.Terms.Select(id => id.Id).ToListAsync();
-            var termsWithIndex = terms
-                .Select((Id, index) => (Id, Index: index))
-                .ToList();
+        // DELETE
+        public async Task DeleteAsync(int id)
+        {
+            var termCounts = await _context.PlantTerms
+                .Where(pt => _context.PlantTerms
+                    .Where(innerPt => innerPt.PlantId == id)
+                    .Select(innerPt => innerPt.TermId)
+                    .Contains(pt.TermId)) 
+                .GroupBy(pt => pt.TermId) 
+                .Select(g => new 
+                {
+                    TermId = g.Key,
+                    DistinctPlantCount = g.Select(pt => pt.PlantId).Distinct().Count() 
+                })
+                .ToListAsync();
 
-            DocumentVector  documentVector = new DocumentVector();
-
-            foreach (var item in plants)
+            foreach (var item in termCounts)
             {
-                float[] vector = documentVector.BuildDocumentVectorAsync(item, plantTerms, termsWithIndex, plants.Count());
-                plant.Vector = vector;
+                if (item.DistinctPlantCount == 1)
+                {
+                    var term = await _context.Terms.FirstOrDefaultAsync(t => t.Id == item.TermId);
+                    _context.Terms.Remove(term);
+                }
             }
 
             await _context.SaveChangesAsync();
-                
+
+            var plant = await _context.Plants.FirstOrDefaultAsync(p => p.Id == id);
+            _context.Plants.Remove(plant);
+            await _context.SaveChangesAsync();
+
+        }
+
+
+        // PUT
+        public async Task UpdateAsync(PlantDto plantDto)
+        {
+            await DeleteAsync(plantDto.id);
+            await PostAsync(plantDto);
+
         }
 
 

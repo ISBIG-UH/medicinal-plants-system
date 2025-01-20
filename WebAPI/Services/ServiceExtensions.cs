@@ -34,6 +34,7 @@ public static class ServiceExtensions
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IQuerySearch<string, PlantDto>, PlantSearchService>();
         services.AddScoped<IPlantSearch, PlantSearch>();
+        services.AddScoped<IDocumentVector, DocumentVector>();
         return services;
     }
 
@@ -45,6 +46,9 @@ public static class ServiceExtensions
     public static IServiceCollection AddAdminServices(this IServiceCollection services)
     {
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IDocumentVector, DocumentVector>();
+        services.AddScoped<IAdminService, AdminService>();
+        services.AddScoped<ICrudOperation, CrudOperations>();
         return services;
     }
 }

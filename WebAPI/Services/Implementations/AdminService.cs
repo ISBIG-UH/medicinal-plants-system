@@ -11,24 +11,31 @@ namespace Services.Implementations
     public class AdminService : IAdminService
     {
         private readonly ICrudOperation _crudOperationService;
+        private readonly IDocumentVector _documentVectorService;
         private readonly AppDbContext _context;
 
-        public AdminService(ICrudOperation crudOperationService, AppDbContext context)
+        public AdminService(ICrudOperation crudOperationService, IDocumentVector documentVectorService, AppDbContext context)
         {
             _crudOperationService = crudOperationService;
+            _documentVectorService = documentVectorService;
             _context = context;
         }
 
         public async Task AddPlantAsync(PlantDto plantDto)
         {
+            string cleanName = plantDto.name.TrimEnd('*');
+
             var existPlant1 = await _context.Plants
                 .FromSqlRaw(
-                    "SELECT * FROM \"Plants\" WHERE unaccent(\"Name\") = unaccent({0})",
-                    plantDto.name)
+                    "SELECT * FROM \"Plants\" WHERE unaccent(TRIM(TRAILING '*' FROM \"Name\")) = unaccent({0})",
+                    cleanName)
                 .AnyAsync();
 
             var existPlant2 = await _context.Plants
-                .AnyAsync(p => EF.Functions.ILike(p.Name, plantDto.name));
+                .AnyAsync(p => EF.Functions.ILike(
+                    p.Name.TrimEnd('*'), 
+                    cleanName));
+
 
             if(existPlant1 || existPlant2)
             {
@@ -36,6 +43,32 @@ namespace Services.Implementations
             }
 
             await _crudOperationService.PostAsync(plantDto);
+            await _documentVectorService.BuildDocumentVectorAsync();
+
+        }
+
+        public async Task DeletePlantAsync(int id)
+        {
+            if (! await _context.Plants.AnyAsync(p => p.Id == id))
+            {
+                throw new PlantNotFoundException($"No existe una planta asociada a este id: '{id}'.");
+            }
+
+            await _crudOperationService.DeleteAsync(id);
+            await _documentVectorService.BuildDocumentVectorAsync();
+
+        }
+
+        public async Task UpdatePlantAsync(PlantDto plantDto)
+        {
+            if (! await _context.Plants.AnyAsync(p => p.Id == plantDto.id))
+            {
+                throw new PlantNotFoundException($"No existe una planta asociada a este id: '{plantDto.id}'.");
+            }
+
+            await _crudOperationService.UpdateAsync(plantDto);
+            await _documentVectorService.BuildDocumentVectorAsync();
+
         }
     }
 }
