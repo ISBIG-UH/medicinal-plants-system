@@ -14,6 +14,8 @@ public class AppDbContext : DbContext
     public DbSet<Plant> Plants { get; set; }
     public DbSet<Term> Terms { get; set; }
     public DbSet<PlantTerm> PlantTerms { get; set; }
+    public DbSet<PlantApp> PlantApps { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -47,12 +49,12 @@ public class AppDbContext : DbContext
                 v => NJ.JsonConvert.DeserializeObject<Dictionary<string, object>>(v))
             .Metadata.SetValueComparer(monographComparer);
 
-        modelBuilder.Entity<Plant>()
-            .Property(p => p.Vector)
-            .HasConversion(
-                v => NJ.JsonConvert.SerializeObject(v),  
-                v => NJ.JsonConvert.DeserializeObject<float[]>(v) 
-            );
+        // modelBuilder.Entity<Plant>()
+        //     .Property(p => p.Vector)
+        //     .HasConversion(
+        //         v => NJ.JsonConvert.SerializeObject(v),  
+        //         v => NJ.JsonConvert.DeserializeObject<float[]>(v) 
+        //     );
 
 
 
@@ -74,6 +76,27 @@ public class AppDbContext : DbContext
             .HasOne(pt => pt.Term)
             .WithMany(t => t.PlantTerms)
             .HasForeignKey(pt => pt.TermId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+
+        modelBuilder.Entity<App>()
+            .Property(p => p.Id)
+            .ValueGeneratedOnAdd();
+
+
+        modelBuilder.Entity<PlantApp>()
+            .HasKey(pa => new { pa.PlantId, pa.AppId});
+
+        modelBuilder.Entity<PlantApp>()
+            .HasOne(pa => pa.Plant)
+            .WithMany(p => p.PlantApps)
+            .HasForeignKey(pa => pa.PlantId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<PlantApp>()
+            .HasOne(pa => pa.App)
+            .WithMany(p => p.PlantApps)
+            .HasForeignKey(pa => pa.AppId)
             .OnDelete(DeleteBehavior.Cascade);
 
 
