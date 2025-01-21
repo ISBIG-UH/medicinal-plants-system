@@ -96,11 +96,15 @@ namespace Services.Implementations
                 .ToListAsync();
 
 
-            var result = plants.Select(p => new PlantByLetterDto
-            {
-                id = p.Id,
-                name = p.Name
-            });
+            var result = plants
+                .Select(p => new PlantByLetterDto
+                {
+                    id = p.Id,
+                    name = p.Name
+                })
+                .OrderBy(p => p.name)
+                .ToList();
+
 
             return result;
                     

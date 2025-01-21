@@ -55,7 +55,3 @@ public static class ServiceExtensions
         return services;
     }
 }
-
-internal interface IQuerySearch
-{
-}
