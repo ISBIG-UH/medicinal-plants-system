@@ -61,4 +61,18 @@ public class AppService : IAppService
 
         await _crudOperationService.UpdateAsync(apptDto);
     }
+
+    public async Task<IEnumerable<ItemDto>> GetAppsAsync()
+    {
+        var apps = await _context.Apps
+                    .Select(p => new ItemDto
+                    {
+                        id = p.Id,
+                        name = p.Name
+                    })
+                    .OrderBy(p => p.name)
+                    .ToListAsync();
+        
+        return apps;
+    }
 }

@@ -11,4 +11,6 @@ public interface IAppService
     Task DeleteAppAsync(int id);
 
     Task UpdateAppAsync(AppDto appDto);
+
+    Task <IEnumerable<ItemDto>> GetAppsAsync();
 }
