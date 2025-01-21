@@ -37,7 +37,7 @@ function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
     e.preventDefault();
 
   try {
-    const response = await submit();
+    const response = await submit(monograph.id);
 
     if (response.type === "success") {
       toast.success(response.msg);

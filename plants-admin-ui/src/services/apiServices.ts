@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { apiClient } from "./api";
-import { monographsSeed } from "../seed";
 import { apps } from "./apps";
 
 //🔗 Requests Login to server
@@ -40,19 +38,27 @@ export async function apiLogin(request: LoginRequest): Promise<LoginResponse> {
 export async function apiSearch(
   request: SearchRequest
 ): Promise<SearchResponse> {
-  const ENDPOINT = "/search";
+  const ENDPOINT = "search/plants";
   console.log("apiSearch:", request);
 
-  //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
-  /////                CODE HERE               /////
-  /////////////////////////////////////////////////
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const subset = getRandomSubset(monographsSeed, 6);
+  const query = request.input;
+
   const response = {
     toastResponse: { type: "null", msg: "" },
-    results: subset,
+    results: [],
   };
-  /////////////////////////////////////////////////
+
+  try {
+    const resp = await apiClient.get(ENDPOINT, {
+      params: { query },
+    });
+
+    response.results = resp.data;
+
+  } catch (error) {
+    console.error("Error fetching plants:", error);
+    throw error;
+  }
   console.log("Response:", response);
   return response;
 }
@@ -64,13 +70,21 @@ export async function apiGetIndex(
   const ENDPOINT = "/index";
   console.log("apiGetIndex:", request);
 
-  //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
-  /////                CODE HERE               /////
-  /////////////////////////////////////////////////
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  const result = monographsSeed.map((m) => ({ id: m.id, name: m.name }));
-  const response = { monographsBasics: result };
-  /////////////////////////////////////////////////
+  const letter = request.letter;
+
+  const response = {
+    monographsBasics: [],
+  };
+
+  try {
+    const resp = await apiClient.get(`${ENDPOINT}/${letter}`);
+    response.monographsBasics = resp.data;
+
+  } catch (error) {
+    console.error("Error fetching plants:", error);
+    throw error;
+  }
+  
   console.log("Response:", response);
   return response;
 }
@@ -82,18 +96,19 @@ export async function apiGetMonograph(
   const ENDPOINT = "/monograph";
   console.log("apiGetMonograph:", request);
 
-  //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
-  /////                CODE HERE               /////
-  /////////////////////////////////////////////////
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  const result = monographsSeed.find(
-    (monograph) => monograph.id === request.id
-  );
-  if (!result) {
-    throw new Error(`Monograph with ID ${request.id} not found`);
+  const response = {
+    monograph: emptyMonograph
   }
-  const response = { monograph: result };
-  /////////////////////////////////////////////////
+
+  try {
+    const resp = await apiClient.get(`${ENDPOINT}/${request.id}`);
+    response.monograph = resp.data;
+
+  } catch (error) {
+    console.error("Error fetching monograph:", error);
+    throw error;
+  }
+
   console.log("Response:", response);
   return response;
 }
@@ -105,17 +120,27 @@ export async function apiAddMonograph(
   const ENDPOINT = "/monograph";
   console.log("apiAddMonograph:", request);
 
-  //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
-  /////                CODE HERE               /////
-  /////////////////////////////////////////////////
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  let response: AddMonographResponse = {
+  const response = {
     toastResponse: { type: "null", msg: "" },
   };
-  response = {
-    toastResponse: { type: "success", msg: "Monografía añadida correctamente" },
+
+  const requestData = {
+    ...request.formData,
+    id: 0,
   };
-  /////////////////////////////////////////////////
+
+  try {
+    await apiClient.post(ENDPOINT, requestData);
+    response.toastResponse.type = "success";
+    response.toastResponse.msg = "Monografía añadida correctamente";
+
+  } catch (error) {
+    console.error("Error adding monograph:", error);
+    response.toastResponse.type = "error";
+    response.toastResponse.msg = "No se pudo añadir la monografía";
+    throw error;
+  }
+
   console.log("Response:", response);
   return response;
 }
@@ -127,17 +152,28 @@ export async function apiEditMonograph(
   const ENDPOINT = "/monograph";
   console.log("apiEditMonograph:", request);
 
-  //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
-  /////                CODE HERE               /////
-  /////////////////////////////////////////////////
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  let response: EditMonographResponse = {
+  const id = request.id;
+  const response = {
     toastResponse: { type: "null", msg: "" },
   };
-  response = {
-    toastResponse: { type: "success", msg: "Monografía editada correctamente" },
+
+  const requestData = {
+    ...request.formData,
+    id
   };
-  /////////////////////////////////////////////////
+
+  try {
+    await apiClient.put(ENDPOINT, requestData);
+    response.toastResponse.type = "success";
+    response.toastResponse.msg = "Monografía editada correctamente";
+
+  } catch (error) {
+    console.error("Error editing monograph:", error);
+    response.toastResponse.type = "error";
+    response.toastResponse.msg = "No se pudo editar la monografía";
+    throw error;
+  }
+
   console.log("Response:", response);
   return response;
 }
@@ -147,32 +183,32 @@ export async function apiDeleteMonograph(
   request: DeleteMonographRequest
 ): Promise<DeleteMonographResponse> {
   const ENDPOINT = "/monograph";
-
   console.log("apiDeleteMonograph:", request);
 
-  //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
-  /////                CODE HERE               /////
-  /////////////////////////////////////////////////
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-  let response: EditMonographResponse = {
+  const response = {
     toastResponse: { type: "null", msg: "" },
   };
-  response = {
-    toastResponse: {
-      type: "success",
-      msg: "Monografía eliminada correctamente",
-    },
-  };
-  /////////////////////////////////////////////////
+
+  try {
+    await apiClient.delete(`${ENDPOINT}/${request.id}`);
+    response.toastResponse.type = "success";
+    response.toastResponse.msg = "Monografía eliminada correctamente";
+  } catch (error) {
+    console.error("Error fetching monograph:", error);
+    response.toastResponse.type = "error";
+    response.toastResponse.msg = "No se pudo eliminar la monografía";
+    throw error;
+  }
+
   console.log("Response:", response);
   return response;
 }
 
 
 
-
+//🔗 Gets the list of all App names
 export async function requestAppsList() : Promise<AppItem[]>{
-  // const ENDPOINT = "/listapps";
+  const ENDPOINT = "/listapps";
   console.log("requestAppsItems");
 
   //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
@@ -202,7 +238,7 @@ export async function apiGetApp(
 }
 
 
-//🔗 Puts an App
+//🔗 Adds an App
 export async function apiAddApp(
   request: AddAppRequest
 ): Promise<AddAppResponse> {
@@ -246,7 +282,7 @@ export async function apiEditApp(
   return response;
 }
 
-//🔗 Removes a monograph
+//🔗 Removes an App
 export async function apiDeleteApp(
   request: DeleteAppRequest
 ): Promise<DeleteAppResponse> {
@@ -275,27 +311,27 @@ export async function apiDeleteApp(
 
 
 
-///////////////////////////// For temporal use /////////////////////////////
-function getRandomSubset(
-  monographs: Monograph[],
-  subsetSize: number
-): Monograph[] {
-  if (subsetSize < 0) {
-    throw new Error("El tamaño del subconjunto no puede ser negativo.");
-  }
-
-  if (subsetSize > monographs.length) {
-    throw new Error(
-      "El tamaño del subconjunto no puede ser mayor que la longitud de la lista."
-    );
-  }
-
-  const shuffled = [...monographs];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const randomIndex = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
-  }
-
-  return shuffled.slice(0, subsetSize);
-}
+//////////////////////////////////////////////////////////////////////////////////////
+const emptyMonograph: Monograph = {
+  id: 0,
+  name: "",
+  genus: "",
+  subsp: "",
+  f: "",
+  species: "",
+  authors: "",
+  family: "",
+  var: "",
+  subfamily: "",
+  sy: [],
+  vul: [],
+  hab: "",
+  des: "",
+  cmp: "",
+  use: "",
+  pro: "",
+  app: "",
+  cul: "",
+  bib: [],
+};
 ///////////////////////////////////////////////////////////////////////////////////////
