@@ -84,7 +84,7 @@ namespace Services.Implementations
             
         }
 
-        public async Task<IEnumerable<Dictionary<int, string>>> GetPlantsByFirstLetterAsync(string letter)
+        public async Task<IEnumerable<PlantByLetterDto>> GetPlantsByFirstLetterAsync(string letter)
         {
             var plants = await _context.Plants
                 .FromSqlRaw(
@@ -95,9 +95,10 @@ namespace Services.Implementations
                 .ToListAsync();
 
 
-            var result = plants.Select(p => new Dictionary<int, string>
+            var result = plants.Select(p => new PlantByLetterDto
             {
-                { p.Id, p.Name }
+                id = p.Id,
+                name = p.Name
             });
 
             return result;
