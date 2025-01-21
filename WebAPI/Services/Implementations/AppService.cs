@@ -39,7 +39,7 @@ public class AppService : IAppService
             throw new AppAlreadyExistsException($"Ya existe una aplicación con el nombre: '{appDto}'.");
         }
 
-        await _crudOperationService.PostAsync(appDto);
+        await _crudOperationService.AddAsync(appDto);
     }
 
     public async Task DeleteAppAsync(int id)
@@ -50,5 +50,15 @@ public class AppService : IAppService
         }
 
         await _crudOperationService.DeleteAsync(id);
+    }
+
+    public async Task UpdateAppAsync(AppDto apptDto)
+    {
+        if (! await _context.Apps.AnyAsync(p => p.Id == apptDto.id))
+        {
+            throw new AppNotFoundException($"No existe una app asociada a este id: '{apptDto.id}'.");
+        }
+
+        await _crudOperationService.UpdateAsync(apptDto);
     }
 }

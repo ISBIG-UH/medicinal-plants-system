@@ -37,7 +37,7 @@ namespace DataAccess.Implementations
 
 
         // POST
-        public async Task PostAsync(AppDto appDto)
+        public async Task AddAsync(AppDto appDto)
         {
             string appDtoName = appDto.name.ToUpper();
             var newApp = new App
@@ -92,7 +92,8 @@ namespace DataAccess.Implementations
 
         public async Task UpdateAsync(AppDto appDto)
         {
-            
+            await DeleteAsync(appDto.id);
+            await AddAsync(appDto);
         }
 
     }

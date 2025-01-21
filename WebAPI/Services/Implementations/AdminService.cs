@@ -44,7 +44,7 @@ namespace Services.Implementations
                 throw new PlantAlreadyExistsException($"Ya existe una planta con el nombre '{plantDto.name}'.");
             }
 
-            await _crudOperationService.PostAsync(plantDto);
+            await _crudOperationService.AddAsync(plantDto);
             await _documentVectorService.BuildDocumentVectorAsync();
 
         }

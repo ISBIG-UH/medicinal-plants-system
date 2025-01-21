@@ -9,4 +9,6 @@ public interface IAppService
     Task AddAppAsync(AppDto appDto);
 
     Task DeleteAppAsync(int id);
+
+    Task UpdateAppAsync(AppDto appDto);
 }

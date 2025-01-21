@@ -4,7 +4,7 @@ namespace DataAccess.Interfaces
 {
     public interface ICrudOperation<T, TResult>
     {
-        Task PostAsync(T input);
+        Task AddAsync(T input);
 
         Task DeleteAsync(int id);
 

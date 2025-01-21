@@ -72,4 +72,23 @@ public class AppController : ControllerBase
             return StatusCode(500, new { message = "Ocurrió un error al eliminar la app.", details = ex.Message });
         }
     }
+
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateApp([FromBody] AppDto appDto)
+    {
+        try
+        {
+            await _appService.UpdateAppAsync(appDto);
+            return Ok(new { message = "App actualizada exitosamente." });
+        }
+        catch (AppNotFoundException ex)
+        {
+            return Conflict(new { message = ex.Message }); 
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Ocurrió un error al actualizar la app.", details = ex.Message });
+        }
+    }
 }

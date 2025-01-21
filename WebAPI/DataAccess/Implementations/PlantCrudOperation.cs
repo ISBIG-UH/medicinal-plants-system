@@ -20,7 +20,7 @@ namespace DataAccess.Implementations
         }
 
         // POST
-        public async Task PostAsync(PlantDto plantDto)
+        public async Task AddAsync(PlantDto plantDto)
         {
             var plant = new Plant
             {
@@ -111,7 +111,7 @@ namespace DataAccess.Implementations
         public async Task UpdateAsync(PlantDto plantDto)
         {
             await DeleteAsync(plantDto.id);
-            await PostAsync(plantDto);
+            await AddAsync(plantDto);
 
         }
 
