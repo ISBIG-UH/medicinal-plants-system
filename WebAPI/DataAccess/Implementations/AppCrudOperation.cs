@@ -79,10 +79,16 @@ namespace DataAccess.Implementations
             await _context.SaveChangesAsync();
         }
 
+
+        // DELETE
         public async Task DeleteAsync(int id)
         {
+            var app = await _context.Apps.FirstOrDefaultAsync(p => p.Id == id);
 
+            _context.Apps.Remove(app);
+            await _context.SaveChangesAsync();
         }
+
 
         public async Task UpdateAsync(AppDto appDto)
         {

@@ -53,4 +53,23 @@ public class AppController : ControllerBase
             return StatusCode(500, new { message = "Ocurrió un error al agregar la app.", details = ex.Message });
         }
     }
+
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteApp(int id)
+    {
+        try
+        {
+            await _appService.DeleteAppAsync(id);
+            return Ok(new { message = "App eliminada exitosamente." });
+        }
+        catch (AppNotFoundException ex)
+        {
+            return Conflict(new { message = ex.Message }); 
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Ocurrió un error al eliminar la app.", details = ex.Message });
+        }
+    }
 }

@@ -41,4 +41,14 @@ public class AppService : IAppService
 
         await _crudOperationService.PostAsync(appDto);
     }
+
+    public async Task DeleteAppAsync(int id)
+    {
+        if (! await _context.Apps.AnyAsync(p => p.Id == id))
+        {
+            throw new AppNotFoundException($"No existe una app asociada a este id: '{id}'.");
+        }
+
+        await _crudOperationService.DeleteAsync(id);
+    }
 }
