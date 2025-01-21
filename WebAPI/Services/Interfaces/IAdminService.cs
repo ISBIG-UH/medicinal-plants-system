@@ -9,5 +9,5 @@ public interface IAdminService
     Task DeletePlantAsync(int id);
     Task UpdatePlantAsync(PlantDto plantDto);
     Task<PlantDto> GetPlantByIdAsync(int id);
-    Task<IEnumerable<PlantByLetterDto>> GetPlantsByFirstLetterAsync(string letter);
+    Task<IEnumerable<ItemDto>> GetPlantsByFirstLetterAsync(string letter);
 }

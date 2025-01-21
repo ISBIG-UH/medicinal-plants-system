@@ -6,12 +6,16 @@ using DataAccess.TextProcessing;
 
 namespace DataAccess.Implementations
 {
-    public class CrudOperations : ICrudOperation
+    public class PlantCrudOperations : ICrudOperation<PlantDto, PlantDto>
     {
+        private readonly IPlantSearch _plantSearchService;
+
         private readonly AppDbContext _context;
 
-        public CrudOperations(AppDbContext context)
+        public PlantCrudOperations(IPlantSearch plantSearchService, AppDbContext context)
         {
+            _plantSearchService = plantSearchService;
+
             _context = context;
         }
 
@@ -139,5 +143,10 @@ namespace DataAccess.Implementations
             return monograph;
         }
 
+        public async Task<PlantDto> GetAsync(int id)
+        {
+            var plant =  await _plantSearchService.GetPlantsAsync(new List<int> {id});
+            return plant.First();
+        }
     }
 }

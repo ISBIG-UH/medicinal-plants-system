@@ -10,12 +10,12 @@ namespace Services.Implementations
 {
     public class AdminService : IAdminService
     {
-        private readonly ICrudOperation _crudOperationService;
+        private readonly ICrudOperation<PlantDto, PlantDto> _crudOperationService;
         private readonly IDocumentVector _documentVectorService;
         private readonly IPlantSearch _plantSearchService;
         private readonly AppDbContext _context;
 
-        public AdminService(ICrudOperation crudOperationService, IDocumentVector documentVectorService, IPlantSearch plantSearchService, AppDbContext context)
+        public AdminService(ICrudOperation<PlantDto, PlantDto> crudOperationService, IDocumentVector documentVectorService, IPlantSearch plantSearchService, AppDbContext context)
         {
             _crudOperationService = crudOperationService;
             _documentVectorService = documentVectorService;
@@ -80,12 +80,12 @@ namespace Services.Implementations
                 throw new PlantNotFoundException($"No existe una planta asociada a este id: '{id}'.");
             }
 
-            var plant =  await _plantSearchService.GetPlantsAsync(new List<int> {id});
-            return plant.First();
+            var plant =  await _crudOperationService.GetAsync(id);
+            return plant;
             
         }
 
-        public async Task<IEnumerable<PlantByLetterDto>> GetPlantsByFirstLetterAsync(string letter)
+        public async Task<IEnumerable<ItemDto>> GetPlantsByFirstLetterAsync(string letter)
         {
             var plants = await _context.Plants
                 .FromSqlRaw(
@@ -97,7 +97,7 @@ namespace Services.Implementations
 
 
             var result = plants
-                .Select(p => new PlantByLetterDto
+                .Select(p => new ItemDto
                 {
                     id = p.Id,
                     name = p.Name

@@ -50,8 +50,12 @@ public static class ServiceExtensions
         services.AddScoped<IPlantSearch, PlantSearch>();
         services.AddScoped<IDocumentVector, DocumentVector>();
         services.AddScoped<IAdminService, AdminService>();
-        services.AddScoped<ICrudOperation, CrudOperations>();
-         services.AddScoped<IPlantSearch, PlantSearch>();
+        services.AddScoped<ICrudOperation<PlantDto, PlantDto>, PlantCrudOperations>();
+        services.AddScoped<IPlantSearch, PlantSearch>();
+        services.AddScoped<IAppService, AppService>();
+        services.AddScoped<ICrudOperation<AppDto, AppDto>, AppCrudOperations>();
+
+
         return services;
     }
 }

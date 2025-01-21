@@ -1,6 +1,6 @@
 namespace Data.DTOs;
 
-public class PlantByLetterDto
+public class ItemDto
 {
     public int id { get; set; }
     public string name { get; set; }
