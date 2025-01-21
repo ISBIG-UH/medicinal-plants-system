@@ -14,6 +14,7 @@ public class AppDbContext : DbContext
     public DbSet<Plant> Plants { get; set; }
     public DbSet<Term> Terms { get; set; }
     public DbSet<PlantTerm> PlantTerms { get; set; }
+    public DbSet<App> Apps { get; set; }
     public DbSet<PlantApp> PlantApps { get; set; }
 
 
@@ -49,12 +50,12 @@ public class AppDbContext : DbContext
                 v => NJ.JsonConvert.DeserializeObject<Dictionary<string, object>>(v))
             .Metadata.SetValueComparer(monographComparer);
 
-        // modelBuilder.Entity<Plant>()
-        //     .Property(p => p.Vector)
-        //     .HasConversion(
-        //         v => NJ.JsonConvert.SerializeObject(v),  
-        //         v => NJ.JsonConvert.DeserializeObject<float[]>(v) 
-        //     );
+        modelBuilder.Entity<Plant>()
+            .Property(p => p.Vector)
+            .HasConversion(
+                v => NJ.JsonConvert.SerializeObject(v),  
+                v => NJ.JsonConvert.DeserializeObject<float[]>(v) 
+            );
 
 
 

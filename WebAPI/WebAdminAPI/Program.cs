@@ -1,4 +1,6 @@
+using DataAccess.InitialDataPopulation;
 using Services;
+using DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +41,8 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+// Registrar los Seeders en el contenedor de dependencias
+builder.Services.AddTransient<PlantAppSeed>();
 
 var app = builder.Build();
 
@@ -61,5 +65,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+
+    var plantSeedService = services.GetRequiredService<PlantAppSeed>();
+    await plantSeedService.SeedPlantAppRelationshipAsync();
+}
 
 app.Run();
