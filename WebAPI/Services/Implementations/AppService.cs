@@ -27,4 +27,18 @@ public class AppService : IAppService
         var app = await _crudOperationService.GetAsync(id);
         return app;
     }
+
+    public async Task AddAppAsync(AppDto appDto)
+    {
+        if (await _context.Plants
+                    .FromSqlInterpolated(
+                        $"SELECT * FROM \"Apps\" WHERE unaccent(\"Name\") ILIKE unaccent({appDto.name})"
+                    )
+                    .AnyAsync())
+        {
+            throw new AppAlreadyExistsException($"Ya existe una aplicación con el nombre: '{appDto}'.");
+        }
+
+        await _crudOperationService.PostAsync(appDto);
+    }
 }

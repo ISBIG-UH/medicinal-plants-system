@@ -143,6 +143,8 @@ namespace DataAccess.Implementations
             return monograph;
         }
 
+
+        // GET
         public async Task<PlantDto> GetAsync(int id)
         {
             var plant =  await _plantSearchService.GetPlantsAsync(new List<int> {id});

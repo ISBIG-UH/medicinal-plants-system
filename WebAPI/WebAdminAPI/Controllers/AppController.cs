@@ -34,4 +34,23 @@ public class AppController : ControllerBase
         }
 
     }
+
+
+    [HttpPost]
+    public async Task<IActionResult> AddApp([FromBody] AppDto appDto)
+    {
+        try
+        {
+            await _appService.AddAppAsync(appDto);
+            return Ok(new { message = "App agregada exitosamente." });
+        }
+        catch (AppAlreadyExistsException ex)
+        {
+            return Conflict(new { message = ex.Message }); 
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Ocurrió un error al agregar la app.", details = ex.Message });
+        }
+    }
 }

@@ -1,3 +1,4 @@
+using Data;
 using Data.DTOs;
 using DataAccess.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace DataAccess.Implementations
             _context = context;
         }
 
+        // GET
         public async Task<AppDto> GetAsync(int id)
         {
             var app = await _context.Apps
@@ -33,9 +35,48 @@ namespace DataAccess.Implementations
             return appDto;
         }
 
+
+        // POST
         public async Task PostAsync(AppDto appDto)
         {
+            string appDtoName = appDto.name.ToUpper();
+            var newApp = new App
+            {
+                Name = appDtoName,
+                Sys = appDto.sys  
+            };
 
+            _context.Apps.Add(newApp);
+            await _context.SaveChangesAsync();
+
+            var app = await _context.Apps.FirstOrDefaultAsync(p => p.Name == appDtoName);
+
+            foreach (var item in appDto.plants)
+            {
+                var plant = await _context.Plants
+                    .FromSqlInterpolated(
+                        $"SELECT * FROM \"Plants\" WHERE unaccent(\"Name\") ILIKE unaccent({item})"
+                    )
+                    .FirstOrDefaultAsync();
+                try
+                {
+                    var register = new PlantApp
+                    {
+                        PlantId = plant.Id,
+                        Plant = plant,
+                        AppId = app.Id,
+                        App = app
+                    };
+
+                    _context.PlantApps.Add(register);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"❌ Error al encontar la planta '{item}': {ex.Message}");
+                }
+            }
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
