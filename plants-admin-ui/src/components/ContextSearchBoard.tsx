@@ -41,7 +41,7 @@ function ContextSearchBoard() {
                   {monograph.genus} {monograph.species} {monograph.authors}{" "}
                   {monograph.var} {monograph.subsp} {monograph.f}
                   </p>
-                  <p className="text-sm font-quicksand truncate">{monograph.Des}</p>
+                  <p className="text-sm font-quicksand truncate">{monograph.des}</p>
                 </div>
               </div>
             </li>
