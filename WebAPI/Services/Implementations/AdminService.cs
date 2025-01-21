@@ -73,14 +73,15 @@ namespace Services.Implementations
 
         }
 
-        public async Task<IEnumerable<PlantDto>> GetPlantByIdAsync(int id)
+        public async Task<PlantDto> GetPlantByIdAsync(int id)
         {
             if (! await _context.Plants.AnyAsync(p => p.Id == id))
             {
                 throw new PlantNotFoundException($"No existe una planta asociada a este id: '{id}'.");
             }
 
-            return await _plantSearchService.GetPlantsAsync(new List<int> {id});
+            var plant =  await _plantSearchService.GetPlantsAsync(new List<int> {id});
+            return plant.First();
             
         }
 
