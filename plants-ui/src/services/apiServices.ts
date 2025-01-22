@@ -2,7 +2,7 @@ import { apiClient } from "./api";
 
 
 export async function requestAppsList() : Promise<AppItem[]>{
-  const ENDPOINT = "/listapps";
+  const ENDPOINT = "/search/listapps";
   console.log("requestAppsItems");
 
   try {
@@ -15,11 +15,13 @@ export async function requestAppsList() : Promise<AppItem[]>{
 }
 
 export async function requestApp(i: number) : Promise<App>{
-  const ENDPOINT = "/app";
+  const ENDPOINT = "/search/app";
   console.log("apiGetApp:", i);
 
   try {
-    const response = await apiClient.get(`${ENDPOINT}/${i}`);
+    const response = await apiClient.get(ENDPOINT, {
+      params: { id:i },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching app:", error);
