@@ -194,7 +194,7 @@ export async function apiDeleteMonograph(
     response.toastResponse.type = "success";
     response.toastResponse.msg = "Monografía eliminada correctamente";
   } catch (error) {
-    console.error("Error fetching monograph:", error);
+    console.error("Error deleting monograph:", error);
     response.toastResponse.type = "error";
     response.toastResponse.msg = "No se pudo eliminar la monografía";
     throw error;
@@ -211,12 +211,13 @@ export async function requestAppsList() : Promise<AppItem[]>{
   const ENDPOINT = "/listapps";
   console.log("requestAppsItems");
 
-  //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
-  /////                CODE HERE               /////
-  /////////////////////////////////////////////////
-  await new Promise((resolve) => setTimeout(resolve, 300));
-
-  return apps.map(a => ({ id: a.id, name: a.name }))
+  try {
+    const response = await apiClient.get(ENDPOINT);
+    return response.data
+  } catch (error) {
+    console.error("Error fetching apps list:", error);
+    throw error;
+  }
 }
 
 
@@ -227,14 +228,13 @@ export async function apiGetApp(
   const ENDPOINT = "/app";
   console.log("apiGetApp:", request);
 
-  //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
-  /////                CODE HERE               /////
-  /////////////////////////////////////////////////
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  const response = { app: apps[request.id] };
-  /////////////////////////////////////////////////
-  console.log("Response:", response);
-  return response;
+  try {
+    const response = await apiClient.get(`${ENDPOINT}/${request.id}`);
+    return { app: response.data}
+  } catch (error) {
+    console.error("Error fetching app:", error);
+    throw error;
+  }
 }
 
 
@@ -245,17 +245,27 @@ export async function apiAddApp(
   const ENDPOINT = "/app";
   console.log("apiAddApp:", request);
 
-  //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
-  /////                CODE HERE               /////
-  /////////////////////////////////////////////////
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  let response: AddAppResponse = {
+  const response = {
     toastResponse: { type: "null", msg: "" },
   };
-  response = {
-    toastResponse: { type: "success", msg: "Aplicación añadida correctamente" },
+
+  const requestData = {
+    ...request.formData,
+    id: 0,
   };
-  /////////////////////////////////////////////////
+
+  try {
+    await apiClient.post(ENDPOINT, requestData);
+    response.toastResponse.type = "success";
+    response.toastResponse.msg = "Aplicación añadida correctamente";
+
+  } catch (error) {
+    console.error("Error adding app:", error);
+    response.toastResponse.type = "error";
+    response.toastResponse.msg = "No se pudo añadir la aplicación";
+    throw error;
+  }
+
   console.log("Response:", response);
   return response;
 }
@@ -267,17 +277,29 @@ export async function apiEditApp(
   const ENDPOINT = "/app";
   console.log("apiEditApp:", request);
 
-  //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
-  /////                CODE HERE               /////
-  /////////////////////////////////////////////////
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  let response: EditAppResponse = {
+
+  const id = request.id;
+  const response = {
     toastResponse: { type: "null", msg: "" },
   };
-  response = {
-    toastResponse: { type: "success", msg: "Aplicación editada correctamente" },
+
+  const requestData = {
+    ...request.formData,
+    id
   };
-  /////////////////////////////////////////////////
+
+  try {
+    await apiClient.put(ENDPOINT, requestData);
+    response.toastResponse.type = "success";
+    response.toastResponse.msg = "Aplicación editada correctamente";
+
+  } catch (error) {
+    console.error("Error editing app:", error);
+    response.toastResponse.type = "error";
+    response.toastResponse.msg = "No se pudo editar la aplicación";
+    throw error;
+  }
+
   console.log("Response:", response);
   return response;
 }
@@ -287,23 +309,23 @@ export async function apiDeleteApp(
   request: DeleteAppRequest
 ): Promise<DeleteAppResponse> {
   const ENDPOINT = "/app";
-
   console.log("apiDeleteApp:", request);
 
-  //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
-  /////                CODE HERE               /////
-  /////////////////////////////////////////////////
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-  let response: DeleteAppResponse = {
+  const response = {
     toastResponse: { type: "null", msg: "" },
   };
-  response = {
-    toastResponse: {
-      type: "success",
-      msg: "Aplicacion eliminada correctamente",
-    },
-  };
-  /////////////////////////////////////////////////
+
+  try {
+    await apiClient.delete(`${ENDPOINT}/${request.id}`);
+    response.toastResponse.type = "success";
+    response.toastResponse.msg = "Aplicación eliminada correctamente";
+  } catch (error) {
+    console.error("Error deleting app:", error);
+    response.toastResponse.type = "error";
+    response.toastResponse.msg = "No se pudo eliminar la aplicación";
+    throw error;
+  }
+
   console.log("Response:", response);
   return response;
 }

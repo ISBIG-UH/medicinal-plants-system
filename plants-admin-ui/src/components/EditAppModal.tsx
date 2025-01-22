@@ -21,7 +21,7 @@ function EditAppModal({ openModal, setOpenModal, app, reloadFunction }: Props) {
     e.preventDefault();
 
     try {
-      const response = await handleEdit();
+      const response = await handleEdit(app.id);
 
       if (response.type === "success") {
         toast.success(response.msg);

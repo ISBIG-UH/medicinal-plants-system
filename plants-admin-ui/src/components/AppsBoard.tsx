@@ -14,6 +14,7 @@ import AddAppModal from "./AddAppModal";
 import { apiDeleteApp } from "../services/apiServices";
 
 function AppsBoard(){
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { isOpen, setIsOpen, apps, selectedApp, loading, loadingApp, handleSelect, reload, reloadApp } = useAppBoard()
     
     const [dangerOpen, setDangerOpen] = useState(false);
@@ -44,7 +45,7 @@ function AppsBoard(){
                     </Button>
 
                     <div className="flex items-center justify-center space-x-1">
-                        <Button className="w-full bg-gray-300 text-black" color="success" disabled={loadingApp} onClick={() => setIsOpen(true)}>
+                        <Button className="w-full bg-gray-300 text-black" color="gray" disabled={loadingApp} onClick={() => setIsOpen(true)}>
                             <div className="flex items-center justify-between space-x-1">
                                 <MdChangeCircle size={20} />
                                 <div>
@@ -82,7 +83,7 @@ function AppsBoard(){
             {!loading && <div className="flex flex-row h-full w-full">
 
                 {/* Large Menu */}
-                <div className="hidden lg:flex lg:flex-col h-full min-w-56">
+                <div className="hidden lg:flex lg:flex-col h-full min-w-56 max-w-72">
                     <div className="p-2">
                         <Button color="success"size="sm" className="bg-primary w-full text-secondary" onClick={() => setAddOpen(true)}>
                             <div className="flex items-center">
@@ -91,7 +92,7 @@ function AppsBoard(){
                             </div>
                         </Button>
                     </div>
-                    <div className="flex items-center p-2 px-4 space-x-2 border-r bg-gray-200 rounded-r-md">
+                    <div className="flex items-center p-2 space-x-2 border-r bg-gray-200 rounded-r-md">
                         <FaHandHoldingMedical/>
                         <p className="font-montserrat font-semibold text-lg">Aplicaciones</p>
                     </div>
@@ -142,7 +143,7 @@ function AppsBoard(){
             
             {selectedApp && <AddAppModal openModal={addOpen} setOpenModal={setAddOpen} reloadFunction={reload} />}
             
-            {selectedApp && <EditAppModal key={selectedApp.id} openModal={editOpen} setOpenModal={setEditOpen} app={selectedApp} reloadFunction={reloadApp} />}
+            {selectedApp && <EditAppModal key={selectedApp.id} openModal={editOpen} setOpenModal={setEditOpen} app={selectedApp} reloadFunction={reload} />}
         </div>
     );
 }

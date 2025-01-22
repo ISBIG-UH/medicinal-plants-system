@@ -18,9 +18,9 @@ export function useEditApp(app: App, setOpenModal: (x: boolean) => void) {
 
   const [processingEdit, setProcessingEdit] = useState(false);
 
-  async function handleEdit() {
+  async function handleEdit(id: number) {
     setProcessingEdit(true);
-    const response = await apiEditApp({ formData: formData });
+    const response = await apiEditApp({ formData: formData, id: id });
     setProcessingEdit(false);
     setOpenModal(false);
     clearInputs();

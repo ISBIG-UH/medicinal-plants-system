@@ -67,6 +67,7 @@ interface AddAppResponse {
 
 interface EditAppRequest {
   formData: { [key: string]: string | string[] };
+  id: number;
 }
 interface EditAppResponse {
   toastResponse: ToastResponse;
