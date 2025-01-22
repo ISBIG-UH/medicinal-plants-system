@@ -33,11 +33,9 @@ namespace DataAccess.InitialDataPopulation
                 foreach (var item in textProcessor.DataProcessor)
                 {
                     string plantName = item.Key;
-                    (int totalWords, Dictionary<string, int> TokenOccurrences) = item.Value;
+                    Dictionary<string, int> TokenOccurrences = item.Value;
 
-                    // var plant = await _context.Plants.FirstOrDefaultAsync(p => p.Name == plantName);
                     var plant = plants.FirstOrDefault(x => x.Name == plantName);
-
 
                     foreach (var (token, count) in TokenOccurrences)
                     {   
@@ -71,9 +69,7 @@ namespace DataAccess.InitialDataPopulation
                 }
 
 
-                // await UpdateDocumentVector(plants);
                 await _documentVectorService.BuildDocumentVectorAsync();
-
             }
         }
 
@@ -109,26 +105,6 @@ namespace DataAccess.InitialDataPopulation
             }
             
         }
-
-        // private async Task UpdateDocumentVector(List<Plant> plants)
-        // {
-        //     var plantTerms = await _context.PlantTerms.ToListAsync();
-        //     var terms = await _context.Terms.Select(id => id.Id).ToListAsync();
-        //     var termsWithIndex = terms
-        //         .Select((Id, index) => (Id, Index: index))
-        //         .ToList();
-
-        //     DocumentVector  documentVector = new DocumentVector();
-
-        //     foreach (var plant in plants)
-        //     {
-        //         float[] vector = documentVector.BuildDocumentVectorAsync(plant, plantTerms, termsWithIndex, plants.Count());
-        //         plant.Vector = vector;
-        //     }
-
-        //     await _context.SaveChangesAsync();
-
-        // }
 
     }
 

@@ -2,7 +2,6 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Exceptions; 
 
 namespace DataAccess.InitialDataPopulation
 {
