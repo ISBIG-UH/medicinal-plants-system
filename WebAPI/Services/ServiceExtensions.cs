@@ -35,6 +35,9 @@ public static class ServiceExtensions
         services.AddScoped<IQuerySearch<string, PlantDto>, PlantSearchService>();
         services.AddScoped<IPlantSearch, PlantSearch>();
         services.AddScoped<IDocumentVector, DocumentVector>();
+        services.AddScoped<IAppService, AppService>();
+        services.AddScoped<ICrudOperation<AppDto, AppDto>, AppCrudOperations>();
+
         return services;
     }
 

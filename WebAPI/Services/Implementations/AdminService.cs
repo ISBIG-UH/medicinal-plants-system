@@ -25,21 +25,11 @@ namespace Services.Implementations
 
         public async Task AddPlantAsync(PlantDto plantDto)
         {
-            string cleanName = plantDto.name.TrimEnd('*');
-
-            var existPlant1 = await _context.Plants
-                .FromSqlRaw(
-                    "SELECT * FROM \"Plants\" WHERE unaccent(TRIM(TRAILING '*' FROM \"Name\")) = unaccent({0})",
-                    cleanName)
-                .AnyAsync();
-
-            var existPlant2 = await _context.Plants
-                .AnyAsync(p => EF.Functions.ILike(
-                    p.Name.TrimEnd('*'), 
-                    cleanName));
-
-
-            if(existPlant1 || existPlant2)
+            if (await _context.Plants
+                    .FromSqlInterpolated(
+                        $"SELECT * FROM \"Plants\" WHERE unaccent(\"Name\")) ILIKE unaccent({plantDto.name})"
+                    )
+                    .AnyAsync())
             {
                 throw new PlantAlreadyExistsException($"Ya existe una planta con el nombre '{plantDto.name}'.");
             }
@@ -92,22 +82,16 @@ namespace Services.Implementations
                     @"SELECT ""Id"", ""Name"" 
                     FROM ""Plants""
                     WHERE LEFT(unaccent(""Name""), 1) ILIKE unaccent({0})", letter)
-                .Select(p => new { p.Id, p.Name })
-                .ToListAsync();
-
-
-            var result = plants
                 .Select(p => new ItemDto
                 {
                     id = p.Id,
                     name = p.Name
                 })
                 .OrderBy(p => p.name)
-                .ToList();
+                .ToListAsync();
 
 
-            return result;
-                    
+            return plants;         
         }
     }
 }

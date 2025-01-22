@@ -11,26 +11,26 @@ public class AppService : IAppService
 {
     private readonly ICrudOperation<AppDto, AppDto> _crudOperationService;
     private readonly AppDbContext _context;
+
     public AppService(ICrudOperation<AppDto, AppDto> crudOperationService, AppDbContext context)
     {
         _crudOperationService = crudOperationService;
         _context = context;
     }
 
-    public async Task<AppDto> GetAppAsync(int id)
+    public async Task<AppDto> GetAppByIdAsync(int id)
     {
         if (! await _context.Apps.AnyAsync(p => p.Id == id))
         {
             throw new AppNotFoundException($"No existe una aplicación asociada a este id: '{id}'.");
         }
 
-        var app = await _crudOperationService.GetAsync(id);
-        return app;
+        return await _crudOperationService.GetAsync(id);
     }
 
     public async Task AddAppAsync(AppDto appDto)
     {
-        if (await _context.Plants
+        if (await _context.Apps
                     .FromSqlInterpolated(
                         $"SELECT * FROM \"Apps\" WHERE unaccent(\"Name\") ILIKE unaccent({appDto.name})"
                     )

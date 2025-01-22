@@ -22,6 +22,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddDatabase(builder.Configuration.GetConnectionString("DefaultConnection"));
 builder.Services.AddApplicationServices();
 
+builder.Services.AddHttpClient();
+
 builder.Services.AddControllers();
 
 builder.Services.AddSwaggerGen(c =>
@@ -38,7 +40,6 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-
 
 var app = builder.Build();
 
