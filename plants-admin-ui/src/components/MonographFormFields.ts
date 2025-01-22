@@ -57,7 +57,7 @@ export const monographGroupsTextFields = [
     label: "Hábitat y Distribución",
     inputs: [
       {
-        id: "Hab",
+        id: "hab",
         placeholder: "Planta que se encuentra en...",
         required: false,
         useArea: true,
@@ -70,7 +70,7 @@ export const monographGroupsTextFields = [
     label: "Descripción Botánica",
     inputs: [
       {
-        id: "Des",
+        id: "des",
         placeholder: "Planta que tiene las hojas...",
         required: false,
         useArea: true,
@@ -82,7 +82,7 @@ export const monographGroupsTextFields = [
   {
     label: "Composición",
     inputs: [
-      { id: "Cmp", placeholder: "Contiene...", required: false, useArea: true },
+      { id: "cmp", placeholder: "Contiene...", required: false, useArea: true },
     ],
     useFlex: true,
     icon: SlChemistry,
@@ -91,7 +91,7 @@ export const monographGroupsTextFields = [
     label: "Partes Empleadas",
     inputs: [
       {
-        id: "Use",
+        id: "use",
         placeholder: "Las hojas...",
         required: false,
         useArea: true,
@@ -104,7 +104,7 @@ export const monographGroupsTextFields = [
     label: "Propiedades",
     inputs: [
       {
-        id: "Pro",
+        id: "pro",
         placeholder: "Esta planta es...",
         required: false,
         useArea: true,
@@ -117,7 +117,7 @@ export const monographGroupsTextFields = [
     label: "Aplicaciones",
     inputs: [
       {
-        id: "App",
+        id: "app",
         placeholder: "Es utilizada...",
         required: false,
         useArea: true,
@@ -130,7 +130,7 @@ export const monographGroupsTextFields = [
     label: "Cultivo",
     inputs: [
       {
-        id: "Cul",
+        id: "cul",
         placeholder: "Crece mejor...",
         required: false,
         useArea: true,
@@ -144,21 +144,21 @@ export const monographGroupsTextFields = [
 export const monographListFields = [
   {
     label: "Sinónimos",
-    id: "Sy",
+    id: "sy",
     placeholder: "Sinónimo*",
     required: true,
     icon: FaEquals,
   },
   {
     label: "Otros nombres vulgares",
-    id: "Vul",
+    id: "vul",
     placeholder: "Nombre vulgar*",
     required: true,
     icon: FaList,
   },
   {
     label: "Bibliografía",
-    id: "Bib",
+    id: "bib",
     placeholder: "Referencia*",
     required: true,
     icon: ImBooks,

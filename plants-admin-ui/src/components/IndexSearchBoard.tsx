@@ -25,7 +25,7 @@ function IndexSearchBoard() {
             </button>
           ))}
         </div>
-        <div className="w-full flex flex-col my-4 lg:h-full lg:overflow-y-scroll">
+        <div className="w-full flex flex-col my-4 lg:h-full overflow-y-auto">
           <h2 className="text-center text-3xl font-montserrat font-bold text-primary mb-4">
             "{selectedLetter}"
           </h2>

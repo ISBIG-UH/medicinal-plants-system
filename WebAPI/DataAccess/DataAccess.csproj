@@ -26,4 +26,11 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\Exceptions\**\*.cs" />
+  </ItemGroup>
+
+  
+
+
 </Project>

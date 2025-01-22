@@ -22,23 +22,23 @@ export function useEditMonograph(
     f: monograph.f,
     family: monograph.family,
     subfamily: monograph.subfamily,
-    Hab: monograph.Hab,
-    Des: monograph.Des,
-    Cmp: monograph.Cmp,
-    Use: monograph.Use,
-    Pro: monograph.Pro,
-    Cul: monograph.Cul,
-    App: monograph.App,
-    Sy: monograph.Sy,
-    Vul: monograph.Vul,
-    Bib: monograph.Bib,
+    hab: monograph.hab,
+    des: monograph.des,
+    cmp: monograph.cmp,
+    use: monograph.use,
+    pro: monograph.pro,
+    cul: monograph.cul,
+    app: monograph.app,
+    sy: monograph.sy,
+    vul: monograph.vul,
+    bib: monograph.bib,
   });
 
   const [processingEdit, setProcessingEdit] = useState(false);
 
-  async function submit(): Promise<ToastResponse> {
+  async function submit(id: number): Promise<ToastResponse> {
     setProcessingEdit(true);
-    const response = await apiEditMonograph({ formData: formData });
+    const response = await apiEditMonograph({ formData: formData, id: id });
     setProcessingEdit(false);
     setOpenModal(false);
     return response.toastResponse;

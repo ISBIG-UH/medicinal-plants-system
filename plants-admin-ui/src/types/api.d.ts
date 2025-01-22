@@ -38,6 +38,7 @@ interface AddMonographResponse {
 
 interface EditMonographRequest {
   formData: { [key: string]: string | string[] };
+  id: number;
 }
 interface EditMonographResponse {
   toastResponse: ToastResponse;

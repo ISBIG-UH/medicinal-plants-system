@@ -2,6 +2,7 @@
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250118034315_AddCascadeDeleteToPlantTerm")]
+    partial class AddCascadeDeleteToPlantTerm
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,27 +23,6 @@ namespace DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("Data.App", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.PrimitiveCollection<string[]>("Sys")
-                        .IsRequired()
-                        .HasColumnType("text[]");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Apps");
-                });
 
             modelBuilder.Entity("Data.Plant", b =>
                 {
@@ -58,28 +40,13 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<float[]>("Vector")
+                    b.Property<string>("Vector")
                         .IsRequired()
                         .HasColumnType("json");
 
                     b.HasKey("Id");
 
                     b.ToTable("Plants");
-                });
-
-            modelBuilder.Entity("Data.PlantApp", b =>
-                {
-                    b.Property<int>("PlantId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("AppId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("PlantId", "AppId");
-
-                    b.HasIndex("AppId");
-
-                    b.ToTable("PlantApps");
                 });
 
             modelBuilder.Entity("Data.PlantTerm", b =>
@@ -141,25 +108,6 @@ namespace DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Data.PlantApp", b =>
-                {
-                    b.HasOne("Data.App", "App")
-                        .WithMany("PlantApps")
-                        .HasForeignKey("AppId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Data.Plant", "Plant")
-                        .WithMany("PlantApps")
-                        .HasForeignKey("PlantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("App");
-
-                    b.Navigation("Plant");
-                });
-
             modelBuilder.Entity("Data.PlantTerm", b =>
                 {
                     b.HasOne("Data.Plant", "Plant")
@@ -179,15 +127,8 @@ namespace DataAccess.Migrations
                     b.Navigation("Term");
                 });
 
-            modelBuilder.Entity("Data.App", b =>
-                {
-                    b.Navigation("PlantApps");
-                });
-
             modelBuilder.Entity("Data.Plant", b =>
                 {
-                    b.Navigation("PlantApps");
-
                     b.Navigation("PlantTerms");
                 });
 

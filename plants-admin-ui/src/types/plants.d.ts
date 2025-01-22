@@ -9,16 +9,16 @@ interface Monograph {
     family: string,
     var: string,
     subfamily: string,
-    Sy: string[],
-    Vul: string[],
-    Hab: string,
-    Des: string,
-    Cmp: string,
-    Use: string,
-    Pro: string,
-    App: string,
-    Cul: string,
-    Bib: string[]
+    sy: string[],
+    vul: string[],
+    hab: string,
+    des: string,
+    cmp: string,
+    use: string,
+    pro: string,
+    app: string,
+    cul: string,
+    bib: string[]
 }
 
 interface MonographBasic {

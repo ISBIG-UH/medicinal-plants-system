@@ -1,4 +1,5 @@
 using Data;
+using DataAccess.Interfaces;
 using DataAccess.TextProcessing;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,10 +7,12 @@ namespace DataAccess.InitialDataPopulation
 {
     public class PlantTermSeed
     {
+        private readonly IDocumentVector _documentVectorService;
         private readonly AppDbContext _context;
 
-        public PlantTermSeed(AppDbContext context)
+        public PlantTermSeed(IDocumentVector documentVectorService, AppDbContext context)
         {
+            _documentVectorService = documentVectorService;
             _context = context;
         }
 
@@ -68,7 +71,8 @@ namespace DataAccess.InitialDataPopulation
                 }
 
 
-                await UpdateDocumentVector(plants);
+                // await UpdateDocumentVector(plants);
+                await _documentVectorService.BuildDocumentVectorAsync();
 
             }
         }
@@ -106,25 +110,25 @@ namespace DataAccess.InitialDataPopulation
             
         }
 
-        private async Task UpdateDocumentVector(List<Plant> plants)
-        {
-            var plantTerms = await _context.PlantTerms.ToListAsync();
-            var terms = await _context.Terms.Select(id => id.Id).ToListAsync();
-            var termsWithIndex = terms
-                .Select((Id, index) => (Id, Index: index))
-                .ToList();
+        // private async Task UpdateDocumentVector(List<Plant> plants)
+        // {
+        //     var plantTerms = await _context.PlantTerms.ToListAsync();
+        //     var terms = await _context.Terms.Select(id => id.Id).ToListAsync();
+        //     var termsWithIndex = terms
+        //         .Select((Id, index) => (Id, Index: index))
+        //         .ToList();
 
-            DocumentVector  documentVector = new DocumentVector();
+        //     DocumentVector  documentVector = new DocumentVector();
 
-            foreach (var plant in plants)
-            {
-                float[] vector = documentVector.BuildDocumentVectorAsync(plant, plantTerms, termsWithIndex, plants.Count());
-                plant.Vector = vector;
-            }
+        //     foreach (var plant in plants)
+        //     {
+        //         float[] vector = documentVector.BuildDocumentVectorAsync(plant, plantTerms, termsWithIndex, plants.Count());
+        //         plant.Vector = vector;
+        //     }
 
-            await _context.SaveChangesAsync();
+        //     await _context.SaveChangesAsync();
 
-        }
+        // }
 
     }
 

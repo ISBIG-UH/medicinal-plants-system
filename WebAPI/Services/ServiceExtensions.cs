@@ -34,6 +34,7 @@ public static class ServiceExtensions
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IQuerySearch<string, PlantDto>, PlantSearchService>();
         services.AddScoped<IPlantSearch, PlantSearch>();
+        services.AddScoped<IDocumentVector, DocumentVector>();
         return services;
     }
 
@@ -45,10 +46,16 @@ public static class ServiceExtensions
     public static IServiceCollection AddAdminServices(this IServiceCollection services)
     {
         services.AddScoped<IUserService, UserService>();
+         services.AddScoped<IQuerySearch<string, PlantDto>, PlantSearchService>();
+        services.AddScoped<IPlantSearch, PlantSearch>();
+        services.AddScoped<IDocumentVector, DocumentVector>();
+        services.AddScoped<IAdminService, AdminService>();
+        services.AddScoped<ICrudOperation<PlantDto, PlantDto>, PlantCrudOperations>();
+        services.AddScoped<IPlantSearch, PlantSearch>();
+        services.AddScoped<IAppService, AppService>();
+        services.AddScoped<ICrudOperation<AppDto, AppDto>, AppCrudOperations>();
+
+
         return services;
     }
-}
-
-internal interface IQuerySearch
-{
 }
