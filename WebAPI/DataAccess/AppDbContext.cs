@@ -50,14 +50,6 @@ public class AppDbContext : DbContext
                 v => NJ.JsonConvert.DeserializeObject<Dictionary<string, object>>(v))
             .Metadata.SetValueComparer(monographComparer);
 
-        modelBuilder.Entity<Plant>()
-            .Property(p => p.Vector)
-            .HasConversion(
-                v => NJ.JsonConvert.SerializeObject(v),  
-                v => NJ.JsonConvert.DeserializeObject<float[]>(v) 
-            );
-
-
 
         modelBuilder.Entity<Term>()
             .Property(p => p.Id)
