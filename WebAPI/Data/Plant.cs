@@ -10,12 +10,8 @@ public class Plant
     [Column(TypeName = "json")]
     public Dictionary<string, object> Monograph { get; set; }
 
-    [Column(TypeName = "json")]
     public float[] Vector { get; set; }
-
 
     public virtual ICollection<PlantTerm> PlantTerms { get; set; } = new List<PlantTerm>();
     public virtual ICollection<PlantApp> PlantApps { get; set; } = new List<PlantApp>();
-
-
 }

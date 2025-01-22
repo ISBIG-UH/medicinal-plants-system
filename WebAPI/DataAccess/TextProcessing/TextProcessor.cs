@@ -7,7 +7,7 @@ namespace DataAccess.TextProcessing
     public class TextProcessor
     {
         // for each document, the total number of words is stored, and for each word, the count of its occurrences
-        public Dictionary<string, (int TotalWords, Dictionary<string, int> TokenOccurrences)> DataProcessor { get; private set; }
+        public Dictionary<string, Dictionary<string, int>> DataProcessor { get; private set; }
         
         // for each term, the list of documents in which it appears is stored
         public Dictionary<string, List<string>> TermDocumentRelationship { get; private set; }
@@ -16,7 +16,7 @@ namespace DataAccess.TextProcessing
 
         public TextProcessor()
         {
-            DataProcessor = new Dictionary<string, (int, Dictionary<string, int>)>();
+            DataProcessor = new Dictionary<string, Dictionary<string, int>>();
             TermDocumentRelationship = new Dictionary<string, List<string>>();
 
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
@@ -34,7 +34,7 @@ namespace DataAccess.TextProcessing
                 
                 string normalizedPlantName = item.Name.ToLower();
 
-                int totalWords = TokenizeAndCount(normalizedPlantName, tokenCounter, item.Name);
+                TokenizeAndCount(normalizedPlantName, tokenCounter, item.Name);
 
                 foreach (var (property, value) in item.Monograph)
                 {
@@ -44,34 +44,31 @@ namespace DataAccess.TextProcessing
                             ? string.Join(" ", objectCollection.Select(o => o?.ToString().ToLower()).ToList())
                             : string.Empty;
 
-                    totalWords += TokenizeAndCount(text, tokenCounter, item.Name);
+                    TokenizeAndCount(text, tokenCounter, item.Name);
                 }
 
-                DataProcessor[item.Name] = (totalWords, tokenCounter);
+                DataProcessor[item.Name] = tokenCounter;
             }
 
         }
 
-        // this method tokenizes the input text, counts the frequency of each token,
-        // and updates the term-document relationship, associating each term with the documents (plant names) in which it appears.
-        private int TokenizeAndCount(string text, Dictionary<string, int> tokenCounter, string plantName)
+        // this method tokenizes the input text and updates the term-document relationship, 
+        // associating each term with the documents (plant names) in which it appears.
+        private void TokenizeAndCount(string text, Dictionary<string, int> tokenCounter, string plantName)
         {
-            int totalWords = 0;
             var tokens = text.Split(new[] { ' ', ',', '.', ';', ':', '(', ')'}, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var token in tokens)
             {
-                if (!stopWords.Contains(token) && Regex.IsMatch(token, @"^[a-záéíóúñ]{3,}$"))
+                if (!stopWords.Contains(token) && Regex.IsMatch(token, @"^[a-záéíóúñ]{3,}\*$"))
                 {
                     if (tokenCounter.ContainsKey(token))
                     {
                         tokenCounter[token]++;
-                        totalWords++;
                     }
                     else
                     {
                         tokenCounter[token] = 1;
-                        totalWords++;
                     }
 
                     if (!TermDocumentRelationship.ContainsKey(token))
@@ -86,7 +83,6 @@ namespace DataAccess.TextProcessing
                 }
             }
 
-            return totalWords;
         }
     }
 }

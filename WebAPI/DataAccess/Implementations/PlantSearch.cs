@@ -90,23 +90,20 @@ namespace DataAccess.Implementations
                     .FromSqlRaw(
                         "SELECT * FROM \"Terms\" WHERE unaccent(\"Name\") = unaccent({0})", 
                         token)
-                    .AnyAsync() || await _context.Terms.AnyAsync(t => t.Name == token))
+                    .AnyAsync())
                 {
                     // if an exact match is found, retrieve plants by the exact term
                     plantsId = await GetPlantsByTermAsync(token);
                 }
-                else
-                {
-                    // if no exact match is found:
+               
+                // if no exact match is found:
 
-                    //search possible matches to plant names by calculating the Levenshtein distance
-                    var aux1 = await GetPlantsByLevenshteinAsync(token);
-
-                    // search plants using a trigram-based on all vocabulary terms
-                    var aux2 = await GetPlantsByTrigramAsync(token);
-
-                    plantsId = aux1.Union(aux2).ToHashSet();
-                }
+                // search possible matches to plant names by calculating the Levenshtein distance
+                plantsId = plantsId.Union(await GetPlantsByLevenshteinAsync(token)).ToHashSet();
+               
+                // search plants using a trigram-based on all vocabulary terms
+                plantsId = plantsId.Union(await GetPlantsByTrigramAsync(token)).ToHashSet();
+                
                
                 searchPossibleMatches.UnionWith(plantsId);
             }
@@ -117,25 +114,23 @@ namespace DataAccess.Implementations
 
         private async Task<HashSet<int>> GetPlantsByTermAsync(string term)
         {
-            var terms = await _context.Terms
+            var plantsId = await _context.Terms
                 .FromSqlRaw(
                     @"SELECT * FROM ""Terms"" WHERE unaccent(""Name"") = unaccent({0})", 
                     term)
                 .Include(t => t.PlantTerms) 
-                .ToListAsync();
-
-            var plantsId = terms
                 .SelectMany(t => t.PlantTerms)
                 .Select(pt => pt.PlantId)
                 .Distinct()
-                .ToHashSet();
+                .ToHashSetAsync();
 
             return plantsId;
         }
 
+
         private async Task<HashSet<int>> GetPlantsByLevenshteinAsync(string token)
         {
-            var threshold = 2;  
+            var threshold = 3;  
             var plants = await _context.Plants.ToListAsync();
             
             var plantsId = plants
@@ -173,21 +168,20 @@ namespace DataAccess.Implementations
             return distance[sourceLength, targetLength];
         }
 
+
         private async Task<HashSet<int>> GetPlantsByTrigramAsync(string token)
         {
             double similarityThreshold = 0.5; 
-            var terms = await _context.Terms
+
+            var plantsId = await _context.Terms
                 .FromSqlRaw(
                     "SELECT * FROM \"Terms\" WHERE similarity(\"Name\", {0}) > {1}", 
                     token, similarityThreshold)
                 .Include(t => t.PlantTerms) 
-                .ToListAsync();;
-
-            var plantsId = terms
-                .SelectMany(t => t.PlantTerms)
+                 .SelectMany(t => t.PlantTerms)
                 .Select(pt => pt.PlantId)
                 .Distinct()
-                .ToHashSet();
+                .ToHashSetAsync();
 
             return plantsId;
         }

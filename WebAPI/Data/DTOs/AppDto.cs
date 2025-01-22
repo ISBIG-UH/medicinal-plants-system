@@ -1,3 +1,4 @@
+
 namespace Data.DTOs;
 
 public class AppDto

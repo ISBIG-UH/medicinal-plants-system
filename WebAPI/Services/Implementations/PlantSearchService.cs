@@ -89,7 +89,7 @@ namespace Services.Implementations
 
         private Dictionary<string, int> ProcessQuery(string query)
         {
-            return Regex.Matches(query, @"\w+")
+            return Regex.Matches(query, @"\w+\*?")
                         .Select(match => match.Value.ToLower())
                         .Where(token => !_stopWords.Contains(token))
                         .GroupBy(token => token)
@@ -116,7 +116,7 @@ namespace Services.Implementations
                 {
                     double tf = (double)tokenFrequencies[item] / totalTokens;
 
-                    int count = termCountDict.GetValueOrDefault(term.Id, 0);  // Manejar cuando no se encuentre el término
+                    int count = termCountDict.GetValueOrDefault(term.Id, 0); 
                     double idf = (double)Math.Log(totalDocumentos / (count + 1));
 
                     queryVector[term.Index] = (float)(tf * idf);

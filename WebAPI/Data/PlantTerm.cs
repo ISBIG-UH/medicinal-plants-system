@@ -1,4 +1,3 @@
-
 namespace Data;
 
 public class PlantTerm
@@ -10,5 +9,4 @@ public class PlantTerm
     public Term Term { get; set; }
 
     public int TermOccurrences { get; set; }
-    
 }

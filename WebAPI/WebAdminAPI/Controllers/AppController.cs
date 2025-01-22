@@ -21,7 +21,7 @@ public class AppController : ControllerBase
     {
         try
         {
-            var app = await _appService.GetAppAsync(id);
+            var app = await _appService.GetAppByIdAsync(id);
             return Ok(app);
         }
         catch (AppNotFoundException ex)

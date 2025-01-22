@@ -39,7 +39,7 @@ namespace DataAccess.Implementations
             foreach (var item in textProcessor.DataProcessor)
             {
                 string plantName = item.Key;
-                (int totalWords, Dictionary<string, int> TokenOccurrences) = item.Value;
+                Dictionary<string, int> TokenOccurrences = item.Value;
 
                 foreach (var (token, count) in TokenOccurrences)
                 {   

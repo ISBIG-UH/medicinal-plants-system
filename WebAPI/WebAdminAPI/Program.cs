@@ -41,7 +41,9 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Registrar los Seeders en el contenedor de dependencias
+// register Seeders in the dependency container
+builder.Services.AddTransient<PlantSeed>(); 
+builder.Services.AddTransient<PlantTermSeed>(); 
 builder.Services.AddTransient<PlantAppSeed>();
 
 var app = builder.Build();
@@ -66,13 +68,20 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<AppDbContext>();
 
-    var plantSeedService = services.GetRequiredService<PlantAppSeed>();
-    await plantSeedService.SeedPlantAppRelationshipAsync();
+    var plantSeedService = services.GetRequiredService<PlantSeed>();
+    await plantSeedService.SeedPlantsAsync();
+
+    var termSeedService = services.GetRequiredService<PlantTermSeed>();
+    await termSeedService.SeedPlantTermRelationshipAsync();
+
+    var appSeedService = services.GetRequiredService<PlantAppSeed>();
+    await appSeedService.SeedPlantAppRelationshipAsync();
 }
 
 app.Run();
