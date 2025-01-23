@@ -1,9 +1,9 @@
 import { Alert, Button, Drawer, Spinner } from "flowbite-react"
 import { IoClose } from "react-icons/io5";
-import { CiCircleAlert } from "react-icons/ci";
 import { FaHandHoldingMedical } from "react-icons/fa";
 import { MdChangeCircle } from "react-icons/md";
 import { useAppPage } from "../hooks/useAppPage";
+import { HiInformationCircle } from "react-icons/hi";
 
 
 function AppPage(){
@@ -20,7 +20,7 @@ function AppPage(){
                             <MdChangeCircle size={20} />
                             <div className="font-quicksand">
                                 <p>{selectedApp?.name}</p>
-                                {selectedApp && selectedApp.sys.length > 0 && <p className="text-xs font-light">({selectedApp?.sys})</p>}
+                                {selectedApp && selectedApp.sys.length > 0 && <p className="text-xs font-light">({selectedApp?.sys.join(", ")})</p>}
                             </div>
                         </div>
                     </Button>
@@ -63,7 +63,7 @@ function AppPage(){
                 {!loadingApp && <div className="w-full overflow-y-auto">
                     <div className="hidden lg:flex items-center space-x-2 font-quicksand font-semibold text-xl bg-primary text-secondary rounded-md m-1 px-4 py-2">
                         <p className="">{selectedApp?.name}</p>
-                        {selectedApp && selectedApp.sys.length > 0 && <p className="text-sm font-light">({selectedApp?.sys})</p>}
+                        {selectedApp && selectedApp.sys.length > 0 && <p className="text-sm font-light">({selectedApp?.sys.join(", ")})</p>}
                     </div>
 
                     <ul className="flex-grow grid md:grid-cols-2 xl:grid-cols-3">
@@ -74,13 +74,8 @@ function AppPage(){
                         ))}
                     </ul>
 
-                    <Alert className="m-4" color="info">
-                        <div className="flex font-quicksand items-center">
-                            <span className="mr-2">
-                                <CiCircleAlert size={20}/>
-                            </span>
-                            Solo se muestra la planta si su propiedad es bien notoria y reconocida
-                        </div>
+                    <Alert className="m-4" color="info" icon={HiInformationCircle}>
+                        <span className="font-medium">Nota del autor:</span> Solo se muestra la planta si su propiedad es bien notoria y reconocida.
                     </Alert>
                 </div>}
 

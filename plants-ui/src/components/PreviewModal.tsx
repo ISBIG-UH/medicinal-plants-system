@@ -1,4 +1,4 @@
-import { Modal } from "flowbite-react";
+import { Alert, Modal } from "flowbite-react";
 import PreviewCategory from "./PreviewCategory";
 import { TbTournament } from "react-icons/tb";
 import { FaEquals } from "react-icons/fa";
@@ -10,6 +10,7 @@ import { ImLeaf } from "react-icons/im";
 import { FaBriefcaseMedical } from "react-icons/fa";
 import { FaHandHoldingMedical } from "react-icons/fa";
 import { ImBooks } from "react-icons/im";
+import { HiInformationCircle } from "react-icons/hi";
 
 interface Props {
   show: boolean;
@@ -33,6 +34,10 @@ function PreviewModal({ show, setShow, monograph }: Props) {
       </Modal.Header>
       <Modal.Body>
         <div className="space-y-6 whitespace-pre-line">
+          {monograph.name[monograph.name.length - 1] === "*" && <Alert color="info" icon={HiInformationCircle}>
+            <span className="font-medium">Nota del autor:</span> Las plantas cuyos nombres terminan con (*) constituyen especies exóticas introducidas en el país.
+          </Alert>}
+
           {monograph.family !== "" && (
             <PreviewCategory name="Familia" icon={<TbTournament />}>
               <p>{monograph.family}</p>
