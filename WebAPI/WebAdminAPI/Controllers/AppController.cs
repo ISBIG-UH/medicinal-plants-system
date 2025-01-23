@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 using Data.DTOs;
 using Exceptions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAdminAPI.Controllers;
 
@@ -17,6 +18,7 @@ public class AppController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<IActionResult> GetApp(int id)
     {
         try
@@ -37,6 +39,7 @@ public class AppController : ControllerBase
 
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> AddApp([FromBody] AppDto appDto)
     {
         try
@@ -56,6 +59,7 @@ public class AppController : ControllerBase
 
 
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> DeleteApp(int id)
     {
         try
@@ -75,6 +79,7 @@ public class AppController : ControllerBase
 
 
     [HttpPut]
+    [Authorize]
     public async Task<IActionResult> UpdateApp([FromBody] AppDto appDto)
     {
         try
@@ -106,6 +111,7 @@ public class AppsController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetApps()
     {
         try

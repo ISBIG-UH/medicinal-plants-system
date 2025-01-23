@@ -57,7 +57,8 @@ public static class ServiceExtensions
         services.AddScoped<IPlantSearch, PlantSearch>();
         services.AddScoped<IAppService, AppService>();
         services.AddScoped<ICrudOperation<AppDto, AppDto>, AppCrudOperations>();
-
+        services.AddScoped<IAuthenticateService, AuthenticateService>();
+         
 
         return services;
     }

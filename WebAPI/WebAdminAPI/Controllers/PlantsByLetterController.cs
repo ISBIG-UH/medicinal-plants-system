@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 using Exceptions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAdminAPI.Controllers;
 
@@ -16,6 +17,7 @@ public class PlantsByLetterController : ControllerBase
     }
 
     [HttpGet("{letter}")]
+    [Authorize]
     public async Task<IActionResult> GetPlantsByLetter(string letter)
     {
         try

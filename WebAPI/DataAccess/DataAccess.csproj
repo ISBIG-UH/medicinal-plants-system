@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <Compile Include="..\Exceptions\**\*.cs" />
+    <Compile Include="..\Services\PasswordUtilities.cs" />
   </ItemGroup>
 
   

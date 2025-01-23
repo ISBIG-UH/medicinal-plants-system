@@ -1,6 +1,8 @@
 using DataAccess.InitialDataPopulation;
 using Services;
 using DataAccess;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +44,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // register Seeders in the dependency container
+builder.Services.AddTransient<UserSeed>();
 builder.Services.AddTransient<PlantSeed>(); 
 builder.Services.AddTransient<PlantTermSeed>(); 
 builder.Services.AddTransient<PlantAppSeed>();
@@ -73,6 +76,9 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<AppDbContext>();
+
+    var userSeedService = services.GetRequiredService<UserSeed>();
+    await userSeedService.SeedUserAsync();
 
     var plantSeedService = services.GetRequiredService<PlantSeed>();
     await plantSeedService.SeedPlantsAsync();
