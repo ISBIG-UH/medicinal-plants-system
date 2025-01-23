@@ -18,7 +18,7 @@ public class AppController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [Authorize]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> GetApp(int id)
     {
         try
@@ -39,7 +39,7 @@ public class AppController : ControllerBase
 
 
     [HttpPost]
-    [Authorize]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> AddApp([FromBody] AppDto appDto)
     {
         try
@@ -59,7 +59,7 @@ public class AppController : ControllerBase
 
 
     [HttpDelete("{id}")]
-    [Authorize]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> DeleteApp(int id)
     {
         try
@@ -79,7 +79,7 @@ public class AppController : ControllerBase
 
 
     [HttpPut]
-    [Authorize]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> UpdateApp([FromBody] AppDto appDto)
     {
         try
@@ -111,7 +111,7 @@ public class AppsController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> GetApps()
     {
         try

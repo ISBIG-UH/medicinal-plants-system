@@ -17,7 +17,7 @@ public class PlantsByLetterController : ControllerBase
     }
 
     [HttpGet("{letter}")]
-    [Authorize]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> GetPlantsByLetter(string letter)
     {
         try
