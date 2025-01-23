@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Data;
 using NJ = Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-
 namespace DataAccess;
 
 public class AppDbContext : DbContext
@@ -22,14 +21,10 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // Seed data
-        modelBuilder.Entity<User>().HasData(
-            new User
-            {
-                Id = 1,
-                Name = "Admin",
-            }
-        ); 
+
+        modelBuilder.Entity<User>()
+            .Property(p => p.Id)
+            .ValueGeneratedOnAdd();
 
 
         modelBuilder.Entity<Plant>()
