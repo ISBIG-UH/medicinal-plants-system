@@ -18,7 +18,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> AddPlant([FromBody] PlantDto plantDto) 
     {
         try
@@ -38,7 +38,7 @@ public class AdminController : ControllerBase
 
 
     [HttpDelete("{id}")]
-    [Authorize]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> DeletePlant(int id)
     {
         try
@@ -57,7 +57,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpPut]
-    [Authorize]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> UpdatePlant([FromBody] PlantDto plantDto)
     {
         try
@@ -76,7 +76,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [Authorize]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> GetPlantById(int id)
     {
         try

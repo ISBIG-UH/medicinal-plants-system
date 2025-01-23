@@ -36,7 +36,7 @@ namespace Services.Implementations
                     return new UserSessionDto
                     {
                         username = user.UserName,
-                        role = "admin",
+                        role = "Administrador",
                         sessionToken = sessionToken
                     };
                     
@@ -51,7 +51,7 @@ namespace Services.Implementations
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, username),
-                new Claim(ClaimTypes.Role, "admin")
+                new Claim(ClaimTypes.Role, "Administrador")
             };
 
             var jwtSettings = _configuration.GetSection("Jwt");
