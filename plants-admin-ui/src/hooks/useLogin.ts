@@ -20,8 +20,12 @@ const useLogin = () => {
     if (response.user){
       setUser(response.user);
     }
+
+    // Redirect on valid credentials
+    if (response.toastResponse.type === "success"){
+      window.location.href = "/";
+    }
     
-    window.location.href = "/";
     setLoading(false);
     // Return response for toastify
     return response.toastResponse;

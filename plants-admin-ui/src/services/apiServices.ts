@@ -1,37 +1,42 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { apiClient } from "./api";
-import { apps } from "./apps";
 
 //🔗 Requests Login to server
 export async function apiLogin(request: LoginRequest): Promise<LoginResponse> {
   const ENDPOINT = "/login";
   console.log("apiLogin:", request);
 
-  //////// 🚨🚨Implementar solicitud🚨🚨 ///////////
-  /////                CODE HERE               /////
-  /////////////////////////////////////////////////
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const isValidUser =
-    request.username === "Admin" && request.password === "password";
-  if (isValidUser) {
-    return {
-      toastResponse: { type: "success", msg: "Inicio de sesión exitoso" },
-      user: {
-        username: "Admin",
-        role: "Administrador",
-        sessionToken: "este-es-el-token-de-sesion",
-      },
-    };
-  } else {
-    return {
-      toastResponse: {
-        type: "error",
-        msg: "Nombre de usuario o contraseña incorrectos",
-      },
-      user: null,
-    };
+  
+  const response = {
+    toastResponse: { type: "null", msg: "" },
+    user: null
+  };
+
+  const requestData = {
+    username: request.username,
+    password: request.password,
+  };
+
+  try {
+    const resp = await apiClient.post(ENDPOINT, requestData);
+    
+    if (resp.status == 200){
+      response.user = resp.data;
+      response.toastResponse.type = "success";
+      response.toastResponse.msg = "Monografía añadida correctamente";
+    } else if(resp.status == 403){
+      response.toastResponse.type = "error";
+      response.toastResponse.msg = "Credenciales incorrectas";
+    }
+    
+  } catch (error) {
+    console.error("Error in login:", error);
+    response.toastResponse.type = "error";
+    response.toastResponse.msg = "Inicio de sesión fallido";
   }
-  ////////////////////////////////////////////////
+
+  console.log("Response:", response);
+  return response;
 }
 
 //🔗 Requests search results based in a query
