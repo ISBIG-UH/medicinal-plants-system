@@ -56,7 +56,7 @@ function AppsBoard(){
                                 <MdChangeCircle size={20} />
                                 <div>
                                     <p className="font-quicksand">{selectedApp?.name}</p>
-                                    {selectedApp && selectedApp.sys.length > 0 && <p className="text-xs font-light">({selectedApp?.sys})</p>}
+                                    {selectedApp && selectedApp.sys.length > 0 && <p className="text-xs font-light">({selectedApp?.sys.join(', ')})</p>}
                                 </div>
                             </div>
                         </Button>
@@ -116,7 +116,7 @@ function AppsBoard(){
                     <div className="hidden lg:flex justify-between items-center space-x-2 font-semibold text-xl bg-gray-200 m-2 rounded-md px-4 py-2">
                         <div className="flex items-center space-x-1">
                             <p className="font-quicksand">{selectedApp?.name}</p>
-                            {selectedApp && selectedApp.sys.length > 0 && <p className="text-sm font-light">({selectedApp?.sys})</p>}
+                            {selectedApp && selectedApp.sys.length > 0 && <p className="text-sm font-light">({selectedApp?.sys.join(', ')})</p>}
                         </div>
                         <div className="flex space-x-2 font-quicksand">
                             <Button color="gray" size="sm" onClick={() => setEditOpen(true)}><FaRegEdit size={20}/>Editar</Button>
