@@ -58,21 +58,33 @@ namespace DataAccess.Implementations
                         $"SELECT * FROM \"Plants\" WHERE unaccent(\"Name\") ILIKE unaccent({item})"
                     )
                     .FirstOrDefaultAsync();
-                try
+                    
+                if (plant != null)
                 {
-                    var register = new PlantApp
-                    {
-                        PlantId = plant.Id,
-                        Plant = plant,
-                        AppId = app.Id,
-                        App = app
-                    };
+                    var existingRegister = await _context.PlantApps
+                        .FirstOrDefaultAsync(pa => pa.PlantId == plant.Id && pa.AppId == app.Id);
 
-                    _context.PlantApps.Add(register);
+                    if (existingRegister == null)
+                    {
+                        var register = new PlantApp
+                        {
+                            PlantId = plant.Id,
+                            Plant = plant,
+                            AppId = app.Id,
+                            App = app
+                        };
+
+                        _context.PlantApps.Add(register);
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"🔄 El registro con PlantId: {plant.Id} y AppId: {app.Id} ya existe.");
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Console.WriteLine($"❌ Error al encontar la planta '{item}': {ex.Message}");
+                    Console.WriteLine($"❌ No se encontró la planta");
                 }
             }
 
