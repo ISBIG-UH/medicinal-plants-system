@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 using Data.DTOs;
 using Exceptions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAdminAPI.Controllers;
 
@@ -17,6 +18,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> AddPlant([FromBody] PlantDto plantDto) 
     {
         try
@@ -36,6 +38,7 @@ public class AdminController : ControllerBase
 
 
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> DeletePlant(int id)
     {
         try
@@ -54,6 +57,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpPut]
+    [Authorize]
     public async Task<IActionResult> UpdatePlant([FromBody] PlantDto plantDto)
     {
         try
@@ -72,6 +76,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<IActionResult> GetPlantById(int id)
     {
         try
@@ -93,6 +98,7 @@ public class AdminController : ControllerBase
 
 
 [ApiController]
+[Authorize]
 [Route("api/search")]
 public class QueryController : ControllerBase
 {
