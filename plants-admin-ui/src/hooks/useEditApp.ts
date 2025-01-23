@@ -8,7 +8,6 @@ export function useEditApp(app: App, setOpenModal: (x: boolean) => void) {
     handleFormTextChange,
     handleFormListChange,
     handleAddListItem,
-    handleAddListDropdownItem,
     handleDeleteListItem,
     clearInputs
   } = useFormData({
@@ -34,7 +33,6 @@ export function useEditApp(app: App, setOpenModal: (x: boolean) => void) {
     handleFormTextChange,
     handleFormListChange,
     handleAddListItem,
-    handleAddListDropdownItem,
     handleDeleteListItem,
     handleEdit,
     clearInputs

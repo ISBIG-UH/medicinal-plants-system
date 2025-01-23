@@ -20,6 +20,10 @@ function ListFieldsDropdown({
 
   const groups = appListFieldsDropdown;
 
+  const filterOptions = (currentValue: string, fieldId: string) => {
+    return plants.filter(plant => plant === currentValue || !formData[fieldId].includes(plant))
+  }
+
   return (
     <>
       {groups.map((list, index) => (
@@ -48,7 +52,8 @@ function ListFieldsDropdown({
                       (e.target as HTMLInputElement).setCustomValidity("");
                     }}
                   >
-                    {plants.map(plant => (
+                    {filterOptions(value, list.id)
+                    .map(plant => (
                       <option key={plant}>{plant}</option>
                     ))}
                   </Select>
@@ -73,7 +78,7 @@ function ListFieldsDropdown({
               className="text-primary w-fit hover:text-green-800 mx-1 h-fit rounded-lg"
               onClick={(e) => {
                 e.preventDefault();
-                handleAddListItem(list.id, plants[0]);
+                handleAddListItem(list.id, filterOptions("", list.id)[0]);
               }}
             >
               <IoMdAddCircle size={34} />
