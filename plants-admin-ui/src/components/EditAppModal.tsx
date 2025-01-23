@@ -17,7 +17,7 @@ interface Props {
 
 function EditAppModal({ openModal, setOpenModal, app, reloadFunction, plants }: Props) {
   
-  const { formData, processingEdit, handleFormTextChange, handleFormListChange, handleAddListItem, handleAddListDropdownItem, handleDeleteListItem, handleEdit, clearInputs } = useEditApp(app, setOpenModal);
+  const { formData, processingEdit, handleFormTextChange, handleFormListChange, handleAddListItem, handleDeleteListItem, handleEdit, clearInputs } = useEditApp(app, setOpenModal);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,7 +68,7 @@ function EditAppModal({ openModal, setOpenModal, app, reloadFunction, plants }: 
               plants = {plants}
               formData={formData}
               handleFormListChange={handleFormListChange}
-              handleAddListDropdownItem={handleAddListDropdownItem}
+              handleAddListItem={handleAddListItem}
               handleDeleteListItem={handleDeleteListItem}
             />
 

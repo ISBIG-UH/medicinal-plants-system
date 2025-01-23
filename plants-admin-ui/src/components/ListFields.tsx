@@ -7,7 +7,7 @@ interface Props {
   type?: string;
   formData: { [key: string]: string | string[] };
   handleFormListChange: (id: string, index: number, value: string) => void;
-  handleAddListItem: (id: string) => void;
+  handleAddListItem: (id: string, defaultValue: string) => void;
   handleDeleteListItem: (id: string, index: number) => void;
 }
 
@@ -73,7 +73,7 @@ function ListFields({
               className="text-primary w-fit hover:text-green-800 mx-1 h-fit rounded-lg"
               onClick={(e) => {
                 e.preventDefault();
-                handleAddListItem(list.id);
+                handleAddListItem(list.id, "");
               }}
             >
               <IoMdAddCircle size={34} />

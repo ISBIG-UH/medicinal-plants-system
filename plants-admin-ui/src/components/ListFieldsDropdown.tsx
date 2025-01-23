@@ -6,7 +6,7 @@ interface Props {
   plants: string[];
   formData: { [key: string]: string | string[] };
   handleFormListChange: (id: string, index: number, value: string) => void;
-  handleAddListDropdownItem: (id: string, defaultValue: string) => void;
+  handleAddListItem: (id: string, defaultValue: string) => void;
   handleDeleteListItem: (id: string, index: number) => void;
 }
 
@@ -14,7 +14,7 @@ function ListFieldsDropdown({
   plants,
   formData,
   handleFormListChange,
-  handleAddListDropdownItem,
+  handleAddListItem,
   handleDeleteListItem,
 }: Props) {
 
@@ -73,7 +73,7 @@ function ListFieldsDropdown({
               className="text-primary w-fit hover:text-green-800 mx-1 h-fit rounded-lg"
               onClick={(e) => {
                 e.preventDefault();
-                handleAddListDropdownItem(list.id, plants[0]);
+                handleAddListItem(list.id, plants[0]);
               }}
             >
               <IoMdAddCircle size={34} />

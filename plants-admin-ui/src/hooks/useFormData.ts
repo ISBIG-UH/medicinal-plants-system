@@ -33,18 +33,7 @@ export function useFormData(initialData: { [key: string]: string | string[] }) {
     });
   };
 
-  function handleAddListItem(id: string) {
-    setFormData((prevData) => {
-      const updatedList = Array.isArray(prevData[id]) ? [...prevData[id]] : [];
-      updatedList.push("");
-      return {
-        ...prevData,
-        [id]: updatedList,
-      };
-    });
-  }
-
-  function handleAddListDropdownItem(id: string, defaultValue: string) {
+  function handleAddListItem(id: string, defaultValue: string) {
     setFormData((prevData) => {
       const updatedList = Array.isArray(prevData[id]) ? [...prevData[id]] : [];
       updatedList.push(defaultValue);
@@ -54,6 +43,7 @@ export function useFormData(initialData: { [key: string]: string | string[] }) {
       };
     });
   }
+
 
   function handleDeleteListItem(id: string, index: number) {
     setFormData((prevData) => {
@@ -71,7 +61,6 @@ export function useFormData(initialData: { [key: string]: string | string[] }) {
     handleFormTextChange,
     handleFormListChange,
     handleAddListItem,
-    handleAddListDropdownItem,
     handleDeleteListItem,
     clearInputs,
   };

@@ -16,7 +16,7 @@ interface Props {
 
 function AddAppModal({ openModal, setOpenModal, reloadFunction, plants }: Props) {
   const emptyApp = { id: 0, name: "", plants: [], sys: []}
-  const { formData, processingAdd, handleFormTextChange, handleFormListChange, handleAddListItem, handleAddListDropdownItem, handleDeleteListItem, handleAdd, clearInputs } = useAddApp(emptyApp, setOpenModal);
+  const { formData, processingAdd, handleFormTextChange, handleFormListChange, handleAddListItem, handleDeleteListItem, handleAdd, clearInputs } = useAddApp(emptyApp, setOpenModal);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,7 +66,7 @@ function AddAppModal({ openModal, setOpenModal, reloadFunction, plants }: Props)
               plants = {plants}
               formData={formData}
               handleFormListChange={handleFormListChange}
-              handleAddListDropdownItem={handleAddListDropdownItem}
+              handleAddListItem={handleAddListItem}
               handleDeleteListItem={handleDeleteListItem}
             />
 

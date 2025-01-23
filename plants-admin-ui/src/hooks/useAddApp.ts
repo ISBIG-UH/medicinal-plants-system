@@ -8,7 +8,6 @@ export function useAddApp(app: App, setOpenModal: (x: boolean) => void) {
     handleFormTextChange,
     handleFormListChange,
     handleAddListItem,
-    handleAddListDropdownItem,
     handleDeleteListItem,
     clearInputs
   } = useFormData({
@@ -34,7 +33,6 @@ export function useAddApp(app: App, setOpenModal: (x: boolean) => void) {
     handleFormTextChange,
     handleFormListChange,
     handleAddListItem,
-    handleAddListDropdownItem,
     handleDeleteListItem,
     handleAdd,
     clearInputs
