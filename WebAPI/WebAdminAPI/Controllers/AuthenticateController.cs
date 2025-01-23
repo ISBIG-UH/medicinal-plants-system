@@ -25,7 +25,7 @@ public class AuthenticateController : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode(500, new { message = "Error al iniciar sesión.", details = ex.Message });
+            return StatusCode(403, new { message = "Error al iniciar sesión.", details = ex.Message });
         }
         
     }
