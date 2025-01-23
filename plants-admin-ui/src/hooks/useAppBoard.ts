@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { apiGetApp, requestAppsList } from "../services/apiServices";
+import { apiGetApp, requestAllPlantsList, requestAppsList } from "../services/apiServices";
 
 export function useAppBoard() {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,11 +9,16 @@ export function useAppBoard() {
   const [loading, setLoading] = useState(true);
   const [loadingApp, setLoadingApp] = useState(false);
 
+  const [allPlants, setAllPlants] = useState<string[]>([]);
+
+
   async function reload(){
     setLoading(true);
     const list = await requestAppsList();
     setApps(list);
     setSelectedApp((await apiGetApp({ id: list[0].id })).app);
+    const plants = await requestAllPlantsList();
+    setAllPlants(plants);
     setLoading(false);
   }
 
@@ -41,5 +46,5 @@ export function useAppBoard() {
     setLoadingApp(false);
   }
 
-  return { isOpen, setIsOpen, apps, selectedApp, loading, loadingApp, handleSelect, reload, reloadApp }
+  return { isOpen, setIsOpen, apps, selectedApp, loading, loadingApp, handleSelect, reload, reloadApp, allPlants }
 }

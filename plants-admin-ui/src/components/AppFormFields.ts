@@ -4,7 +4,7 @@ import { PiPlantBold } from "react-icons/pi";
 
 export const appTextFields = [
   {
-    label: "Nombre de Propiedad",
+    label: "Nombre de Aplicación",
     inputs: [
       { id: "name", placeholder: "Nombre", required: true, useArea: false },
     ],
@@ -20,12 +20,15 @@ export const appListFields = [
     placeholder: "Sinónimo*",
     required: true,
     icon: FaEquals,
-  },
+  }
+];
+
+export const appListFieldsDropdown = [
   {
     label: "Plantas",
     id: "plants",
     placeholder: "Planta*",
     required: true,
     icon: PiPlantBold,
-  },
-];
+  }
+]

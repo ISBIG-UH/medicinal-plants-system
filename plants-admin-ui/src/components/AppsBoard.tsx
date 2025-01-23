@@ -12,10 +12,11 @@ import { useState } from "react";
 import EditAppModal from "./EditAppModal";
 import AddAppModal from "./AddAppModal";
 import { apiDeleteApp } from "../services/apiServices";
+import { toast } from "react-toastify";
 
 function AppsBoard(){
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { isOpen, setIsOpen, apps, selectedApp, loading, loadingApp, handleSelect, reload, reloadApp } = useAppBoard()
+    const { isOpen, setIsOpen, apps, selectedApp, loading, loadingApp, handleSelect, reload, reloadApp, allPlants } = useAppBoard()
     
     const [dangerOpen, setDangerOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
@@ -28,7 +29,12 @@ function AppsBoard(){
         setProcessingDelete(false);
         setDangerOpen(false);
         reload();
-        return response.toastResponse;
+        
+        if (response.toastResponse.type === "success") {
+        toast.success(response.toastResponse.msg);
+        } else if (response.toastResponse.type === "error") {
+        toast.error(response.toastResponse.msg);
+        }
     }
 
     return (
@@ -141,9 +147,9 @@ function AppsBoard(){
             
             {selectedApp && <DangerConfirmationModal openModal={dangerOpen} setOpenModal={setDangerOpen} operationFunction={() => handleDelete(selectedApp?.id)} msg={`¿Seguro que desea eliminar la aplicación: ${selectedApp.name}?`} processing={processingDelete} />}
             
-            {selectedApp && <AddAppModal openModal={addOpen} setOpenModal={setAddOpen} reloadFunction={reload} />}
+            {selectedApp && <AddAppModal openModal={addOpen} setOpenModal={setAddOpen} reloadFunction={reload} plants={allPlants} />}
             
-            {selectedApp && <EditAppModal key={selectedApp.id} openModal={editOpen} setOpenModal={setEditOpen} app={selectedApp} reloadFunction={reload} />}
+            {selectedApp && <EditAppModal key={selectedApp.id} openModal={editOpen} setOpenModal={setEditOpen} app={selectedApp} plants={allPlants} reloadFunction={reload} />}
         </div>
     );
 }

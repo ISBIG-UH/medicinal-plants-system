@@ -5,17 +5,19 @@ import { AiOutlineLoading } from "react-icons/ai";
 import GroupTextFields from "./GroupTextFields";
 import ListFields from "./ListFields";
 import { useEditApp } from "../hooks/useEditApp";
+import ListFieldsDropdown from "./ListFieldsDropdown";
 
 interface Props {
   app: App;
+  plants: string[];
   openModal: boolean;
   setOpenModal: (x: boolean) => void;
   reloadFunction: () => void;
 }
 
-function EditAppModal({ openModal, setOpenModal, app, reloadFunction }: Props) {
+function EditAppModal({ openModal, setOpenModal, app, reloadFunction, plants }: Props) {
   
-  const { formData, processingEdit, handleFormTextChange, handleFormListChange, handleAddListItem, handleDeleteListItem, handleEdit, clearInputs } = useEditApp(app, setOpenModal);
+  const { formData, processingEdit, handleFormTextChange, handleFormListChange, handleAddListItem, handleAddListDropdownItem, handleDeleteListItem, handleEdit, clearInputs } = useEditApp(app, setOpenModal);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,6 +42,7 @@ function EditAppModal({ openModal, setOpenModal, app, reloadFunction }: Props) {
     clearInputs();
   }
 
+
   return (
     <div>
       <Modal show={openModal} size="5xl" onClose={() => setOpenModal(false)}>
@@ -59,6 +62,13 @@ function EditAppModal({ openModal, setOpenModal, app, reloadFunction }: Props) {
               formData={formData}
               handleFormListChange={handleFormListChange}
               handleAddListItem={handleAddListItem}
+              handleDeleteListItem={handleDeleteListItem}
+            /> 
+            <ListFieldsDropdown
+              plants = {plants}
+              formData={formData}
+              handleFormListChange={handleFormListChange}
+              handleAddListDropdownItem={handleAddListDropdownItem}
               handleDeleteListItem={handleDeleteListItem}
             />
 

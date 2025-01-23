@@ -5,16 +5,18 @@ import { AiOutlineLoading } from "react-icons/ai";
 import GroupTextFields from "./GroupTextFields";
 import ListFields from "./ListFields";
 import { useAddApp } from "../hooks/useAddApp";
+import ListFieldsDropdown from "./ListFieldsDropdown";
 
 interface Props {
+  plants: string[];
   openModal: boolean;
   setOpenModal: (x: boolean) => void;
   reloadFunction: () => void;
 }
 
-function AddAppModal({ openModal, setOpenModal, reloadFunction }: Props) {
+function AddAppModal({ openModal, setOpenModal, reloadFunction, plants }: Props) {
   const emptyApp = { id: 0, name: "", plants: [], sys: []}
-  const { formData, processingAdd, handleFormTextChange, handleFormListChange, handleAddListItem, handleDeleteListItem, handleAdd, clearInputs } = useAddApp(emptyApp, setOpenModal);
+  const { formData, processingAdd, handleFormTextChange, handleFormListChange, handleAddListItem, handleAddListDropdownItem, handleDeleteListItem, handleAdd, clearInputs } = useAddApp(emptyApp, setOpenModal);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,6 +60,13 @@ function AddAppModal({ openModal, setOpenModal, reloadFunction }: Props) {
               formData={formData}
               handleFormListChange={handleFormListChange}
               handleAddListItem={handleAddListItem}
+              handleDeleteListItem={handleDeleteListItem}
+            />
+            <ListFieldsDropdown
+              plants = {plants}
+              formData={formData}
+              handleFormListChange={handleFormListChange}
+              handleAddListDropdownItem={handleAddListDropdownItem}
               handleDeleteListItem={handleDeleteListItem}
             />
 

@@ -44,6 +44,17 @@ export function useFormData(initialData: { [key: string]: string | string[] }) {
     });
   }
 
+  function handleAddListDropdownItem(id: string, defaultValue: string) {
+    setFormData((prevData) => {
+      const updatedList = Array.isArray(prevData[id]) ? [...prevData[id]] : [];
+      updatedList.push(defaultValue);
+      return {
+        ...prevData,
+        [id]: updatedList,
+      };
+    });
+  }
+
   function handleDeleteListItem(id: string, index: number) {
     setFormData((prevData) => {
       const updatedList = Array.isArray(prevData[id]) ? [...prevData[id]] : [];
@@ -60,6 +71,7 @@ export function useFormData(initialData: { [key: string]: string | string[] }) {
     handleFormTextChange,
     handleFormListChange,
     handleAddListItem,
+    handleAddListDropdownItem,
     handleDeleteListItem,
     clearInputs,
   };
