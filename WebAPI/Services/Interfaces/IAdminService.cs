@@ -10,4 +10,5 @@ public interface IAdminService
     Task UpdatePlantAsync(PlantDto plantDto);
     Task<PlantDto> GetPlantByIdAsync(int id);
     Task<IEnumerable<ItemDto>> GetPlantsByFirstLetterAsync(string letter);
+    Task<IEnumerable<string>> GetAllPLantsAsync();
 }

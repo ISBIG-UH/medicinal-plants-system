@@ -93,5 +93,15 @@ namespace Services.Implementations
 
             return plants;         
         }
+
+        public async Task<IEnumerable<string>> GetAllPLantsAsync()
+        {
+            var plants = await _context.Plants
+                .OrderBy(p => p.Name)
+                .Select(plant => plant.Name)
+                .ToListAsync();
+
+            return plants;
+        }
     }
 }
