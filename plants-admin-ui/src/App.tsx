@@ -9,8 +9,6 @@ const routes = () => {
   const role = localStorage.getItem('role');
   return [
     { label: "Inicio", href: "/", component: role ? <Home /> : <LogIn /> },
-    { label: "Login", href: "/login", component: <LogIn /> },
-    { label: "Home", href: "/home", component: <Home /> },
   ]
 }
 

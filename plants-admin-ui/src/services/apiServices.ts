@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { AxiosError } from "axios";
 import { apiClient } from "./api";
 
 //🔗 Requests Login to server
@@ -23,16 +24,22 @@ export async function apiLogin(request: LoginRequest): Promise<LoginResponse> {
     if (resp.status == 200){
       response.user = resp.data;
       response.toastResponse.type = "success";
-      response.toastResponse.msg = "Monografía añadida correctamente";
-    } else if(resp.status == 403){
-      response.toastResponse.type = "error";
-      response.toastResponse.msg = "Credenciales incorrectas";
+      response.toastResponse.msg = "Iniciando sesión...";
     }
     
-  } catch (error) {
-    console.error("Error in login:", error);
-    response.toastResponse.type = "error";
-    response.toastResponse.msg = "Inicio de sesión fallido";
+  } catch (error: unknown) {
+    if (error instanceof AxiosError && error.response) {
+      if (error.response.status === 403) {
+        response.toastResponse.type = "error";
+        response.toastResponse.msg = "Credenciales incorrectas";
+      } else {
+        response.toastResponse.type = "error";
+        response.toastResponse.msg = "Inicio de sesión fallido";
+      }
+    } else {
+      response.toastResponse.type = "error";
+      response.toastResponse.msg = "Error inesperado. Intente nuevamente.";
+    }
   }
 
   console.log("Response:", response);
