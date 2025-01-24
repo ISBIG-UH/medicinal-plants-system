@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace WebAdminAPI.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/index")]
 public class PlantsByLetterController : ControllerBase
 {
@@ -17,7 +18,6 @@ public class PlantsByLetterController : ControllerBase
     }
 
     [HttpGet("{letter}")]
-    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> GetPlantsByLetter(string letter)
     {
         try

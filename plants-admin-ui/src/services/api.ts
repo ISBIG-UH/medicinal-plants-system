@@ -9,7 +9,7 @@ export const apiClient = axios.create({
 });
 
 
-axios.interceptors.request.use(
+apiClient.interceptors.request.use(
   (config) => {
     const sessionToken = localStorage.getItem("sessionToken");
     if (sessionToken) {
@@ -20,7 +20,7 @@ axios.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-axios.interceptors.response.use(
+apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response.status === 401) {

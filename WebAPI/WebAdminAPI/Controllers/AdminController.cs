@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace WebAdminAPI.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/monograph")]
 public class AdminController : ControllerBase
 {
@@ -18,7 +19,6 @@ public class AdminController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> AddPlant([FromBody] PlantDto plantDto) 
     {
         try
@@ -38,7 +38,6 @@ public class AdminController : ControllerBase
 
 
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> DeletePlant(int id)
     {
         try
@@ -57,7 +56,6 @@ public class AdminController : ControllerBase
     }
 
     [HttpPut]
-    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> UpdatePlant([FromBody] PlantDto plantDto)
     {
         try
@@ -76,7 +74,6 @@ public class AdminController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> GetPlantById(int id)
     {
         try

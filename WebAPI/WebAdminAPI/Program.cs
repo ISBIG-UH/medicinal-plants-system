@@ -3,6 +3,8 @@ using Services;
 using DataAccess;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,9 +56,47 @@ builder.Services.AddAuthentication("Bearer")
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             ClockSkew = TimeSpan.Zero,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"])),
+            RoleClaimType = "role"
+        };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                if (!context.Response.Headers.ContainsKey("Access-Control-Allow-Origin"))
+                {
+                    context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                }
+                if (!context.Response.Headers.ContainsKey("Access-Control-Allow-Headers"))
+                {
+                    context.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
+                }
+
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                return Task.CompletedTask;
+            },
+            OnChallenge = context =>
+            {
+                if (!context.Response.HasStarted)
+                {
+                    if (!context.Response.Headers.ContainsKey("Access-Control-Allow-Origin"))
+                    {
+                        context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                    }
+                    if (!context.Response.Headers.ContainsKey("Access-Control-Allow-Headers"))
+                    {
+                        context.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
+                    }
+
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                }
+                return Task.CompletedTask;
+            }
         };
     });
+
+builder.Services.AddAuthorization();
 
 // register Seeders in the dependency container
 builder.Services.AddTransient<UserSeed>();
@@ -65,6 +105,9 @@ builder.Services.AddTransient<PlantTermSeed>();
 builder.Services.AddTransient<PlantAppSeed>();
 
 var app = builder.Build();
+
+app.UseAuthentication(); 
+app.UseAuthorization();
 
 // Middleware for CORS
 app.UseCors(AllowSpecificOrigins);
