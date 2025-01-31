@@ -60,7 +60,7 @@ namespace DataAccess.TextProcessing
 
             foreach (var token in tokens)
             {
-                if (!stopWords.Contains(token) && Regex.IsMatch(token, @"^[a-záéíóúñ]{3,}\*$"))
+                if (!stopWords.Contains(token) && Regex.IsMatch(token, @"^[a-záéíóúñ]{3,}\*?$"))
                 {
                     if (tokenCounter.ContainsKey(token))
                     {
