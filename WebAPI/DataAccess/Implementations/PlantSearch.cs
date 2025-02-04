@@ -21,7 +21,7 @@ namespace DataAccess.Implementations
             }
 
             var plants = await _context.Plants
-                .Where(plant => plantsId.Contains(plant.Id))
+                .Where(plant => plant.State == "updated" && plantsId.Contains(plant.Id))
                 .Select(plant => new
                 {
                     plant.Id,
@@ -118,7 +118,9 @@ namespace DataAccess.Implementations
                 .FromSqlRaw(
                     @"SELECT * FROM ""Terms"" WHERE unaccent(""Name"") = unaccent({0})", 
                     term)
-                .Include(t => t.PlantTerms) 
+                .Include(t => t.PlantTerms)
+                    .ThenInclude(pt => pt.Plant)  
+                .Where(t => t.PlantTerms.Any(pt => pt.Plant.State == "updated")) 
                 .SelectMany(t => t.PlantTerms)
                 .Select(pt => pt.PlantId)
                 .Distinct()
@@ -135,7 +137,7 @@ namespace DataAccess.Implementations
             
             var plantsId = plants
                 .AsEnumerable() 
-                .Where(p => p.Name.ToLower()
+                .Where(p => p.State == "updated" && p.Name.ToLower()
                             .Split(' ')  
                             .Any(word => Math.Abs(word.Length - token.Length) <= 2 && LevenshteinDistance(token, word) <= threshold)) 
                 .Select(p => p.Id)
@@ -178,7 +180,9 @@ namespace DataAccess.Implementations
                     "SELECT * FROM \"Terms\" WHERE similarity(\"Name\", {0}) > {1}", 
                     token, similarityThreshold)
                 .Include(t => t.PlantTerms) 
-                 .SelectMany(t => t.PlantTerms)
+                    .ThenInclude(pt => pt.Plant) 
+                .Where(t => t.PlantTerms.Any(pt => pt.Plant.State == "updated")) 
+                .SelectMany(t => t.PlantTerms)
                 .Select(pt => pt.PlantId)
                 .Distinct()
                 .ToHashSetAsync();
