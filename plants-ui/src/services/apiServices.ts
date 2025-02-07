@@ -2,7 +2,7 @@ import { apiClient } from "./api";
 
 
 export async function requestAppsList() : Promise<AppItem[]>{
-  const ENDPOINT = "/search/listapps";
+  const ENDPOINT = "/app/listapps";
   console.log("requestAppsItems");
 
   try {
@@ -15,7 +15,7 @@ export async function requestAppsList() : Promise<AppItem[]>{
 }
 
 export async function requestApp(i: number) : Promise<App>{
-  const ENDPOINT = "/search/app";
+  const ENDPOINT = "/app/getapp";
   console.log("apiGetApp:", i);
 
   try {
