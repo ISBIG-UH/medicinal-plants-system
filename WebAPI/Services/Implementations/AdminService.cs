@@ -26,9 +26,9 @@ namespace Services.Implementations
         public async Task AddPlantAsync(PlantDto plantDto)
         {
             if (await _context.Plants
-                    .FromSqlInterpolated(
-                        $"SELECT * FROM \"Plants\" WHERE unaccent(\"Name\")) ILIKE unaccent({plantDto.name})"
-                    )
+                    .FromSqlRaw(@"
+                        SELECT 1 FROM ""Plants""
+                        WHERE unaccent(""Name"") ILIKE unaccent({0}) LIMIT 1", plantDto.name)
                     .AnyAsync())
             {
                 throw new PlantAlreadyExistsException($"Ya existe una planta con el nombre '{plantDto.name}'.");
