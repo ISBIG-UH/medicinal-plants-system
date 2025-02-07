@@ -21,7 +21,86 @@ namespace DataAccess.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Data.User", b =>
+            modelBuilder.Entity("Data.App", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Sys")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Apps");
+                });
+
+            modelBuilder.Entity("Data.Plant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Monograph")
+                        .IsRequired()
+                        .HasColumnType("json");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<float[]>("Vector")
+                        .IsRequired()
+                        .HasColumnType("real[]");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Plants");
+                });
+
+            modelBuilder.Entity("Data.PlantApp", b =>
+                {
+                    b.Property<int>("PlantId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("AppId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("PlantId", "AppId");
+
+                    b.HasIndex("AppId");
+
+                    b.ToTable("PlantApps");
+                });
+
+            modelBuilder.Entity("Data.PlantTerm", b =>
+                {
+                    b.Property<int>("PlantId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TermId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TermOccurrences")
+                        .HasColumnType("integer");
+
+                    b.HasKey("PlantId", "TermId");
+
+                    b.HasIndex("TermId");
+
+                    b.ToTable("PlantTerms");
+                });
+
+            modelBuilder.Entity("Data.Term", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -35,14 +114,87 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Terms");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Admin"
-                        });
+            modelBuilder.Entity("Data.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Data.PlantApp", b =>
+                {
+                    b.HasOne("Data.App", "App")
+                        .WithMany("PlantApps")
+                        .HasForeignKey("AppId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Plant", "Plant")
+                        .WithMany("PlantApps")
+                        .HasForeignKey("PlantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("App");
+
+                    b.Navigation("Plant");
+                });
+
+            modelBuilder.Entity("Data.PlantTerm", b =>
+                {
+                    b.HasOne("Data.Plant", "Plant")
+                        .WithMany("PlantTerms")
+                        .HasForeignKey("PlantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Term", "Term")
+                        .WithMany("PlantTerms")
+                        .HasForeignKey("TermId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Plant");
+
+                    b.Navigation("Term");
+                });
+
+            modelBuilder.Entity("Data.App", b =>
+                {
+                    b.Navigation("PlantApps");
+                });
+
+            modelBuilder.Entity("Data.Plant", b =>
+                {
+                    b.Navigation("PlantApps");
+
+                    b.Navigation("PlantTerms");
+                });
+
+            modelBuilder.Entity("Data.Term", b =>
+                {
+                    b.Navigation("PlantTerms");
                 });
 #pragma warning restore 612, 618
         }
