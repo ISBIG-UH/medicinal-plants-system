@@ -1,5 +1,4 @@
 using DataAccess;
-using Data;
 using Data.DTOs;
 using Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -11,32 +10,27 @@ namespace Services.Implementations
     public class AdminService : IAdminService
     {
         private readonly ICrudOperation<PlantDto, PlantDto> _crudOperationService;
-        private readonly IDocumentVector _documentVectorService;
-        private readonly IPlantSearch _plantSearchService;
         private readonly AppDbContext _context;
 
-        public AdminService(ICrudOperation<PlantDto, PlantDto> crudOperationService, IDocumentVector documentVectorService, IPlantSearch plantSearchService, AppDbContext context)
+        public AdminService(ICrudOperation<PlantDto, PlantDto> crudOperationService, AppDbContext context)
         {
             _crudOperationService = crudOperationService;
-            _documentVectorService = documentVectorService;
-            _plantSearchService = plantSearchService;
             _context = context;
         }
 
         public async Task AddPlantAsync(PlantDto plantDto)
         {
             if (await _context.Plants
-                    .FromSqlInterpolated(
-                        $"SELECT * FROM \"Plants\" WHERE unaccent(\"Name\")) ILIKE unaccent({plantDto.name})"
-                    )
-                    .AnyAsync())
+                .FromSqlRaw(@"
+                    SELECT 1 FROM ""Plants""
+                    WHERE unaccent(""Name"") ILIKE unaccent({0}) AND ""State"" != 'deleted' LIMIT 1", plantDto.name)
+                .AnyAsync())
+
             {
                 throw new PlantAlreadyExistsException($"Ya existe una planta con el nombre '{plantDto.name}'.");
             }
 
             await _crudOperationService.AddAsync(plantDto);
-            await _documentVectorService.BuildDocumentVectorAsync();
-
         }
 
         public async Task DeletePlantAsync(int id)
@@ -47,8 +41,6 @@ namespace Services.Implementations
             }
 
             await _crudOperationService.DeleteAsync(id);
-            await _documentVectorService.BuildDocumentVectorAsync();
-
         }
 
         public async Task UpdatePlantAsync(PlantDto plantDto)
@@ -59,21 +51,25 @@ namespace Services.Implementations
             }
 
             await _crudOperationService.UpdateAsync(plantDto);
-            await _documentVectorService.BuildDocumentVectorAsync();
-
         }
 
         public async Task<PlantDto> GetPlantByIdAsync(int id)
         {
-            if (! await _context.Plants.AnyAsync(p => p.Id == id))
+            if (!await _context.Plants.AnyAsync(p => p.Id == id))
             {
                 throw new PlantNotFoundException($"No existe una planta asociada a este id: '{id}'.");
             }
 
-            var plant =  await _crudOperationService.GetAsync(id);
+            var plant = await _crudOperationService.GetAsync(id);
+            if (plant == null)
+            {
+                throw new PlantNotFoundException($"No se pudo acceder al registro.");
+            }
+
             return plant;
-            
         }
+
+
 
         public async Task<IEnumerable<ItemDto>> GetPlantsByFirstLetterAsync(string letter)
         {
@@ -81,7 +77,9 @@ namespace Services.Implementations
                 .FromSqlRaw(
                     @"SELECT ""Id"", ""Name"" 
                     FROM ""Plants""
-                    WHERE LEFT(unaccent(""Name""), 1) ILIKE unaccent({0})", letter)
+                    WHERE LEFT(unaccent(""Name""), 1) ILIKE unaccent({0}) 
+                    AND ""State"" = 'updated'", 
+                    letter)
                 .Select(p => new ItemDto
                 {
                     id = p.Id,
@@ -97,10 +95,10 @@ namespace Services.Implementations
         public async Task<IEnumerable<string>> GetAllPLantsAsync()
         {
             var plants = await _context.Plants
+                .Where(p => p.State == "updated")
                 .OrderBy(p => p.Name)
                 .Select(plant => plant.Name)
                 .ToListAsync();
-
             return plants;
         }
     }

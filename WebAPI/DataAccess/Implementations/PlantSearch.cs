@@ -43,9 +43,11 @@ namespace DataAccess.Implementations
                 return mappedPlantDto;
             }).ToList();
 
-            return plantsId
-                .Select(id => plantDtos.First(plant => plant.id == id))
+             return plantsId
+                .Select(id => plantDtos.FirstOrDefault(plant => plant.id == id))
+                .Where(plant => plant != null)
                 .ToList();
+
         }
 
         private PlantDto MapPropertiesFromMonograph(Dictionary<string, object> monograph, PlantDto plantDto)
@@ -115,16 +117,17 @@ namespace DataAccess.Implementations
         private async Task<HashSet<int>> GetPlantsByTermAsync(string term)
         {
             var plantsId = await _context.Terms
-                .FromSqlRaw(
-                    @"SELECT * FROM ""Terms"" WHERE unaccent(""Name"") = unaccent({0})", 
-                    term)
+                .FromSqlRaw(@"
+                    SELECT * FROM ""Terms"" 
+                    WHERE unaccent(""Name"") = unaccent({0})", term)
                 .Include(t => t.PlantTerms)
                     .ThenInclude(pt => pt.Plant)  
-                .Where(t => t.PlantTerms.Any(pt => pt.Plant.State == "updated")) 
                 .SelectMany(t => t.PlantTerms)
+                .Where(pt => pt.Plant.State == "updated")
                 .Select(pt => pt.PlantId)
                 .Distinct()
                 .ToHashSetAsync();
+
 
             return plantsId;
         }
@@ -183,6 +186,7 @@ namespace DataAccess.Implementations
                     .ThenInclude(pt => pt.Plant) 
                 .Where(t => t.PlantTerms.Any(pt => pt.Plant.State == "updated")) 
                 .SelectMany(t => t.PlantTerms)
+                .Where(pt => pt.Plant.State == "updated")
                 .Select(pt => pt.PlantId)
                 .Distinct()
                 .ToHashSetAsync();

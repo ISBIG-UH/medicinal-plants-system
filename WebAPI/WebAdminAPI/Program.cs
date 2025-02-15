@@ -97,6 +97,7 @@ builder.Services.AddAuthentication("Bearer")
     });
 
 builder.Services.AddAuthorization();
+builder.Services.AddHostedService<PendingChangesProcessor>();
 
 // register Seeders in the dependency container
 builder.Services.AddTransient<UserSeed>();

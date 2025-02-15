@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Implementations
 {
-    public class AppCrudOperations : ICrudOperation<AppDto, AppDto>
+    public class AppCrudOperations : BaseCrudOperations<AppDto, AppDto>
     {
         private readonly AppDbContext _context;
 
@@ -15,11 +15,11 @@ namespace DataAccess.Implementations
         }
 
         // GET
-        public async Task<AppDto> GetAsync(int id)
+        public override async Task<AppDto> GetAsync(int id)
         {
             var app = await _context.Apps
                 .Include(a => a.PlantApps)           
-                .ThenInclude(pa => pa.Plant)         
+                    .ThenInclude(pa => pa.Plant)         
                 .FirstOrDefaultAsync(a => a.Id == id);
             
             var appDto = new AppDto
@@ -27,6 +27,7 @@ namespace DataAccess.Implementations
                 id = app.Id,
                 name = app.Name,
                 plants = app.PlantApps
+                    .Where(pa => pa.Plant.State == "updated")
                     .Select(pa => pa.Plant.Name) 
                     .ToArray(),                  
                 sys = app.Sys                   
@@ -37,7 +38,7 @@ namespace DataAccess.Implementations
 
 
         // POST
-        public async Task AddAsync(AppDto appDto)
+        public override async Task AddAsync(AppDto appDto)
         {
             string appDtoName = appDto.name.ToUpper();
             var newApp = new App
@@ -93,7 +94,7 @@ namespace DataAccess.Implementations
 
 
         // DELETE
-        public async Task DeleteAsync(int id)
+        public override async Task DeleteAsync(int id)
         {
             var app = await _context.Apps.FirstOrDefaultAsync(p => p.Id == id);
 
@@ -103,7 +104,7 @@ namespace DataAccess.Implementations
 
 
         // UPDATE
-        public async Task UpdateAsync(AppDto appDto)
+        public override async Task UpdateAsync(AppDto appDto)
         {
             await DeleteAsync(appDto.id);
             await AddAsync(appDto);
