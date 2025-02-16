@@ -4,7 +4,7 @@ import EditMonographModal from "./EditMonographModal";
 
 
 function IndexSearchBoard() {
-  const { selectedLetter, monographBasics, loading, handleSelectLetter, monograph, handleSelectMonograh, openModal, setOpenModal } = useIndexSearchBoard();
+  const { selectedLetter, monographBasics, loading, handleSelectLetter, monograph, handleSelectMonograh, openModal, setOpenModal, reload } = useIndexSearchBoard();
   
   return (
     <div className="h-full">
@@ -54,6 +54,7 @@ function IndexSearchBoard() {
           openModal={openModal}
           setOpenModal={setOpenModal}
           monograph={monograph}
+          reloadFunc={reload}
         />
       )}
     </div>

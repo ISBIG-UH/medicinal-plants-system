@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 
 function AppsBoard(){
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { isOpen, setIsOpen, apps, selectedApp, loading, loadingApp, handleSelect, reload, reloadApp, allPlants } = useAppBoard()
+    const { isOpen, setIsOpen, apps, selectedApp, loading, loadingApp, handleSelect, reload, reloadApp, allPlants } = useAppBoard();
     
     const [dangerOpen, setDangerOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
