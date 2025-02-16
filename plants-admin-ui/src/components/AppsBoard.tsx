@@ -149,7 +149,7 @@ function AppsBoard(){
             
             {selectedApp && <AddAppModal openModal={addOpen} setOpenModal={setAddOpen} reloadFunction={reload} plants={allPlants} />}
             
-            {selectedApp && <EditAppModal key={selectedApp.id} openModal={editOpen} setOpenModal={setEditOpen} app={selectedApp} plants={allPlants} reloadFunction={reload} />}
+            {selectedApp && <EditAppModal key={selectedApp.id} openModal={editOpen} setOpenModal={setEditOpen} app={selectedApp} plants={allPlants} reloadFunction={reloadApp} />}
         </div>
     );
 }
