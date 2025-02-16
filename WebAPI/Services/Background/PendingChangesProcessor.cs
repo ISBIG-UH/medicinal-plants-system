@@ -24,7 +24,7 @@ public class PendingChangesProcessor : IHostedService
     private void ScheduleTask()
     {
         DateTime now = DateTime.Now;
-        DateTime nextRun = now.Date.AddHours(22).AddMinutes(45);
+        DateTime nextRun = now.Date.AddHours(4);
 
         if (now >= nextRun)
         {
@@ -32,7 +32,7 @@ public class PendingChangesProcessor : IHostedService
         }
 
         TimeSpan initialDelay = nextRun - DateTime.Now;
-        _timer = new Timer(PendingChangesProcessorCallback, null, initialDelay, TimeSpan.FromMinutes(5));
+        _timer = new Timer(PendingChangesProcessorCallback, null, initialDelay, TimeSpan.FromHours(24));
     }
 
     private void PendingChangesProcessorCallback(object state)
