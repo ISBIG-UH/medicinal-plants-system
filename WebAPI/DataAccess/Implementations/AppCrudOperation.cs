@@ -52,7 +52,42 @@ namespace DataAccess.Implementations
 
             var app = await _context.Apps.FirstOrDefaultAsync(p => p.Name == appDtoName);
 
-            foreach (var item in appDto.plants)
+            await AddPlantAppRelations(appDto.plants, app);
+        }
+
+
+        // DELETE
+        public override async Task DeleteAsync(int id)
+        {
+            var app = await _context.Apps.FirstOrDefaultAsync(p => p.Id == id);
+
+            _context.Apps.Remove(app);
+            await _context.SaveChangesAsync();
+        }
+
+
+        // UPDATE
+        public override async Task UpdateAsync(AppDto appDto)
+        {
+            var relations = _context.PlantApps.Where(pa => pa.AppId == appDto.id).ToList();
+
+            if (relations.Any())
+            {
+                _context.PlantApps.RemoveRange(relations);
+                _context.SaveChanges();
+            }
+
+            var app = await _context.Apps.FirstOrDefaultAsync(a => a.Id == appDto.id);
+            app.Name = appDto.name;
+            app.Sys = appDto.sys;
+
+            await AddPlantAppRelations(appDto.plants, app);
+        }
+
+
+        private async Task AddPlantAppRelations(IEnumerable<string> plantNames, App app)
+        {
+            foreach (var item in plantNames)
             {
                 var plant = await _context.Plants
                     .FromSqlInterpolated(
@@ -76,7 +111,6 @@ namespace DataAccess.Implementations
                         };
 
                         _context.PlantApps.Add(register);
-                        await _context.SaveChangesAsync();
                     }
                     else
                     {
@@ -90,24 +124,7 @@ namespace DataAccess.Implementations
             }
 
             await _context.SaveChangesAsync();
-        }
 
-
-        // DELETE
-        public override async Task DeleteAsync(int id)
-        {
-            var app = await _context.Apps.FirstOrDefaultAsync(p => p.Id == id);
-
-            _context.Apps.Remove(app);
-            await _context.SaveChangesAsync();
-        }
-
-
-        // UPDATE
-        public override async Task UpdateAsync(AppDto appDto)
-        {
-            await DeleteAsync(appDto.id);
-            await AddAsync(appDto);
         }
 
     }
