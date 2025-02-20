@@ -61,7 +61,7 @@ namespace Services.Implementations
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(60), 
+                expires: DateTime.Now.AddDays(15),
                 signingCredentials: creds
             );
 

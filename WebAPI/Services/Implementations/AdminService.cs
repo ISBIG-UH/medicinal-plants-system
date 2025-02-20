@@ -25,7 +25,6 @@ namespace Services.Implementations
                     SELECT 1 FROM ""Plants""
                     WHERE unaccent(""Name"") ILIKE unaccent({0}) AND ""State"" != 'deleted' LIMIT 1", plantDto.name)
                 .AnyAsync())
-
             {
                 throw new PlantAlreadyExistsException($"Ya existe una planta con el nombre '{plantDto.name}'.");
             }

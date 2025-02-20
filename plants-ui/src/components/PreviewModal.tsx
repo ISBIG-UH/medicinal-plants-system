@@ -45,7 +45,7 @@ function PreviewModal({ show, setShow, monograph }: Props) {
           )}
 
           {monograph.sy.length > 0 && (
-            <PreviewCategory name="Sinónimos" icon={<FaEquals />}>
+            <PreviewCategory key={monograph.id} name="Sinónimos" icon={<FaEquals />}>
               {monograph.sy.map((syn) => (
                 <p>· {syn}</p>
               ))}
