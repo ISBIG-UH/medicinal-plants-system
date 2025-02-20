@@ -52,7 +52,7 @@ function ContextSearchBoard() {
         </ul>
       </div>
 
-      {selectedMonograph && <EditPlantModal key={selectedMonograph.id} monograph={selectedMonograph} openModal={openModal} setOpenModal={(x: boolean) => {setOpenModal(x)}} />}
+      {selectedMonograph && <EditPlantModal key={selectedMonograph.id} monograph={selectedMonograph} openModal={openModal} setOpenModal={(x: boolean) => {setOpenModal(x)}} reloadFunc={() => handleSearch()}/>}
     </>
   );
 }

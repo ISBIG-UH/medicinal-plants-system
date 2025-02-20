@@ -71,7 +71,8 @@ namespace DataAccess.InitialDataPopulation
                         {
                             Name = plantName,
                             Monograph = JsonConvert.DeserializeObject<Dictionary<string, object>>(plantMonograph.ToString()),
-                            Vector = Array.Empty<float>()
+                            Vector = Array.Empty<float>(),
+                            State = "updated"
                         };
 
                         plants.Add(plant);

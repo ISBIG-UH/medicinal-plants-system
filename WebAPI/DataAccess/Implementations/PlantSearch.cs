@@ -21,7 +21,7 @@ namespace DataAccess.Implementations
             }
 
             var plants = await _context.Plants
-                .Where(plant => plantsId.Contains(plant.Id))
+                .Where(plant => plant.State == "updated" && plantsId.Contains(plant.Id))
                 .Select(plant => new
                 {
                     plant.Id,
@@ -43,9 +43,11 @@ namespace DataAccess.Implementations
                 return mappedPlantDto;
             }).ToList();
 
-            return plantsId
-                .Select(id => plantDtos.First(plant => plant.id == id))
+             return plantsId
+                .Select(id => plantDtos.FirstOrDefault(plant => plant.id == id))
+                .Where(plant => plant != null)
                 .ToList();
+
         }
 
         private PlantDto MapPropertiesFromMonograph(Dictionary<string, object> monograph, PlantDto plantDto)
@@ -115,14 +117,17 @@ namespace DataAccess.Implementations
         private async Task<HashSet<int>> GetPlantsByTermAsync(string term)
         {
             var plantsId = await _context.Terms
-                .FromSqlRaw(
-                    @"SELECT * FROM ""Terms"" WHERE unaccent(""Name"") = unaccent({0})", 
-                    term)
-                .Include(t => t.PlantTerms) 
+                .FromSqlRaw(@"
+                    SELECT * FROM ""Terms"" 
+                    WHERE unaccent(""Name"") = unaccent({0})", term)
+                .Include(t => t.PlantTerms)
+                    .ThenInclude(pt => pt.Plant)  
                 .SelectMany(t => t.PlantTerms)
+                .Where(pt => pt.Plant.State == "updated")
                 .Select(pt => pt.PlantId)
                 .Distinct()
                 .ToHashSetAsync();
+
 
             return plantsId;
         }
@@ -135,7 +140,7 @@ namespace DataAccess.Implementations
             
             var plantsId = plants
                 .AsEnumerable() 
-                .Where(p => p.Name.ToLower()
+                .Where(p => p.State == "updated" && p.Name.ToLower()
                             .Split(' ')  
                             .Any(word => Math.Abs(word.Length - token.Length) <= 2 && LevenshteinDistance(token, word) <= threshold)) 
                 .Select(p => p.Id)
@@ -178,7 +183,10 @@ namespace DataAccess.Implementations
                     "SELECT * FROM \"Terms\" WHERE similarity(\"Name\", {0}) > {1}", 
                     token, similarityThreshold)
                 .Include(t => t.PlantTerms) 
-                 .SelectMany(t => t.PlantTerms)
+                    .ThenInclude(pt => pt.Plant) 
+                .Where(t => t.PlantTerms.Any(pt => pt.Plant.State == "updated")) 
+                .SelectMany(t => t.PlantTerms)
+                .Where(pt => pt.Plant.State == "updated")
                 .Select(pt => pt.PlantId)
                 .Distinct()
                 .ToHashSetAsync();

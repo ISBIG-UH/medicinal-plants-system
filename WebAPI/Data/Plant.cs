@@ -14,4 +14,6 @@ public class Plant
 
     public virtual ICollection<PlantTerm> PlantTerms { get; set; } = new List<PlantTerm>();
     public virtual ICollection<PlantApp> PlantApps { get; set; } = new List<PlantApp>();
+
+    public string State { get; set; }
 }

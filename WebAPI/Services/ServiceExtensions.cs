@@ -6,6 +6,7 @@ using Services.Implementations;
 using DataAccess.Interfaces;
 using DataAccess.Implementations;
 using Data.DTOs;
+using Data;
 
 namespace Services;
 
@@ -37,7 +38,8 @@ public static class ServiceExtensions
         services.AddScoped<IDocumentVector, DocumentVector>();
         services.AddScoped<IAppService, AppService>();
         services.AddScoped<ICrudOperation<AppDto, AppDto>, AppCrudOperations>();
-
+        services.AddScoped<ICrudOperation<Plant, Plant>, DatabaseUpdate>();
+        
         return services;
     }
 
@@ -58,7 +60,7 @@ public static class ServiceExtensions
         services.AddScoped<IAppService, AppService>();
         services.AddScoped<ICrudOperation<AppDto, AppDto>, AppCrudOperations>();
         services.AddScoped<IAuthenticateService, AuthenticateService>();
-         
+        services.AddScoped<ICrudOperation<Plant, Plant>, DatabaseUpdate>();
 
         return services;
     }

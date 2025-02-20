@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Data;
 using NJ = Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Data.DTOs;
 namespace DataAccess;
 
 public class AppDbContext : DbContext
@@ -15,6 +16,7 @@ public class AppDbContext : DbContext
     public DbSet<PlantTerm> PlantTerms { get; set; }
     public DbSet<App> Apps { get; set; }
     public DbSet<PlantApp> PlantApps { get; set; }
+    public DbSet<ModificationPlant> Modifications { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -88,6 +90,18 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
 
+        modelBuilder.Entity<ModificationPlant>()
+            .Property(p => p.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<ModificationPlant>()
+            .Property(p => p.Monograph)
+            .HasConversion(
+                v => NJ.JsonConvert.SerializeObject(v),  
+                v => NJ.JsonConvert.DeserializeObject<Dictionary<string, object>>(v))
+            .Metadata.SetValueComparer(monographComparer);
+
+        
         modelBuilder
             .HasDbFunction(() => PostgresFunctions.Similarity(default, default))
             .HasName("similarity")

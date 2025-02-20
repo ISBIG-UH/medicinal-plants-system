@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Implementations
 {
-    public class AppCrudOperations : ICrudOperation<AppDto, AppDto>
+    public class AppCrudOperations : BaseCrudOperations<AppDto, AppDto>
     {
         private readonly AppDbContext _context;
 
@@ -15,11 +15,11 @@ namespace DataAccess.Implementations
         }
 
         // GET
-        public async Task<AppDto> GetAsync(int id)
+        public override async Task<AppDto> GetAsync(int id)
         {
             var app = await _context.Apps
                 .Include(a => a.PlantApps)           
-                .ThenInclude(pa => pa.Plant)         
+                    .ThenInclude(pa => pa.Plant)         
                 .FirstOrDefaultAsync(a => a.Id == id);
             
             var appDto = new AppDto
@@ -27,6 +27,7 @@ namespace DataAccess.Implementations
                 id = app.Id,
                 name = app.Name,
                 plants = app.PlantApps
+                    .Where(pa => pa.Plant.State == "updated")
                     .Select(pa => pa.Plant.Name) 
                     .ToArray(),                  
                 sys = app.Sys                   
@@ -37,7 +38,7 @@ namespace DataAccess.Implementations
 
 
         // POST
-        public async Task AddAsync(AppDto appDto)
+        public override async Task AddAsync(AppDto appDto)
         {
             string appDtoName = appDto.name.ToUpper();
             var newApp = new App
@@ -51,7 +52,42 @@ namespace DataAccess.Implementations
 
             var app = await _context.Apps.FirstOrDefaultAsync(p => p.Name == appDtoName);
 
-            foreach (var item in appDto.plants)
+            await AddPlantAppRelations(appDto.plants, app);
+        }
+
+
+        // DELETE
+        public override async Task DeleteAsync(int id)
+        {
+            var app = await _context.Apps.FirstOrDefaultAsync(p => p.Id == id);
+
+            _context.Apps.Remove(app);
+            await _context.SaveChangesAsync();
+        }
+
+
+        // UPDATE
+        public override async Task UpdateAsync(AppDto appDto)
+        {
+            var relations = _context.PlantApps.Where(pa => pa.AppId == appDto.id).ToList();
+
+            if (relations.Any())
+            {
+                _context.PlantApps.RemoveRange(relations);
+                _context.SaveChanges();
+            }
+
+            var app = await _context.Apps.FirstOrDefaultAsync(a => a.Id == appDto.id);
+            app.Name = appDto.name;
+            app.Sys = appDto.sys;
+
+            await AddPlantAppRelations(appDto.plants, app);
+        }
+
+
+        private async Task AddPlantAppRelations(IEnumerable<string> plantNames, App app)
+        {
+            foreach (var item in plantNames)
             {
                 var plant = await _context.Plants
                     .FromSqlInterpolated(
@@ -75,7 +111,6 @@ namespace DataAccess.Implementations
                         };
 
                         _context.PlantApps.Add(register);
-                        await _context.SaveChangesAsync();
                     }
                     else
                     {
@@ -89,24 +124,7 @@ namespace DataAccess.Implementations
             }
 
             await _context.SaveChangesAsync();
-        }
 
-
-        // DELETE
-        public async Task DeleteAsync(int id)
-        {
-            var app = await _context.Apps.FirstOrDefaultAsync(p => p.Id == id);
-
-            _context.Apps.Remove(app);
-            await _context.SaveChangesAsync();
-        }
-
-
-        // UPDATE
-        public async Task UpdateAsync(AppDto appDto)
-        {
-            await DeleteAsync(appDto.id);
-            await AddAsync(appDto);
         }
 
     }
