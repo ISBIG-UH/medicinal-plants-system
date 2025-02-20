@@ -33,7 +33,6 @@ export function useIndexSearchBoard() {
 
   function handleSelectLetter(letter: string) {
     setSelectedLetter(letter);
-    setLoading(true);
     getMonograhsByLetter(letter);
   }
 
@@ -42,7 +41,7 @@ export function useIndexSearchBoard() {
   }, []);
 
   function reload(){
-    getMonograhsByLetter(letters[0]);
+    handleSelectLetter(selectedLetter);
   }
 
   return { selectedLetter, monographBasics, loading, handleSelectLetter, monograph, handleSelectMonograh, openModal, setOpenModal, reload };
