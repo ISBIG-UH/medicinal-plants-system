@@ -12,9 +12,10 @@ interface Props {
   monograph: Monograph;
   openModal: boolean;
   setOpenModal: (x: boolean) => void;
+  reloadFunc: () => void;
 }
 
-function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
+function EditPlantModal({ openModal, setOpenModal, monograph, reloadFunc }: Props) {
   const {
     handleConfirmation,
     delete_,
@@ -36,17 +37,19 @@ function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-  try {
-    const response = await submit(monograph.id);
+    try {
+      const response = await submit(monograph.id);
 
-    if (response.type === "success") {
-      toast.success(response.msg);
-    } else if (response.type === "error") {
-      toast.error(response.msg);
+      if (response.type === "success") {
+        toast.success(response.msg);
+      } else if (response.type === "error") {
+        toast.error(response.msg);
+      }
+    } catch (error) {
+      toast.error("Ocurrió un error inesperado.");
     }
-  } catch (error) {
-    toast.error("Ocurrió un error inesperado.");
-  }
+
+    reloadFunc();
   }; 
 
   const handleDelete = async () => {
@@ -60,6 +63,8 @@ function EditPlantModal({ openModal, setOpenModal, monograph }: Props) {
     } else if (response.type == "null") {
       return;
     }
+
+    reloadFunc();
   }
 
   return (

@@ -3,6 +3,7 @@ using Services.Interfaces;
 using Data.DTOs;
 using Exceptions;
 using Microsoft.AspNetCore.Authorization;
+using System.Runtime.InteropServices.Marshalling;
 
 namespace WebAdminAPI.Controllers;
 
@@ -26,13 +27,16 @@ public class AdminController : ControllerBase
             await _adminService.AddPlantAsync(plantDto);
             return Ok(new { message = "Planta agregada exitosamente." });
         }
-        catch (PlantAlreadyExistsException ex)
-        {
-            return Conflict(new { message = ex.Message }); 
-        }
         catch (Exception ex)
         {
-            return StatusCode(500, new { message = "Ocurrió un error al agregar la planta.", details = ex.Message });
+            if (ex.GetType().FullName == "Exceptions.PlantAlreadyExistsException")
+            {
+                return Conflict(new { message = ex.Message }); 
+            }
+            else
+            {
+                return StatusCode(500, new { message = "Ocurrió un error al agregar la planta.", details = ex.Message });
+            }
         }
     }
 
@@ -45,13 +49,16 @@ public class AdminController : ControllerBase
             await _adminService.DeletePlantAsync(id);
             return Ok(new { message = "Planta eliminada exitosamente." });
         }
-        catch (PlantNotFoundException ex)
-        {
-            return Conflict(new { message = ex.Message }); 
-        }
         catch (Exception ex)
         {
-            return StatusCode(500, new { message = "Ocurrió un error al eliminar la planta.", details = ex.Message });
+            if (ex.GetType().FullName == "Exceptions.PlantNotFoundException")
+            {
+                return NotFound(new { message = ex.Message }); 
+            }
+            else
+            {
+                return StatusCode(500, new { message = "Ocurrió un error al eliminar la planta.", details = ex.Message });
+            }
         }
     }
 
@@ -63,13 +70,16 @@ public class AdminController : ControllerBase
             await _adminService.UpdatePlantAsync(plantDto);
             return Ok(new { message = "Planta actualizada exitosamente." });
         }
-        catch (PlantNotFoundException ex)
-        {
-            return Conflict(new { message = ex.Message }); 
-        }
         catch (Exception ex)
         {
-            return StatusCode(500, new { message = "Ocurrió un error al actualizar la planta.", details = ex.Message });
+            if(ex.GetType().FullName == "Exceptions.PlantNotFoundException")
+            {
+                return NotFound(new { message = ex.Message }); 
+            }
+            else
+            {
+                return StatusCode(500, new { message = "Ocurrió un error al obtener la planta.", details = ex.Message });
+            }
         }
     }
 
@@ -78,18 +88,21 @@ public class AdminController : ControllerBase
     {
         try
         {
-            var plant = await _adminService.GetPlantByIdAsync(id);
+            var plantTask = _adminService.GetPlantByIdAsync(id);
+            var plant = await plantTask;
             return Ok(plant);
-        }
-        catch (PlantNotFoundException ex)
-        {
-            return Conflict(new { message = ex.Message }); 
         }
         catch (Exception ex)
         {
-            return StatusCode(500, new { message = "Ocurrió un error al obtener la planta.", details = ex.Message });
+            if(ex.GetType().FullName == "Exceptions.PlantNotFoundException")
+            {
+                return NotFound(new { message = ex.Message }); 
+            }
+            else
+            {
+                return StatusCode(500, new { message = "Ocurrió un error al obtener la planta.", details = ex.Message });
+            }
         }
-
     }
 }
 

@@ -26,13 +26,16 @@ public class AppController : ControllerBase
             var app = await _appService.GetAppByIdAsync(id);
             return Ok(app);
         }
-        catch (AppNotFoundException ex)
-        {
-            return Conflict(new { message = ex.Message }); 
-        }
         catch (Exception ex)
         {
-            return StatusCode(500, new { message = "Ocurrió un error al obtener la aplicación.", details = ex.Message });
+            if (ex.GetType().FullName == "Exceptions.AppNotFoundException")
+            {
+                return NotFound(new { message = ex.Message }); 
+            }
+            else
+            {
+                return StatusCode(500, new { message = "Ocurrió un error al obtener la aplicación.", details = ex.Message });
+            }
         }
 
     }
@@ -46,13 +49,16 @@ public class AppController : ControllerBase
             await _appService.AddAppAsync(appDto);
             return Ok(new { message = "App agregada exitosamente." });
         }
-        catch (AppAlreadyExistsException ex)
-        {
-            return Conflict(new { message = ex.Message }); 
-        }
         catch (Exception ex)
         {
-            return StatusCode(500, new { message = "Ocurrió un error al agregar la app.", details = ex.Message });
+            if (ex.GetType().FullName == "Exceptions.AppAlreadyExistsException")
+            {
+                return Conflict(new { message = ex.Message }); 
+            }
+            else
+            {
+                return StatusCode(500, new { message = "Ocurrió un error al agregar la app.", details = ex.Message });
+            }
         }
     }
 
@@ -65,13 +71,16 @@ public class AppController : ControllerBase
             await _appService.DeleteAppAsync(id);
             return Ok(new { message = "App eliminada exitosamente." });
         }
-        catch (AppNotFoundException ex)
-        {
-            return Conflict(new { message = ex.Message }); 
-        }
         catch (Exception ex)
         {
-            return StatusCode(500, new { message = "Ocurrió un error al eliminar la app.", details = ex.Message });
+            if (ex.GetType().FullName == "Exceptions.AppNotFoundException")
+            {
+                return NotFound(new { message = ex.Message }); 
+            }
+            else
+            {
+                return StatusCode(500, new { message = "Ocurrió un error al eliminar la app.", details = ex.Message });
+            }
         }
     }
 
@@ -84,13 +93,16 @@ public class AppController : ControllerBase
             await _appService.UpdateAppAsync(appDto);
             return Ok(new { message = "App actualizada exitosamente." });
         }
-        catch (AppNotFoundException ex)
-        {
-            return Conflict(new { message = ex.Message }); 
-        }
         catch (Exception ex)
         {
-            return StatusCode(500, new { message = "Ocurrió un error al actualizar la app.", details = ex.Message });
+            if (ex.GetType().FullName == "Exceptions.AppNotFoundException")
+            {
+                return NotFound(new { message = ex.Message }); 
+            }
+            else
+            {
+                return StatusCode(500, new { message = "Ocurrió un error al actualizar la app.", details = ex.Message });
+            }
         }
     }
 }

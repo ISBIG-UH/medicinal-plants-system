@@ -25,13 +25,16 @@ public class PlantsByLetterController : ControllerBase
             var plants = await _adminService.GetPlantsByFirstLetterAsync(letter);
             return Ok(plants);
         }
-        catch (PlantNotFoundException ex)
-        {
-            return Conflict(new { message = ex.Message }); 
-        }
         catch (Exception ex)
         {
-            return StatusCode(500, new { message = "Ocurrió un error.", details = ex.Message });
+            if(ex.GetType().FullName == "Exceptions.PlantNotFoundException")
+            {
+                return NotFound(new { message = ex.Message }); 
+            }
+            else
+            {
+                return StatusCode(500, new { message = "Ocurrió un error.", details = ex.Message });
+            }
         }
     }
 }

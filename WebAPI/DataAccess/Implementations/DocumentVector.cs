@@ -52,6 +52,11 @@ public class DocumentVector: IDocumentVector
             }
 
             plant.Vector = vector;
+            
+            if (plant.State != "updated") 
+            {
+                plant.State = "updated";
+            }
         
         }
 

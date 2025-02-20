@@ -41,5 +41,9 @@ export function useIndexSearchBoard() {
     getMonograhsByLetter(letters[0]);
   }, []);
 
-  return { selectedLetter, monographBasics, loading, handleSelectLetter, monograph, handleSelectMonograh, openModal, setOpenModal };
+  function reload(){
+    getMonograhsByLetter(letters[0]);
+  }
+
+  return { selectedLetter, monographBasics, loading, handleSelectLetter, monograph, handleSelectMonograh, openModal, setOpenModal, reload };
 }
