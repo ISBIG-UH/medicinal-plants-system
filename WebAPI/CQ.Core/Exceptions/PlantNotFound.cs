@@ -1,4 +1,4 @@
-namespace Exceptions;
+namespace CQ.Core.Exceptions;
 
 public class PlantNotFoundException : Exception
 {

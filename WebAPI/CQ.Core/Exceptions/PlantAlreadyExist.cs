@@ -1,5 +1,5 @@
 
-namespace Exceptions;
+namespace CQ.Core.Exceptions;
 
 public class PlantAlreadyExistsException : Exception
 {

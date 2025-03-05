@@ -1,4 +1,7 @@
+using DataAccess;
+using DataAccess.InitialDataPopulation;
 using Services;
+using WebAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +13,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: AllowSpecificOrigins,
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173")
+            policy.WithOrigins("http://localhost:5174")
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
@@ -19,8 +22,10 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.Services.AddDatabase(builder.Configuration.GetConnectionString("DefaultConnection"));
-builder.Services.AddApplicationServices();
+// builder.Services.AddDatabase(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+
+builder.Services.AddDatabases(builder.Configuration);
 
 builder.Services.AddHttpClient();
 
@@ -41,12 +46,22 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddAdminServices();
+
+// register Seeders in the dependency container
+builder.Services.AddTransient<UserSeed>();
+builder.Services.AddTransient<PlantSeed>(); 
+builder.Services.AddTransient<PlantTermSeed>(); 
+builder.Services.AddTransient<PlantAppSeed>();
+
 var app = builder.Build();
 
 // Middleware for CORS
 app.UseCors(AllowSpecificOrigins);
 
 app.MapControllers();
+
+app.MigrateDatabases(builder.Configuration);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -59,6 +74,24 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI Project v1");
         c.RoutePrefix = string.Empty; // Para que esté disponible en la raíz '/'
     });
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+
+    var userSeedService = services.GetRequiredService<UserSeed>();
+    await userSeedService.SeedUserAsync();
+
+    var plantSeedService = services.GetRequiredService<PlantSeed>();
+    await plantSeedService.SeedPlantsAsync();
+
+    var termSeedService = services.GetRequiredService<PlantTermSeed>();
+    await termSeedService.SeedPlantTermRelationshipAsync();
+
+    var appSeedService = services.GetRequiredService<PlantAppSeed>();
+    await appSeedService.SeedPlantAppRelationshipAsync();
 }
 
 app.UseHttpsRedirection();

@@ -2,8 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 using Data;
 
-namespace WebAPI.Controllers;
-
+namespace WebAdminAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

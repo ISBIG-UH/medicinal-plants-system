@@ -1,8 +1,8 @@
+using CQ.Core.Exceptions;
 using Data.DTOs;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Services.Interfaces;
-using Exceptions;
 using DataAccess.Interfaces;
 
 namespace Services.Implementations;

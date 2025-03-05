@@ -1,6 +1,6 @@
+using CQ.Core.Exceptions;
 using DataAccess;
 using Data.DTOs;
-using Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Services.Interfaces;
 using DataAccess.Interfaces;
