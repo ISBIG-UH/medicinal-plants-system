@@ -1,14 +1,56 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
+import './fonts.css';
+
 import App from './App.tsx'
 import { PrimeReactProvider } from 'primereact/api';
+import { BrowserRouter } from 'react-router-dom';
+import Tailwind from 'primereact/passthrough/tailwind';
+import { usePassThrough } from 'primereact/passthrough';
+import { twMerge } from 'tailwind-merge';
+import { classNames } from 'primereact/utils';
         
+
+const CustomTailwind = usePassThrough(
+  Tailwind,
+  {
+      panel: {
+          title: {
+              className: 'leading-none font-light text-2xl'
+          }
+      },
+      button: {
+        root: (_ref24:any) => {
+          var props = _ref24.props,
+          context = _ref24.context;
+
+          return {
+            className: classNames('px-2 py-1', 
+              {
+                'bg-primary hover:bg-secondary text-secondary hover:text-primary border border-primary hover:border-secondary':  props.severity === null
+              },
+
+
+            )
+          }
+        },
+      },
+  },
+  {
+      mergeSections: true,
+      mergeProps: true,
+      classNameMergeFunction: twMerge
+  }
+);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <PrimeReactProvider>
+     <BrowserRouter>
+    <PrimeReactProvider value={{ unstyled: true, pt: CustomTailwind  }}>
+
       <App />
     </PrimeReactProvider>
+     </BrowserRouter>
   </StrictMode>,
 )
