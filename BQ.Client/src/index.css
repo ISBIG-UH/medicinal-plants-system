@@ -1,0 +1,4 @@
+
+
+/* IMPORTANT: In "styled" mode you must add the PrimeReact Theme here. Do NOT include in "unstyled" mode */
+@import './assets/themes/css/cubaniq/theme.css' layer(primereact);
