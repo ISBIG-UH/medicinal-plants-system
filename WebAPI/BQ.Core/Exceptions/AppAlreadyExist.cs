@@ -1,6 +1,6 @@
 
 
-namespace CQ.Core.Exceptions;
+namespace BQ.Core.Exceptions;
 
 public class AppAlreadyExistsException : Exception
 {

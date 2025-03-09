@@ -20,16 +20,16 @@ namespace DataAccess.InitialDataPopulation
                 var salt = PasswordUtils.GenerateSalt();
                 var passwordHash = PasswordUtils.HashPassword("phi1.618", salt);
 
-                var user = new User
-                {
-                    Id = 1,
-                    UserName = "Admin",
-                    PasswordHash = passwordHash,
-                    Salt = salt
-                };
-
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
+                // var user = new User
+                // {
+                //     Id = 1,
+                //     UserName = "Admin",
+                //     PasswordHash = passwordHash,
+                //     Salt = salt
+                // };
+                //
+                // _context.Users.Add(user);
+                // await _context.SaveChangesAsync();
             }
 
         }

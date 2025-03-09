@@ -14,7 +14,7 @@ export async function apiLogin(request: LoginRequest): Promise<LoginResponse> {
   };
 
   const requestData = {
-    username: request.username,
+    email: request.username,
     password: request.password,
   };
 

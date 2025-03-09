@@ -1,4 +1,4 @@
-using CQ.Core.Exceptions;
+using BQ.Core.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 

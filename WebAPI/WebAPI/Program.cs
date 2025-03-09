@@ -1,3 +1,7 @@
+using BQ.Authorization;
+using BQ.Authorization.Extensions;
+using BQ.Authorization.Linkers;
+using BQ.Core;
 using DataAccess;
 using DataAccess.InitialDataPopulation;
 using Services;
@@ -46,13 +50,22 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddAutoMapper(expression => { });
+builder.Services.RegisterMapping();
+
+var coreModuleLinker = new CoreModuleLinker();
+coreModuleLinker.ConfigureServices(builder.Services, builder.Configuration);
+
 builder.Services.AddAdminServices();
+builder.Services.AddSignInManager<AppDbContext>();
 
 // register Seeders in the dependency container
 builder.Services.AddTransient<UserSeed>();
 builder.Services.AddTransient<PlantSeed>(); 
 builder.Services.AddTransient<PlantTermSeed>(); 
 builder.Services.AddTransient<PlantAppSeed>();
+
+
 
 var app = builder.Build();
 
@@ -76,10 +89,15 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<AppDbContext>();
+
+    var linker = new SeedLinker();
+    await linker.SeedInitialData(scope);
 
     var userSeedService = services.GetRequiredService<UserSeed>();
     await userSeedService.SeedUserAsync();

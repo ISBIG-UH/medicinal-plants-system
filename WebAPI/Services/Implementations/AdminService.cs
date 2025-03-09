@@ -1,4 +1,4 @@
-using CQ.Core.Exceptions;
+using BQ.Core.Exceptions;
 using DataAccess;
 using Data.DTOs;
 using Microsoft.EntityFrameworkCore;

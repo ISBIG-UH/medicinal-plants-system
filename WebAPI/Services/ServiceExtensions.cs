@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using BQ.Authorization.Services;
+using BQ.Authorization.Services.Interfaces;
+using BQ.Core.Data;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using DataAccess;
 using Services.Interfaces;
@@ -21,6 +24,7 @@ public static class ServiceExtensions
     /// <returns>The updated IServiceCollection.</returns>
     public static IServiceCollection AddDatabase(this IServiceCollection services, string connectionString)
     {
+        services.AddScoped<IDbContext, AppDbContext>();
         services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
         return services;
     }
