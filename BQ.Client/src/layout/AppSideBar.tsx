@@ -43,7 +43,7 @@ function AppSideBar() {;
     },
     {
       label: 'Acerca De',
-      icon: 'pi pi-question',
+      icon: 'pi pi-info-circle',
       items: [
           {
               label: 'Manual de usuario',
@@ -60,11 +60,7 @@ function AppSideBar() {;
 
 
   return (
-    <>
-      <div className="flex flex-row overflow-y-auto h-full">
-        <div
-          className={`bg-gray-200 overflow-hidden transition-max-width duration-500 ease-in-out md:w-64 w-full flex flex-col px-2`}
-        >
+        <div className='bg-gray-200 overflow-hidden transition-max-width duration-500 ease-in-out w-full h-full flex flex-col px-2'>
           <p className="mt-2 text-center text-xl font-semibold font-montserrat py-2">
             Menú
           </p>
@@ -84,9 +80,6 @@ function AppSideBar() {;
             Todos los derechos reservados
           </div>
         </div>
-
-      </div>
-    </>
   );
 }
 

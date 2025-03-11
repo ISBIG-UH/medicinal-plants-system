@@ -4,15 +4,33 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { Button } from 'primereact/button'
 import AppLayout from './layout/AppLayout'
+import { Route, Routes } from 'react-router-dom'
+import HomeComponent from './features/HomeComponent'
+import LoginComponent from './features/account/LoginComponent'
+import { spy } from 'mobx'
 
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+
+
+    // TODO: make this development environment only 
+    spy(event => {
+      if (event.type === "reaction") {
+        console.log("MobX Reaction:", event);
+      }
+    });
 
   return (
     <>
+       <Routes>
+          <Route path="/" element={<AppLayout/>}>
+              <Route index element={<HomeComponent/>}/>
+          </Route>
+          <Route path='/account/login' element={<LoginComponent/>}></Route>
+          <Route path='/account/confirmation' element={<LoginComponent/>}></Route>
 
-      <AppLayout/>
+        </Routes>
     </>
   )
 }

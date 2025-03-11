@@ -26,12 +26,11 @@ const CustomTailwind = usePassThrough(
           context = _ref24.context;
 
           return {
-            className: classNames('px-2 py-1', 
+            className: classNames( 
               {
-                'bg-primary hover:bg-secondary text-secondary hover:text-primary border border-primary hover:border-secondary':  props.severity === null
+                'bg-primary hover:bg-secondary text-secondary hover:text-primary border border-primary hover:border-secondary':  props.severity === null,
+                'bg-secondary hover:hover:bg-yellow-100 text-primary hover:text-primary border border-secondary hover:border-secondary': props.severity === 'secondary'
               },
-
-
             )
           }
         },

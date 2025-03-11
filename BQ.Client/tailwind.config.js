@@ -18,6 +18,9 @@ export default {
         background: '#f5f5f5',  // Light Gray
         text: '#212121',    
       },
+      backgroundImage: {
+        'leaf-wall': "url('/leafs_bg.png')"
+      },
       fontFamily: {
         montserrat: [
           'Montserrat',
