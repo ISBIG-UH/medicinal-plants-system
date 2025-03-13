@@ -42,7 +42,7 @@ function AppSideBar() {;
         ]
     },
     {
-      label: 'Acerca De',
+      label: 'Acerca',
       icon: 'pi pi-info-circle',
       items: [
           {
@@ -60,7 +60,9 @@ function AppSideBar() {;
 
 
   return (
-        <div className='bg-gray-200 overflow-hidden transition-max-width duration-500 ease-in-out w-full h-full flex flex-col px-2'>
+        <div className='bg-gray-200 overflow-hidden transition-max-width duration-500 ease-in-out w-full h-full flex flex-col'>
+          <div className="px-3 flex flex-col h-full">
+
           <p className="mt-2 text-center text-xl font-semibold font-montserrat py-2">
             Menú
           </p>
@@ -78,6 +80,7 @@ function AppSideBar() {;
           <div className="text-center text-sm p-1">
             <label className="font-montserrat">BotaniQ</label><br/>
             Todos los derechos reservados
+          </div>
           </div>
         </div>
   );

@@ -1,21 +1,37 @@
 import { Outlet } from "react-router";
 import AppSideBar from "./AppSideBar";
 import AppTopbar from "./AppTopbar";
+import { AppStore } from "./AppStore";
+import { ServiceContainer } from "../services/container";
+import { classNames } from "primereact/utils";
+import { observer } from "mobx-react-lite";
 
 const AppLayout: React.FC = () => {
-  return (
-    <div className="flex flex-col h-screen">
+
+  const store: AppStore = ServiceContainer.get(AppStore);
+  const _AppLayout = observer( () => { 
+    return (<div className="flex flex-col h-screen">
         <AppTopbar/>
-        <div className="flex flex-row flex-grow h-full overflow-y-auto lg:overflow-y-hidden">
-            <div className="md:w-64 w-full">
+        <div className="flex flex-row flex-grow h-full overflow-x-hidden overflow-y-auto lg:overflow-y-hidden w-full">
+            <div 
+                className={classNames(
+                  "flex-auto md:max-w-64 transition-all duration-500 ease-in-out", 
+                  {"max-w-0" : !store.variables.isMenuOpen, "max-w-full": store.variables.isMenuOpen})}>
                 <AppSideBar/>
             </div>
-            <div className="flex-auto">
+            <div 
+                className={classNames(
+                  "flex-auto transition-all duration-500 ease-in-out", 
+                  {"max-w-0" : store.variables.isMenuOpen, "max-w-full": !store.variables.isMenuOpen})}>
                 <Outlet/>
             </div>
         </div>
-    </div>
+    </div>)
+    }
   );
+
+  return <_AppLayout/>
+
 };
 
 export default AppLayout;

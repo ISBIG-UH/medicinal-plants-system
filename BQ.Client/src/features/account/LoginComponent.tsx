@@ -4,9 +4,9 @@ import { LoginComponentStore, LoginValidationResult } from "./LoginComponentStor
 import { Password } from "primereact/password";
 import { Divider } from "primereact/divider";
 import { observer } from "mobx-react-lite";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Tooltip } from "primereact/tooltip";
-import OverlayError from "../../components/OverlayError";
+
 
 const LoginComponent: React.FC = () => {
     const location = useLocation();
