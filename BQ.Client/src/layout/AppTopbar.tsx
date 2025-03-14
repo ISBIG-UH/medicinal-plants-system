@@ -28,8 +28,13 @@ const AppTopbar: React.FC = () => {
       </div>
       <div className="w-1/4 pr-2 lg:pr-28 items-center justify-end flex">
         <div className="flex h-100 items-center gap-1">
-          <label className="text-secondary hidden md:block">Iniciar sesión</label>
-          <Button rounded icon="pi pi-sign-in" onClick={() => navigate('/account/login')} />
+          <label className="text-secondary hidden md:block">
+            {store.variables.isLoggedIn ? store.variables.currentUser?.fullName : "Iniciar sesión"}  
+          </label>
+          <Button visible={!store.variables.isLoggedIn} rounded icon="pi pi-sign-in" onClick={() => navigate('/account/login')} />
+          <Button visible={store.variables.isLoggedIn} rounded icon="pi pi-sign-out" onClick={() => navigate('/account/login')} />
+
+
         </div>
       </div>
     </div>

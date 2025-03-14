@@ -1,6 +1,6 @@
+import { MessageService } from "../../features/messages";
 import { HttpStatusCodes } from "./http-status-codes";
 import { AxiosError } from "axios";
-import { MessageService } from "../messages";
 
 export interface IHttpResponsesHandler {
     handleSuccess?(): void;
@@ -48,9 +48,7 @@ export class BaseHttpResponsesHandler implements IHttpResponsesHandler {
     protected handleOtherError(errorResponse: AxiosError): void {
         this.messageService.show({severity: 'error', summary: 'Error', detail: errorResponse.code
             ? errorResponse.code :
-            "An error has occurred at the website and your support team will need to fix the problem. " +
-            "A preliminary report has been sent to the support team.Please do follow - up on the preliminary " +
-            "report using the Report a Problem page"});
+            "Ha ocurrido un error en el sitio web, por favor reintente la operación más tarde"});
     }
 
 

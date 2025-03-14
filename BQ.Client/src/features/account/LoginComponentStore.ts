@@ -1,6 +1,10 @@
 import { makeAutoObservable, toJS } from "mobx";
 import * as Yup from "yup";
 import { Login } from "./login";
+import { IAccountService } from "./AccountService";
+import { ServiceContainer } from "../../services/container";
+import { MessageService } from "../messages";
+import { NavigateOptions } from "react-router";
 
 export interface LoginValidationResult {
     email: string;
@@ -11,12 +15,19 @@ export interface LoginValidationResult {
 
 export class LoginComponentStore {
 
+    accountService: IAccountService;
+    messageService: MessageService;
+    navigate: null | (() => void) = null;
+
     login: Login = { email: '', password: '', passwordConfirmation: ''};
     loginValidationSchema: any; 
     loginValidationResult: LoginValidationResult= {email: '', password: '', passwordConfirmation: ''};
 
-    constructor(isConfirmation: boolean) {
-
+    constructor(isConfirmation: boolean, messageService: MessageService, navigate: () => void ) {
+        this.accountService = ServiceContainer.get(IAccountService);
+        this.messageService = messageService;
+        this.navigate = navigate;
+        
         this.loginValidationSchema = Yup.object().shape({
                 email: isConfirmation? 
                     Yup.string() : 
@@ -38,7 +49,10 @@ export class LoginComponentStore {
             });
 
         makeAutoObservable(this, {
-            loginValidationSchema: false
+            loginValidationSchema: false,
+            accountService: false,
+            messageService: false
+            
         });
     }
 
@@ -52,17 +66,27 @@ export class LoginComponentStore {
 
     async handleLogin () {
         this.loginValidationResult = {email: '', password: '', passwordConfirmation: ''};
+
+        var isOK = true;
+
         await this.loginValidationSchema.validate(this.login, { abortEarly: false })
-        .then((value:any) => {
-            console.log("call login service");
-        })
         .catch((err : Yup.ValidationError) => {
+            isOK = false;
             if (err.inner.length > 0){
                 err.inner.forEach((e:Yup.ValidationError) => {
                     this.updateLoginValidationResultField(e.path as keyof LoginValidationResult, e.message);
                 });
             }
         });
+
+        if (isOK){
+            const result = await this.accountService.login(this.login, this.messageService);
+
+            if (result.loggedUser && this.navigate != null){
+                this.navigate();
+            }
+        }
+
     }
 
 }
