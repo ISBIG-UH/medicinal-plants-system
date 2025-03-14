@@ -11,6 +11,7 @@ import { usePassThrough } from 'primereact/passthrough';
 import { twMerge } from 'tailwind-merge';
 import { classNames } from 'primereact/utils';
 import axios from 'axios';
+import { ToastMessageServiceProvider } from './features/messages/index.ts';
         
 
 
@@ -53,8 +54,9 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
      <BrowserRouter>
     <PrimeReactProvider value={{ unstyled: true, pt: CustomTailwind  }}>
-
+    <ToastMessageServiceProvider>
       <App />
+      </ToastMessageServiceProvider>
     </PrimeReactProvider>
      </BrowserRouter>
   </StrictMode>,
