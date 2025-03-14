@@ -10,7 +10,13 @@ import Tailwind from 'primereact/passthrough/tailwind';
 import { usePassThrough } from 'primereact/passthrough';
 import { twMerge } from 'tailwind-merge';
 import { classNames } from 'primereact/utils';
+import axios from 'axios';
         
+
+
+axios.defaults.baseURL = "http://localhost:5088";
+
+// axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 
 const CustomTailwind = usePassThrough(
   Tailwind,

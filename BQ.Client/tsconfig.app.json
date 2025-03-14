@@ -22,6 +22,9 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "types": ["reflect-metadata"],
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "include": ["src"]
 }
