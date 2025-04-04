@@ -1,10 +1,9 @@
-import { makeAutoObservable, toJS } from "mobx";
+import { makeAutoObservable} from "mobx";
 import * as Yup from "yup";
-import { Login } from "./login";
-import { IAccountService } from "./AccountService";
-import { ServiceContainer } from "../../services/container";
-import { MessageService } from "../messages";
-import { NavigateOptions } from "react-router";
+import { AuthRequest } from "../types/authentication";
+import { IAccountService } from "../services/account-service";
+import { ServiceContainer } from "../../../services/container";
+import { MessageService } from "../../messages";
 
 export interface LoginValidationResult {
     email: string;
@@ -19,7 +18,7 @@ export class LoginComponentStore {
     messageService: MessageService;
     navigate: null | (() => void) = null;
 
-    login: Login = { email: '', password: '', passwordConfirmation: ''};
+    login: AuthRequest = { email: '', password: '', passwordConfirmation: ''};
     loginValidationSchema: any; 
     loginValidationResult: LoginValidationResult= {email: '', password: '', passwordConfirmation: ''};
 
@@ -56,7 +55,7 @@ export class LoginComponentStore {
         });
     }
 
-    updateLoginField (key: keyof Login, value: string) {
+    updateLoginField (key: keyof AuthRequest, value: string) {
         this.login[key] = value;
     }
 

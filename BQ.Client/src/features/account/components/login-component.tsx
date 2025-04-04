@@ -1,24 +1,25 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import { LoginComponentStore, LoginValidationResult } from "./LoginComponentStore";
 import { Password } from "primereact/password";
 import { Divider } from "primereact/divider";
 import { observer } from "mobx-react-lite";
 import { useLocation, useNavigate} from "react-router-dom";
 import { Tooltip } from "primereact/tooltip";
 import { useContext } from "react";
-import { MessageServiceContext } from "../messages";
+import { MessageServiceContext } from "../../messages";
+import { LoginComponentStore, LoginValidationResult } from "../stores/login-component-store";
 
 
 const LoginComponent: React.FC = () => {
-    const location = useLocation();
     const navigate = useNavigate();
     // TODO: place the routes into a constants file
-    const isConfirmation = location.pathname === "/account/confirmation";
+    
+    const isConfirmation = useLocation().pathname === "/account/confirmation";
     const {messageService} = useContext(MessageServiceContext);
     const onLogInHandler = () => {
         navigate('/');
     }
+    
     const store = new LoginComponentStore(isConfirmation, messageService!, onLogInHandler);
 
 

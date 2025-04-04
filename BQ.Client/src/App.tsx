@@ -6,8 +6,8 @@ import { Button } from 'primereact/button'
 import AppLayout from './layout/AppLayout'
 import { Route, Routes } from 'react-router-dom'
 import HomeComponent from './features/HomeComponent'
-import LoginComponent from './features/account/LoginComponent'
 import { spy } from 'mobx'
+import LoginComponent from './features/account/components/login-component'
 
 
 function App() {

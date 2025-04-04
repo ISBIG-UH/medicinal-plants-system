@@ -35,6 +35,12 @@ export class BaseHttpResponsesHandler implements IHttpResponsesHandler {
             return;
         }
 
+        if (errorResponse.code === "ERR_NETWORK"){
+            this.messageService.show({severity: 'error', summary: 'Error', detail:
+                "No se ha podido establecer conexión con el servidor, por favor reintente la operación más tarde"});
+            return;
+        }
+
         this.handleErrorHttpStatusCode(errorResponse);
     }
 
