@@ -14,10 +14,8 @@ import axios from 'axios';
 import { ToastMessageServiceProvider } from './features/messages/index.ts';
         
 
+axios.defaults.baseURL = import.meta.env.VITE_BASE_API_URL;
 
-axios.defaults.baseURL = "http://localhost:5088";
-
-// axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 
 const CustomTailwind = usePassThrough(
   Tailwind,
