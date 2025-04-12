@@ -2,11 +2,13 @@ import { Container } from "inversify";
 import { AppStore } from "../layout/AppStore";
 import { AccountService, IAccountService } from "../features/account/services/account-service";
 
-
+const TYPES = {
+    IAccountService: Symbol.for("IParser"),
+}
 
 const ServiceContainer = new Container();
 
 ServiceContainer.bind(AppStore).toSelf().inSingletonScope();
-ServiceContainer.bind(IAccountService).to(AccountService).inTransientScope();
+ServiceContainer.bind(TYPES.IAccountService).to(AccountService).inTransientScope();
 
-export {ServiceContainer}
+export {TYPES, ServiceContainer}

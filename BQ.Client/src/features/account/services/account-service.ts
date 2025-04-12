@@ -8,16 +8,12 @@ import { BroadcastChannel } from 'broadcast-channel';
 import { LoginRequest, LoginResult } from "../types/authentication";
 
 
-@injectable()
-export class IAccountService extends BaseApiService {
-
-    login(login: LoginRequest, messageService: MessageService): Promise<LoginResult> {
-        throw new Error("Not implemented exception");
-    };
-    
+export interface IAccountService  {
+    login(login: LoginRequest, messageService: MessageService): Promise<LoginResult>;
 }
 
-export class AccountService extends IAccountService {
+@injectable()
+export class AccountService extends BaseApiService implements IAccountService {
     url: string = "api/account";
 
     channel = new BroadcastChannel("botaniq_account_channel");
