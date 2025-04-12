@@ -27,6 +27,9 @@ const CustomTailwind = usePassThrough(
               className: 'leading-none font-light text-2xl'
           }
       },
+      overlaypanel: {
+        content: 'p-2 items-center flex',
+      },
       button: {
         root: (_ref24:any) => {
           var props = _ref24.props,

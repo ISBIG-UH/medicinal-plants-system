@@ -1,8 +1,8 @@
 import { makeAutoObservable, toJS } from "mobx";
-import { IUser } from "../features/account/types/user";
 import { Container } from "inversify";
 import { ServiceContainer } from "../services/container";
 import { SortOrder } from "primereact/api";
+import { IUser } from "../features/account/types/user";
 
 export interface AppVariables {
     isMenuOpen: boolean;

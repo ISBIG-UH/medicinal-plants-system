@@ -7,7 +7,7 @@ import AppLayout from './layout/AppLayout'
 import { Route, Routes } from 'react-router-dom'
 import HomeComponent from './features/HomeComponent'
 import { spy } from 'mobx'
-import LoginComponent from './features/account/components/login-component'
+import { Login } from './features/account'
 
 
 function App() {
@@ -27,8 +27,8 @@ function App() {
           <Route path="/" element={<AppLayout/>}>
               <Route index element={<HomeComponent/>}/>
           </Route>
-          <Route path='/account/login' element={<LoginComponent/>}></Route>
-          <Route path='/account/confirmation' element={<LoginComponent/>}></Route>
+          <Route path='/account/login' element={<Login/>}></Route>
+          <Route path='/account/confirmation' element={<Login/>}></Route>
 
         </Routes>
     </>
