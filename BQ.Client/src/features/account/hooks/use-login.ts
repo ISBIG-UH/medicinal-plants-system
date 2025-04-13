@@ -13,8 +13,6 @@ const useLogin = () => {
     try {
       const result = await accountService.login(login, messageService);
       return result;
-    } catch (e){
-      throw e;
     } finally {
       setLoading(false);
     }

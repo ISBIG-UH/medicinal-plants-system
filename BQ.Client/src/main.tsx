@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import './fonts.css';
 
-import App from './App.tsx'
 import { PrimeReactProvider } from 'primereact/api';
 import { BrowserRouter } from 'react-router-dom';
 import Tailwind from 'primereact/passthrough/tailwind';
@@ -12,6 +11,7 @@ import { twMerge } from 'tailwind-merge';
 import { classNames } from 'primereact/utils';
 import axios from 'axios';
 import { ToastMessageServiceProvider } from './features/messages/index.ts';
+import App from './App.tsx';
         
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_API_URL;
@@ -30,8 +30,7 @@ const CustomTailwind = usePassThrough(
       },
       button: {
         root: (_ref24:any) => {
-          var props = _ref24.props,
-          context = _ref24.context;
+          const props = _ref24.props;
 
           return {
             className: classNames( 

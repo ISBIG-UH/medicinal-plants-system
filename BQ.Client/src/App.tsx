@@ -3,11 +3,11 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { Button } from 'primereact/button'
-import AppLayout from './layout/AppLayout'
 import { Route, Routes } from 'react-router-dom'
-import HomeComponent from './features/HomeComponent'
 import { spy } from 'mobx'
 import { Login } from './features/account'
+import AppLayout from './layout/app-layout'
+import HomeComponent from './features/home'
 
 
 function App() {

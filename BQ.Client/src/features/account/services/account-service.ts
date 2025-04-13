@@ -1,11 +1,11 @@
 import { injectable } from "inversify";
 import axios, { AxiosError } from "axios";
-import { BaseApiService } from "../../../services/interfaces/BaseApiService";
 import { BaseHttpResponsesHandler, IHttpResponseHandlerSettings } from "../../../services/http/http-responses-handler";
 import { MessageService } from "../../messages";
 import { HttpStatusCodes } from "../../../services/http/http-status-codes";
 import { BroadcastChannel } from 'broadcast-channel';
 import { LoginRequest, LoginResult } from "../types/authentication";
+import { BaseApiService } from "../../../services/interfaces/base-api-service";
 
 
 export interface IAccountService  {

@@ -1,5 +1,5 @@
 import { Container } from "inversify";
-import { AppStore } from "../layout/AppStore";
+import { AppStore } from "../layout/app-store";
 import { AccountService, IAccountService } from "../features/account/services/account-service";
 
 const TYPES = {

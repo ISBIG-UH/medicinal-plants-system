@@ -1,5 +1,5 @@
-import Divider from "../components/Divider";
 import { PanelMenu } from 'primereact/panelmenu';
+import Divider from '../components/Divider';
 
 
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ServiceContainer } from "../services/container";
-import { AppStore } from "../layout/AppStore";
+import { AppStore } from "../layout/app-store";
 import { IUser } from "../features/account/types/user";
 
 const useAppStore = () => {
