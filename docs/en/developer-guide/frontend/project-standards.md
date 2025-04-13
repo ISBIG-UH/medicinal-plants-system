@@ -23,6 +23,14 @@ If needed ESLint can be run manually from the terminal
 npx eslint . --ext .ts,.tsx
 ```
 
+### Formatting & Prettier
+
+Prettier is a useful tool for maintaining consistent code formatting in the project. The formatting can be done from the IDE and the code is automatically formatted according to the rules set in the `.prettierrc` configuration file.
+
+### Automation & Git Hooks
+
+Running the linter and formatter can be automated before each commit by using [Git Hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks), these are scripts that run before local actions in the git repository. Please be sure to read the [Setting up the Development Environment]() section of the documentation to set up the hooks.
+
 ### File Naming Conventions
 
 All files and folders in the project must be named in `kebab-case`. This rule is enforced using ESLint with the `unicorn/filename-case` rule.

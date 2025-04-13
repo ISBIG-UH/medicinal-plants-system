@@ -8,6 +8,23 @@ BotaniQ presents a three tier architecture consistent of:
 
  Please consult the documentation for each of these solutions before contributing to the project
 
+
+
+## Development environment setup
+
+### Git Hooks
+
+```bash
+sudo chmod +x .githooks/*
+git config core.hooksPath .githooks
+```
+
+
+
+
+
+
+
 ## BQ.Client
 
 - 📐 [Project Standards](./frontend/project-standards.md)
