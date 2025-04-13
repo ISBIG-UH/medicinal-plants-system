@@ -1,6 +1,6 @@
-import { MessageService } from "../../features/messages";
-import { HttpStatusCodes } from "./http-status-codes";
-import { AxiosError } from "axios";
+import { MessageService } from '../../features/messages';
+import { HttpStatusCodes } from './http-status-codes';
+import { AxiosError } from 'axios';
 
 export interface IHttpResponsesHandler {
     handleSuccess?(): void;
@@ -12,32 +12,57 @@ export interface IHttpResponseHandlerSettings {
     successMessage?: string;
     showErrorMessage?: boolean; // Default true
     errorMessage?: string;
-    errorStatusesMessages?: {[key: number]: string};
-
+    errorStatusesMessages?: { [key: number]: string };
 }
 
-
 export class BaseHttpResponsesHandler implements IHttpResponsesHandler {
-    constructor(protected messageService: MessageService,  protected settings?: IHttpResponseHandlerSettings) { }
-
+    constructor(
+        protected messageService: MessageService,
+        protected settings?: IHttpResponseHandlerSettings,
+    ) {}
 
     handleSuccess(): void {
         if (this.settings && this.settings.showSuccessMessage) {
-            this.messageService.show({severity: 'success', summary: 'Success', detail: this.settings.successMessage ? this.settings.successMessage : "Operation succeed." });
+            this.messageService.show({
+                severity: 'success',
+                summary: 'Success',
+                detail: this.settings.successMessage
+                    ? this.settings.successMessage
+                    : 'Operation succeed.',
+            });
         }
     }
 
     handleError(errorResponse: AxiosError): void {
         if (this.settings && this.settings.showErrorMessage == false) return;
 
-        if (this.settings && this.settings.errorStatusesMessages && this.settings.errorStatusesMessages[errorResponse.response?.status ? errorResponse.response.status : 0] != null) {
-            this.messageService.show({severity: 'error', summary: 'Error', detail: this.settings.errorStatusesMessages[errorResponse.response?.status ? errorResponse.response.status : 0] });
+        if (
+            this.settings &&
+            this.settings.errorStatusesMessages &&
+            this.settings.errorStatusesMessages[
+                errorResponse.response?.status
+                    ? errorResponse.response.status
+                    : 0
+            ] != null
+        ) {
+            this.messageService.show({
+                severity: 'error',
+                summary: 'Error',
+                detail: this.settings.errorStatusesMessages[
+                    errorResponse.response?.status
+                        ? errorResponse.response.status
+                        : 0
+                ],
+            });
             return;
         }
 
-        if (errorResponse.code === "ERR_NETWORK"){
-            this.messageService.show({severity: 'error', summary: 'Error', detail:
-                "No se ha podido establecer conexión con el servidor, por favor reintente la operación más tarde"});
+        if (errorResponse.code === 'ERR_NETWORK') {
+            this.messageService.show({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'No se ha podido establecer conexión con el servidor, por favor reintente la operación más tarde',
+            });
             return;
         }
 
@@ -52,25 +77,37 @@ export class BaseHttpResponsesHandler implements IHttpResponsesHandler {
     }
 
     protected handleOtherError(errorResponse: AxiosError): void {
-        this.messageService.show({severity: 'error', summary: 'Error', detail: errorResponse.code
-            ? errorResponse.code :
-            "Ha ocurrido un error en el sitio web, por favor reintente la operación más tarde"});
+        this.messageService.show({
+            severity: 'error',
+            summary: 'Error',
+            detail: errorResponse.code
+                ? errorResponse.code
+                : 'Ha ocurrido un error en el sitio web, por favor reintente la operación más tarde',
+        });
     }
-
-
 }
 
 export class OnReadByIdResponsesHandler extends BaseHttpResponsesHandler {
-    constructor(private entityTitle: string, protected messageService: MessageService,  settings?: IHttpResponseHandlerSettings) {
+    constructor(
+        private entityTitle: string,
+        protected messageService: MessageService,
+        settings?: IHttpResponseHandlerSettings,
+    ) {
         super(messageService, settings);
     }
 
-    protected override handleErrorHttpStatusCode(errorResponse: AxiosError): void {
-
-        if (errorResponse.response?.status == HttpStatusCodes.Status404NotFound) {
-            this.messageService.show({severity: 'error', summary: 'Error', detail:
-                `${this.entityTitle} not found. Perhaps another user has deleted the ${this.entityTitle}. ` +
-                "Please consider refreshing the page."
+    protected override handleErrorHttpStatusCode(
+        errorResponse: AxiosError,
+    ): void {
+        if (
+            errorResponse.response?.status == HttpStatusCodes.Status404NotFound
+        ) {
+            this.messageService.show({
+                severity: 'error',
+                summary: 'Error',
+                detail:
+                    `${this.entityTitle} not found. Perhaps another user has deleted the ${this.entityTitle}. ` +
+                    'Please consider refreshing the page.',
             });
             return;
         }
@@ -80,12 +117,18 @@ export class OnReadByIdResponsesHandler extends BaseHttpResponsesHandler {
 }
 
 export class OnCreateResponseHandler extends BaseHttpResponsesHandler {
-    constructor(entityTitle: string, protected messageService: MessageService, settings?: IHttpResponseHandlerSettings) {
+    constructor(
+        entityTitle: string,
+        protected messageService: MessageService,
+        settings?: IHttpResponseHandlerSettings,
+    ) {
         super(messageService, settings);
 
-        if (!this.settings) this.settings = <IHttpResponseHandlerSettings> {};
-        if (this.settings.showSuccessMessage == null) this.settings.showSuccessMessage = true;
-        if (this.settings.successMessage == null) this.settings.successMessage = `${entityTitle} created.`;
+        if (!this.settings) this.settings = <IHttpResponseHandlerSettings>{};
+        if (this.settings.showSuccessMessage == null)
+            this.settings.showSuccessMessage = true;
+        if (this.settings.successMessage == null)
+            this.settings.successMessage = `${entityTitle} created.`;
     }
 }
 
@@ -97,7 +140,6 @@ export class OnCreateResponseHandler extends BaseHttpResponsesHandler {
 //         if (this.settings.showSuccessMessage == null) this.settings.showSuccessMessage = true;
 //         if (this.settings.successMessage == null) this.settings.successMessage = `${entityTitle} updated.`;
 //     }
-
 
 //     protected handleErrorHttpStatusCode(errorResponse: AxiosResponse): void {
 //         if (errorResponse.status == HttpStatusCodes.Status404NotFound) {
@@ -120,7 +162,6 @@ export class OnCreateResponseHandler extends BaseHttpResponsesHandler {
 //         if (this.settings.showSuccessMessage == null) this.settings.showSuccessMessage = true;
 //         if (this.settings.successMessage == null) this.settings.successMessage = `${entityTitle} deleted.`;
 //     }
-
 
 //     protected handleErrorHttpStatusCode(errorResponse: AxiosResponse): void {
 //         if (errorResponse.status == HttpStatusCodes.Status404NotFound) {

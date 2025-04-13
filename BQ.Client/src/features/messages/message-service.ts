@@ -1,6 +1,5 @@
-import { Message } from "./message";
+import { Message } from './message';
 
 export interface MessageService {
-    show( message: Message ) : void;
+    show(message: Message): void;
 }
-

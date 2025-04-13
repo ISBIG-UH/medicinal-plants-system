@@ -1,12 +1,12 @@
-import { MessageService } from "./message-service";
-import { RefObject } from "react";
-import { Toast } from "primereact/toast";
-import { Message } from "./message";
+import { MessageService } from './message-service';
+import { RefObject } from 'react';
+import { Toast } from 'primereact/toast';
+import { Message } from './message';
 
 export class ToastMessageService implements MessageService {
-    toast : RefObject<Toast | null>;
+    toast: RefObject<Toast | null>;
 
-    constructor(toast : RefObject<Toast | null>) {
+    constructor(toast: RefObject<Toast | null>) {
         this.toast = toast;
     }
 

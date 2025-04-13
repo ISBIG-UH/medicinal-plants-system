@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 
-const useBroadcastChannel = (channelName:string) => {
+const useBroadcastChannel = (channelName: string) => {
     const [message, setMessage] = useState(null);
     const channel = new BroadcastChannel(channelName);
 
     useEffect(() => {
-        const handleMessage = (event:any) => {
+        const handleMessage = (event: any) => {
             setMessage(event.data);
         };
 
@@ -17,7 +17,7 @@ const useBroadcastChannel = (channelName:string) => {
         };
     }, [channel]);
 
-    const sendMessage = (msg:any) => {
+    const sendMessage = (msg: any) => {
         channel.postMessage(msg);
     };
 

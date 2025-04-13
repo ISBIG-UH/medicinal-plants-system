@@ -1,27 +1,31 @@
-import { useState } from "react";
-import { TYPES, ServiceContainer } from "../../../services/container";
-import { IAccountService } from "../services/account-service";
-import { LoginRequest } from "../types/authentication";
-import { MessageService } from "../../messages";
+import { useState } from 'react';
+import { TYPES, ServiceContainer } from '../../../services/container';
+import { IAccountService } from '../services/account-service';
+import { LoginRequest } from '../types/authentication';
+import { MessageService } from '../../messages';
 
 const useLogin = () => {
-  const [loading, setLoading] = useState(false);
-  const accountService: IAccountService = ServiceContainer.get<IAccountService>(TYPES.IAccountService);
+    const [loading, setLoading] = useState(false);
+    const accountService: IAccountService =
+        ServiceContainer.get<IAccountService>(TYPES.IAccountService);
 
-  async function handleLogin(login: LoginRequest, messageService: MessageService) {
-    setLoading(true);
-    try {
-      const result = await accountService.login(login, messageService);
-      return result;
-    } finally {
-      setLoading(false);
+    async function handleLogin(
+        login: LoginRequest,
+        messageService: MessageService,
+    ) {
+        setLoading(true);
+        try {
+            const result = await accountService.login(login, messageService);
+            return result;
+        } finally {
+            setLoading(false);
+        }
     }
-  }
 
-  return {
-    handleLogin,
-    loading,
-  };
+    return {
+        handleLogin,
+        loading,
+    };
 };
 
 export default useLogin;

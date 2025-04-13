@@ -1,20 +1,18 @@
-
 @import 'primeicons/primeicons.css';
 @layer tailwind-base, primereact, tailwind-utilities;
 
 @layer tailwind-base {
-  @tailwind base;
-  html {
-    @apply font-quicksand;
-  }
+    @tailwind base;
+    html {
+        @apply font-quicksand;
+    }
 }
 
 @layer tailwind-utilities {
-  @tailwind components;
-  @tailwind utilities;
-} 
-
+    @tailwind components;
+    @tailwind utilities;
+}
 
 .p-password > div.relative {
-  width: 100%;
-} 
+    width: 100%;
+}
