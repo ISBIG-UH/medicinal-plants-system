@@ -3,6 +3,10 @@
     "private": true,
     "version": "0.0.0",
     "type": "module",
+    "simple-git-hooks": {
+      "pre-commit": "npm audit",
+      "pre-push": "npm run format"
+    },
     "scripts": {
         "dev": "vite",
         "build": "tsc -b && vite build",
@@ -41,10 +45,10 @@
         "eslint-plugin-react-refresh": "^0.4.19",
         "eslint-plugin-unicorn": "^58.0.0",
         "globals": "^15.15.0",
-        "gulp": "^5.0.0",
-        "gulp-sass": "^6.0.1",
         "postcss": "^8.4.49",
-        "prettier": "^3.2.5",
+        "prettier": "^3.5.3",
+        "pretty-quick": "^4.1.1",
+        "simple-git-hooks": "^2.12.1",
         "tailwindcss": "^3.4.17",
         "typescript": "~5.7.2",
         "typescript-eslint": "^8.24.1",
