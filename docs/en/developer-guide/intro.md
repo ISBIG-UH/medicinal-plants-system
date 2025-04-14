@@ -28,5 +28,10 @@ git config core.hooksPath .githooks
 ## BQ.Client
 
 - 📐 [Project Standards](./frontend/project-standards.md)
+
+- 🗄️ [Project Structure](./frontend/project-structure.md)
+
 - 🧪 [Testing](./frontend/testing.md)
+
+  
 
