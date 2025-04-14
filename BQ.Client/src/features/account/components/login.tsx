@@ -4,7 +4,7 @@ import { Password } from 'primereact/password';
 import * as Yup from 'yup';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { MessageServiceContext } from '../../messages';
 import OverlayInputError from '../../../components/overlay-input-error';
@@ -107,6 +107,13 @@ const Login: React.FC = () => {
                             type="submit"
                             label="Iniciar sesión"
                         ></Button>
+
+                        <span className="text-secondary text-sm text-center">
+                            Si no tiene cuenta{' '}
+                            <NavLink to="/account/registration">
+                                regístrese aquí
+                            </NavLink>
+                        </span>
                     </div>
                 </form>
             </div>
