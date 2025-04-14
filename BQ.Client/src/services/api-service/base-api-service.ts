@@ -1,6 +1,6 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import { injectable } from 'inversify';
-import { IHttpResponsesHandler } from '../http/http-responses-handler';
+import { IHttpResponsesHandler } from '../http-interception/http-responses-handler';
 
 /**
  * Provides basic functionality to handle an asynchronous request to a server
@@ -10,12 +10,12 @@ export abstract class BaseApiService {
     readonly url: string = '';
 
     protected handleRequest<TResult>(
-        request: Promise<AxiosResponse<TResult, any>>,
+        request: Promise<AxiosResponse<TResult>>,
         responseHandler?: IHttpResponsesHandler,
     ): Promise<TResult> {
         if (responseHandler) {
             return request
-                .then((x: AxiosResponse<TResult, any>) => {
+                .then((x: AxiosResponse<TResult>) => {
                     if (responseHandler.handleSuccess) {
                         responseHandler.handleSuccess();
                     }

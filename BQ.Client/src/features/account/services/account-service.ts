@@ -1,15 +1,15 @@
 import { injectable } from 'inversify';
 import axios, { AxiosError } from 'axios';
-import {
-    BaseHttpResponsesHandler,
-    IHttpResponseHandlerSettings,
-} from '../../../services/http/http-responses-handler';
 import { MessageService } from '../../messages';
-import { HttpStatusCodes } from '../../../services/http/http-status-codes';
 import { BroadcastChannel } from 'broadcast-channel';
 import { LoginRequest, LoginResult } from '../types/authentication';
-import { BaseApiService } from '../../../services/interfaces/base-api-service';
 import { IUser } from '../types/user';
+import {
+    BaseHttpResponsesHandler,
+    HttpStatusCodes,
+    IHttpResponseHandlerSettings,
+} from '../../../services/http-interception';
+import { BaseApiService } from '../../../services/api-service';
 
 export interface IAccountService {
     login(
