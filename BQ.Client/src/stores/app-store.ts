@@ -1,7 +1,5 @@
-import { makeAutoObservable, toJS } from 'mobx';
-import { Container } from 'inversify';
+import { makeAutoObservable } from 'mobx';
 import { ServiceContainer } from '../services/container';
-import { SortOrder } from 'primereact/api';
 import { IUser } from '../features/account/types/user';
 
 export interface AppVariables {

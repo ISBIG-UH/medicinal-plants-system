@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import { spy } from 'mobx';
-import { Login } from './features/account';
-import AppLayout from './layout/app-layout';
-import HomeComponent from './features/home';
-import Registration from './features/account/components/registration';
-import Confirmation from './features/account/components/confirmation';
+import { Login } from '../features/account';
+import HomeComponent from '../features/home';
+import Registration from '../features/account/components/registration';
+import Confirmation from '../features/account/components/confirmation';
+import AppLayout from './app-layout';
 
 function App() {
     const [count, setCount] = useState(0);

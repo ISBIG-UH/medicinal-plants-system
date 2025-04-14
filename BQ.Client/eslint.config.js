@@ -20,7 +20,7 @@ export default tseslint.config(
             unicorn: eslintPluginUnicorn,
         },
         rules: {
-            // ...reactHooks.configs.recommended.rules,
+            ...reactHooks.configs.recommended.rules,
             '@typescript-eslint/no-unused-vars': 'warn',
             '@typescript-eslint/no-explicit-any': 'warn',
             'unicorn/filename-case': 'error',
