@@ -31,6 +31,8 @@ git config core.hooksPath .githooks
 
 - 🗄️ [Project Structure](./frontend/project-structure.md)
 
+- 🧱 [Components & Styling](./frontend/components-and-styling.md)
+
 - 🧪 [Testing](./frontend/testing.md)
 
   
