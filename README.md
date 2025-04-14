@@ -1,4 +1,4 @@
-<img src="./docs/img/logo.png" alt="4" style="zoom:40%;" />
+<img src="./docs/img/logo.png" alt="4" style="zoom:30%;" />
 
 ## About
 
