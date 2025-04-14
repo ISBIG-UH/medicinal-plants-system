@@ -9,12 +9,17 @@ import { HttpStatusCodes } from '../../../services/http/http-status-codes';
 import { BroadcastChannel } from 'broadcast-channel';
 import { LoginRequest, LoginResult } from '../types/authentication';
 import { BaseApiService } from '../../../services/interfaces/base-api-service';
+import { IUser } from '../types/user';
 
 export interface IAccountService {
     login(
         login: LoginRequest,
         messageService: MessageService,
     ): Promise<LoginResult>;
+    register(
+        user: Partial<IUser>,
+        messageService: MessageService,
+    ): Promise<IUser>;
 }
 
 @injectable()
@@ -46,6 +51,16 @@ export class AccountService extends BaseApiService implements IAccountService {
         }
 
         return this.loginPromise;
+    }
+
+    register(
+        user: Partial<IUser>,
+        messageService: MessageService,
+    ): Promise<IUser> {
+        return this.handleRequest<IUser>(
+            axios.post<IUser>(`${this.url}/register`, user),
+            new BaseHttpResponsesHandler(messageService),
+        );
     }
 }
 

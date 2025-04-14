@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
-import { Button } from 'primereact/button';
 import { Route, Routes } from 'react-router-dom';
 import { spy } from 'mobx';
 import { Login } from './features/account';
 import AppLayout from './layout/app-layout';
 import HomeComponent from './features/home';
+import Registration from './features/account/components/registration';
+import Confirmation from './features/account/components/confirmation';
 
 function App() {
     const [count, setCount] = useState(0);
@@ -26,7 +25,14 @@ function App() {
                     <Route index element={<HomeComponent />} />
                 </Route>
                 <Route path="/account/login" element={<Login />}></Route>
-                <Route path="/account/confirmation" element={<Login />}></Route>
+                <Route
+                    path="/account/registration"
+                    element={<Registration />}
+                ></Route>
+                <Route
+                    path="/account/confirmation"
+                    element={<Confirmation />}
+                ></Route>
             </Routes>
         </>
     );
