@@ -1,9 +1,6 @@
-import { usePassThrough } from 'primereact/passthrough';
-import Tailwind from 'primereact/passthrough/tailwind';
 import { classNames } from 'primereact/utils';
-import { twMerge } from 'tailwind-merge';
 
-const tailwindTheme = {
+export const tailwindTheme = {
     panel: {
         title: {
             className: 'leading-none font-light text-2xl',
@@ -26,12 +23,4 @@ const tailwindTheme = {
             };
         },
     },
-};
-
-export const useCustomTailwindTheme = () => {
-    return usePassThrough(Tailwind, tailwindTheme, {
-        mergeSections: true,
-        mergeProps: true,
-        classNameMergeFunction: twMerge,
-    });
 };
