@@ -2,9 +2,9 @@ import { Outlet } from 'react-router';
 import AppSideBar from './app-sidebar';
 import AppTopbar from './app-topbar';
 import { AppStore } from '../stores/app-store';
-import { ServiceContainer } from '../services/container';
 import { classNames } from 'primereact/utils';
 import { observer } from 'mobx-react-lite';
+import { ServiceContainer } from '../services/injection/container';
 
 const AppLayout: React.FC = () => {
     const store: AppStore = ServiceContainer.get(AppStore);

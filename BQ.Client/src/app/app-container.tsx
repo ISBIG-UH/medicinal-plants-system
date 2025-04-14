@@ -1,11 +1,11 @@
 import { PrimeReactProvider } from 'primereact/api';
 import { BrowserRouter } from 'react-router';
-import { ToastMessageServiceProvider } from '../features/messages';
 import App from './app';
 import { usePassThrough } from 'primereact/passthrough';
 import Tailwind from 'primereact/passthrough/tailwind';
 import { tailwindTheme } from '../theme';
 import { twMerge } from 'tailwind-merge';
+import { ToastMessageServiceProvider } from '../services/messages';
 
 const AppContainer: React.FC = () => {
     const customTailwind = usePassThrough(Tailwind, tailwindTheme, {

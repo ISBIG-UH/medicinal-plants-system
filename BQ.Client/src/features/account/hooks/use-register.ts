@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { TYPES, ServiceContainer } from '../../../services/container';
 import { IAccountService } from '../services/account-service';
-import { MessageService } from '../../messages';
 import { IUser } from '../types/user';
+import { MessageService } from '../../../services/messages';
+import { ServiceContainer, TYPES } from '../../../services/injection/container';
 
 const useRegister = () => {
     const [loading, setLoading] = useState(false);

@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
-import { ServiceContainer } from '../services/container';
 import { AppStore } from '../stores/app-store';
+import { ServiceContainer } from '../services/injection/container';
 
 const AppTopbar: React.FC = () => {
     const navigate = useNavigate();

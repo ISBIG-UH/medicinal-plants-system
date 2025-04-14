@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { TYPES, ServiceContainer } from '../../../services/container';
 import { IAccountService } from '../services/account-service';
 import { LoginRequest } from '../types/authentication';
-import { MessageService } from '../../messages';
+import { MessageService } from '../../../services/messages';
+import { ServiceContainer, TYPES } from '../../../services/injection/container';
 
 const useLogin = () => {
     const [loading, setLoading] = useState(false);

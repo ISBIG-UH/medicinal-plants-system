@@ -1,4 +1,4 @@
-import { MessageService } from '../../features/messages';
+import { MessageService } from '../messages';
 import { HttpStatusCodes } from './http-status-codes';
 import { AxiosError } from 'axios';
 

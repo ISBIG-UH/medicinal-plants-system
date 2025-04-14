@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
 import axios, { AxiosError } from 'axios';
-import { MessageService } from '../../messages';
+import { MessageService } from '../../../services/messages';
 import { BroadcastChannel } from 'broadcast-channel';
 import { LoginRequest, LoginResult } from '../types/authentication';
 import { IUser } from '../types/user';

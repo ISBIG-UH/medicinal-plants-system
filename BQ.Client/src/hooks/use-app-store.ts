@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { ServiceContainer } from '../services/container';
 import { IUser } from '../features/account/types/user';
 import { AppStore } from '../stores/app-store';
+import { ServiceContainer } from '../services/injection/container';
 
 const useAppStore = () => {
     const [loading, setLoading] = useState(false);

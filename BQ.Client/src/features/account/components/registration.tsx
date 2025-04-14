@@ -5,11 +5,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { MessageServiceContext } from '../../messages';
 import OverlayInputError from '../../../components/overlay-input-error';
-import useAppStore from '../../../hooks/use-app-store';
 import { IUser } from '../types/user';
 import useRegister from '../hooks/use-register';
+import { MessageServiceContext } from '../../../services/messages';
 
 const schema = Yup.object({
     firstName: Yup.string().trim().required('Por favor, introduzca su nombre'),

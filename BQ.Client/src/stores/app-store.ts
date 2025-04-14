@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
-import { ServiceContainer } from '../services/container';
 import { IUser } from '../features/account/types/user';
+import { ServiceContainer } from '../services/injection/container';
 
 export interface AppVariables {
     isMenuOpen: boolean;

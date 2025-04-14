@@ -6,11 +6,11 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { MessageServiceContext } from '../../messages';
 import OverlayInputError from '../../../components/overlay-input-error';
 import useLogin from '../hooks/use-login';
 import { LoginRequest } from '../types/authentication';
 import useAppStore from '../../../hooks/use-app-store';
+import { MessageServiceContext } from '../../../services/messages';
 
 const schema = Yup.object({
     email: Yup.string()

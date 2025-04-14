@@ -1,9 +1,6 @@
 import { Container } from 'inversify';
-import {
-    AccountService,
-    IAccountService,
-} from '../features/account/services/account-service';
-import { AppStore } from '../stores/app-store';
+import { AppStore } from '../../stores/app-store';
+import { AccountService } from '../../features/account/services/account-service';
 
 const TYPES = {
     IAccountService: Symbol.for('IParser'),
