@@ -6,4 +6,9 @@ import eslint from 'vite-plugin-eslint';
 // https://vite.dev/config/
 export default defineConfig({
     plugins: [react(), eslint()],
+    test: {
+      environment: 'happy-dom',
+      setupFiles: ['./src/test/setup.ts'],
+      include: ['./src/**/*.{test,spec}.{ts,tsx}']
+    }
 });

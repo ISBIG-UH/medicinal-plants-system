@@ -4,11 +4,13 @@ import { OverlayPanel } from 'primereact/overlaypanel';
 import { Tag } from 'primereact/tag';
 
 interface OverlayInputErrorProps {
+    id?: string;
     error?: string;
-    children: React.ReactNode;
+    children: React.ReactElement<{ id: string }>;
 }
 
 const OverlayInputError: React.FC<OverlayInputErrorProps> = ({
+    id,
     error,
     children,
 }) => {
@@ -65,11 +67,22 @@ const OverlayInputError: React.FC<OverlayInputErrorProps> = ({
 
     return (
         <div className="flex justify-content-end">
-            <div className="w-full" ref={elementRef}>
+            <div
+                className="w-full"
+                data-testid="overlay-input-error-wrapper"
+                ref={elementRef}
+            >
                 {children}
             </div>
             <OverlayPanel ref={op}>
-                <div className="bg-red-500 text-white px-2 py-1 rounded-sm mr-2">
+                <div
+                    id={
+                        children.props.id
+                            ? children.props.id + '-error'
+                            : undefined
+                    }
+                    className="bg-red-500 text-white px-2 py-1 rounded-sm mr-2"
+                >
                     <i className="pi pi-exclamation-triangle"></i>
                 </div>
                 {error}
