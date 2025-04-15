@@ -90,7 +90,7 @@ export class BaseHttpResponsesHandler implements IHttpResponsesHandler {
         this.messageService.show({
             severity: 'error',
             summary: 'Error',
-            detail: errorResponse.response
+            detail: errorResponse.response?.data?.message
                 ? errorResponse.response.data.message
                 : 'Ha ocurrido un error en el sitio web, por favor reintente la operación más tarde',
         });
