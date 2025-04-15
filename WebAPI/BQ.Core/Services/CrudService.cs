@@ -15,8 +15,8 @@ public class CrudService<TContext> : ICrudService<TContext>
     private readonly TContext _context;
     private readonly IMapper _mapper;
     
-    public TContext Context { get; }
-    public IMapper Mapper { get; }
+    public TContext Context { get { return _context; } }
+    public IMapper Mapper { get { return _mapper; } }
     
     public CrudService(TContext context, IMapper mapper)
     {

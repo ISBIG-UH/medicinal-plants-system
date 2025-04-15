@@ -24,7 +24,10 @@ public class User : IdentityUser, IEntity<string>
 
     public Company Company { get; set; }
     
-    public ICollection<Role> Roles { get; set; } = new List<Role>();
+    public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
 
     public string AuthSecurityStamp { get; set; }
+    
+    // public string ApprovedById { get; set; }
+    // public User ApprovedBy { get; set; }
 }

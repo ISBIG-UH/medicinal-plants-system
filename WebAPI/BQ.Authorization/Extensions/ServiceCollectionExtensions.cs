@@ -1,5 +1,6 @@
 using System.Reflection;
 using BQ.Authorization.Model;
+using BQ.Authorization.Services;
 using CQ.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -26,6 +27,7 @@ public static class ServiceCollectionExtensions
         services
             .AddIdentityCore<User>()
             .AddRoles<Role>()
+            .AddUserManager<BQUserManager<User>>()
             .AddEntityFrameworkStores<TContext>()
             .AddSignInManager();
         

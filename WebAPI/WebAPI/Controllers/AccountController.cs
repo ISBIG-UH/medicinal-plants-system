@@ -1,4 +1,5 @@
 using BBWM.Core.Membership.DTO;
+using BQ.Authorization.DTO;
 using BQ.Authorization.Jwt;
 using BQ.Authorization.Services.Interfaces;
 using Data.DTOs;
@@ -9,17 +10,24 @@ namespace WebAdminAPI.Controllers;
 
 [ApiController]
 [Route("api/account")]
-public class AuthenticateController : ControllerBase
+public class AccountController : ControllerBase
 {
     private readonly IAuthenticateService _authenticteService;
     private readonly IJwtService _jwtService;
     private readonly IUserService _userService;
 
-    public AuthenticateController(IAuthenticateService authenticateService, IUserService userService, IJwtService jwtService)
+    public AccountController(IAuthenticateService authenticateService, IUserService userService, IJwtService jwtService)
     {
         _authenticteService = authenticateService;
         _userService = userService;
         _jwtService = jwtService;
+    }
+    
+    [HttpPost]
+    [Route("register")]
+    public async Task<IActionResult> Register([FromBody] UserDTO userDto, CancellationToken ct = default)
+    {
+        return Ok(await _userService.Register(userDto, ct));
     }
 
     [HttpPost]

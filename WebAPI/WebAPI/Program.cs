@@ -1,11 +1,13 @@
 using BQ.Authorization;
 using BQ.Authorization.Extensions;
+using BQ.Authorization.Jwt;
 using BQ.Authorization.Linkers;
 using BQ.Core;
 using DataAccess;
 using DataAccess.InitialDataPopulation;
 using Services;
 using WebAPI.Extensions;
+using WebAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,9 @@ builder.Services.AddCors(options =>
             policy.WithOrigins("http://localhost:5174")
                   .AllowAnyHeader()
                   .AllowAnyMethod();
+            policy.WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
         });
 });
 
@@ -50,11 +55,18 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+var authBuilder = builder.Services.AddAuthentication();
+
 builder.Services.AddAutoMapper(expression => { });
 builder.Services.RegisterMapping();
 
 var coreModuleLinker = new CoreModuleLinker();
 coreModuleLinker.ConfigureServices(builder.Services, builder.Configuration);
+
+var jwtLinker = new JwtLinker();
+jwtLinker.ConfigureServices(builder.Services, builder.Configuration);
+jwtLinker.Register(authBuilder, builder.Services, builder.Configuration);
+
 
 builder.Services.AddAdminServices();
 builder.Services.AddSignInManager<AppDbContext>();
@@ -76,6 +88,8 @@ app.MapControllers();
 
 app.MigrateDatabases(builder.Configuration);
 
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -89,7 +103,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-
+app.UseMiddleware<ExceptionMiddleware>();
 
 using (var scope = app.Services.CreateScope())
 {

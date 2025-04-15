@@ -1,10 +1,12 @@
 using BBWM.Core.Membership.DTO;
 using BQ.Authorization.DTO;
 using BQ.Authorization.Enum;
+using BQ.Authorization.Jwt;
 using BQ.Authorization.Model;
 using BQ.Authorization.Services.Interfaces;
 using BQ.Core.Exceptions;
 using BQ.Core.Services;
+using CQ.Core;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 
@@ -17,18 +19,83 @@ public class UserService : DataService<User, UserDTO, string>, IUserService
     
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
+    private readonly IJwtService _jwtService;
+    private readonly RoleManager<Role> _roleManager;
 
     public UserService(
         ICrudService crudService,
         UserManager<User> userManager,
-        SignInManager<User> signInManager)
+        SignInManager<User> signInManager,
+        RoleManager<Role> roleManager,
+        IJwtService jwtService
+        )
         : base(crudService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _jwtService = jwtService;
+        _roleManager = roleManager;
     }
 
+    public async Task<UserDTO> Create(UserDTO dto, CancellationToken ct)
+    {
+        dto = BeforeUserSave(dto);
+        var user = _crudService.Mapper.Map<User>(dto);
+        await _userManager.CreateAsync(user);
+
+        await AfterUserSave(user, dto, ct);
+        return await Get(user.Id, ct);
+    }
+
+    public UserDTO BeforeUserSave(UserDTO dto)
+    {
+        dto.Email = dto.Email.Trim();
+        dto.UserName = dto.UserName?.Trim();
+        dto.FirstName = dto.FirstName?.Trim();
+        dto.LastName = dto.LastName?.Trim();
+        dto.PhoneNumber = dto.PhoneNumber?.Trim();
+
+        return dto;
+    }
     
+    private async Task AfterUserSave(User user, UserDTO dto, CancellationToken cancellationToken)
+    {
+        await UpdateUserRoles(user, dto.Roles.Select(x => x.Id), cancellationToken);
+    }
+    
+    private async Task UpdateUserRoles(User user, IEnumerable<string> newRolesIds, CancellationToken cancellationToken)
+    {
+        newRolesIds = newRolesIds.ToList();
+        var existingRoles = _crudService.Context.Set<UserRole>()
+            .Include(x => x.Role)
+            .Where(x => x.UserId == user.Id);
+
+        foreach (var existingRole in existingRoles)
+        {
+            if (newRolesIds.All(x => x != existingRole.RoleId))
+            {
+                await _userManager.RemoveFromRoleAsync(user, existingRole.Role.Name);
+            }
+        }
+
+        foreach (var newRoleId in newRolesIds)
+        {
+            if (await existingRoles.AllAsync(x => x.RoleId != newRoleId, cancellationToken))
+            {
+                var role = await _roleManager.FindByIdAsync(newRoleId);
+                await _userManager.AddToRoleAsync(user, role.Name);
+            }
+        }
+    }
+
+    public async Task<UserDTO> Register(UserDTO dto, CancellationToken ct)
+    {
+        var role = await _crudService.Context.Set<Role>().FirstOrDefaultAsync(x => x.Name == Roles.DataCuratorRole);
+
+        dto.Roles = new List<RoleDTO>() { new RoleDTO() { Id = role.Id } };
+        return await Invite(dto, ct);
+    }
+
     public async Task<UserDTO> Invite(UserDTO dto, CancellationToken cancellationToken = default)
     {
         var existingUser = await _userManager.FindByEmailAsync(dto.Email);
@@ -42,16 +109,17 @@ public class UserService : DataService<User, UserDTO, string>, IUserService
         
         var savingResult = await Create(dto, cancellationToken);
 
-        var createdUser = await _userManager.FindByIdAsync(savingResult.Id);
-        await _userManager.UpdateAsync(createdUser);
-
-        return await Get(createdUser.Id, cancellationToken);
+        return savingResult;
+        // var createdUser = await _userManager.FindByIdAsync(savingResult.Id);
+        // await _userManager.UpdateAsync(createdUser);
+        //
+        // return await Get(createdUser.Id, cancellationToken);
     }
 
     public async Task<AuthResultDTO> Login(LoginDTO dto, CancellationToken ct = default)
     {
         var user = await _userManager.Users
-            .Include(u => u.Roles)
+            .Include(u => u.UserRoles)
             .FirstOrDefaultAsync(u => u.Email == dto.Email, ct);
 
         if (user == null)
@@ -61,14 +129,23 @@ public class UserService : DataService<User, UserDTO, string>, IUserService
         
         ValidateAccountStatus(user.AccountStatus);
         
-
-
         // We use SignInAsync instead of PasswordSignInAsync because SignInAsync contains custom logging logic
-        await _signInManager.PasswordSignInAsync(user, dto.Password, true, false);
+        var result = await _signInManager.PasswordSignInAsync(user, dto.Password, true, false);
 
-        var loggedUser = await Get(user.Id, ct);
+        UserDTO loggedUser = null;
+        
+        if (result.Succeeded)
+        {
+            loggedUser = await Get(user.Id, ct);
+        }
+        else
+        {
+            throw new BusinessException("Credenciales incorrectas");
+        }
 
-        return new AuthResultDTO { UserId = user.Id, LoggedUser = loggedUser };
+       
+        
+        return new AuthResultDTO { UserId = loggedUser.Id, LoggedUser = loggedUser, SessionToken = ""};
     }
     
     private static void ValidateAccountStatus(AccountStatus accountStatus)
@@ -98,7 +175,7 @@ public static class UserErrorMessages
         public static readonly string InvitationNotFoundForUser = "Invitation not found for the user.";
         public static readonly string InvitationExpired = "Sorry, your link has expired. Please ask your administrator to resend the invitation.";
         public static readonly string EmailExistForDeleted = "User with this email already exists and has 'deleted' status. You should undelete the user on the user details page instead.";
-        public static readonly string EmailExist = "User with this email already exists";
+        public static readonly string EmailExist = "Un usuario con este email ya existe.";
         public static readonly string UserNotActivatedForEmail = "User with email u.Email is not activated";
         public static readonly string UserAlreadyActivated = "User is already active.";
         public static readonly string WrongRecoveryCode = "Wrong recovery code";

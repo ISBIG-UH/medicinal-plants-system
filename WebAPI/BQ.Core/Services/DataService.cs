@@ -9,7 +9,7 @@ public class DataService<TEntity, TDTO, TKey> : IDataService<TDTO, TKey>
     where TKey : IEquatable<TKey>
 {
 
-    private readonly ICrudService _crudService;
+    protected readonly ICrudService _crudService;
 
     public DataService(ICrudService crudService)
     {

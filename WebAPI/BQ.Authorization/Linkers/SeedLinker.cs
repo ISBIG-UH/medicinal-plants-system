@@ -69,7 +69,7 @@ public class SeedLinker : ISeedLinker
         
         var sysAdmin = new UserDTO
         {
-            Email = "systemadmin@bbconsult.co.uk",
+            Email = "systemadmin@botaniq.org",
             Password = "cover918Surface!",
             FirstName = "System",
             LastName = "Admin",
