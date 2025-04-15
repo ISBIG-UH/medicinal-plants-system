@@ -50,6 +50,7 @@
         "globals": "^15.15.0",
         "happy-dom": "^17.4.4",
         "lint-staged": "^15.5.1",
+        "msw": "^2.7.4",
         "postcss": "^8.4.49",
         "prettier": "^3.5.3",
         "tailwindcss": "^3.4.17",
