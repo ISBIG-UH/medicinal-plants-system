@@ -33,6 +33,8 @@ git config core.hooksPath .githooks
 
 - 🧱 [Components & Styling](./frontend/components-and-styling.md)
 
+- 📡 [Service Layer](./frontend/service-layer.md)
+
 - 🧪 [Testing](./frontend/testing.md)
 
   
