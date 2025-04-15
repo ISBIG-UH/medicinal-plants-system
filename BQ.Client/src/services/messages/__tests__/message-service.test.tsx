@@ -2,10 +2,10 @@ import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { useContext } from 'react';
-import MessageServiceContext from '../services/message-service.context';
 import { Button } from 'primereact/button';
 import { PrimeReactProvider } from 'primereact/api';
 import ToastMessageServiceProvider from '../components/toast-message-service.provider';
+import MessageServiceContext from '../classes/message-service.context';
 
 describe('Message Service', () => {
     const DummyComponent: React.FC = () => {

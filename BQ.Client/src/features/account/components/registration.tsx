@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import OverlayInputError from '../../../components/overlay-input-error';
 import { IUser } from '../types/user';
 import useRegister from '../hooks/use-register';
@@ -23,6 +23,8 @@ const schema = Yup.object({
 });
 
 const Registration: React.FC = () => {
+    const [success, setSucces] = useState<boolean>(false);
+
     const { handleRegister, loading } = useRegister();
     const {
         register,
@@ -32,11 +34,11 @@ const Registration: React.FC = () => {
         resolver: yupResolver(schema),
     });
     const { messageService } = useContext(MessageServiceContext);
-
     const navigate = useNavigate();
 
     const onSubmit = async (user: Partial<IUser>) => {
-        const result = await handleRegister(user as IUser, messageService!);
+        await handleRegister(user as IUser, messageService!);
+        setSucces(true);
     };
 
     return (
@@ -49,7 +51,7 @@ const Registration: React.FC = () => {
                     </h1>
                 </div>
 
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(onSubmit)} hidden={success}>
                     <div className="flex flex-col gap-2 font-quicksand">
                         <div>
                             <label
@@ -118,6 +120,35 @@ const Registration: React.FC = () => {
                         ></Button>
                     </div>
                 </form>
+
+                {success && (
+                    <div className="flex flex-col font-quicksand text-secondary">
+                        <span className="font-sniglet text-secondary block text-center mb-2">
+                            ¡Solicitud de registro realizada con éxito!
+                        </span>
+                        <div className=" rounded-lg p-2">
+                            <p>
+                                Su solicitud de registro ha sido recibida y
+                                enviada a los administradores del sitio.
+                                <br />
+                                <br />
+                                Por favor, espere a que un miembro de la
+                                administración lo contacte para completar el
+                                proceso de activación de su cuenta.
+                            </p>
+                        </div>
+                        <span className="font-sniglet text-secondary block text-center mb-2">
+                            ¡Muchas gracias!
+                        </span>
+                        <Button
+                            severity="secondary"
+                            className="mt-4"
+                            type="submit"
+                            label="Regresar al inicio"
+                            onClick={() => navigate('/')}
+                        ></Button>
+                    </div>
+                )}
             </div>
         </div>
     );

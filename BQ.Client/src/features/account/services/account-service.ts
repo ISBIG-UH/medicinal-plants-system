@@ -6,6 +6,7 @@ import { LoginRequest, LoginResult } from '../types/authentication';
 import { IUser } from '../types/user';
 import {
     BaseHttpResponsesHandler,
+    ErrorResponseData,
     HttpStatusCodes,
     IHttpResponseHandlerSettings,
 } from '../../../services/http-interception';
@@ -73,7 +74,7 @@ export class LoginResponsesHandler extends BaseHttpResponsesHandler {
     }
 
     protected override handleErrorHttpStatusCode(
-        errorResponse: AxiosError,
+        errorResponse: AxiosError<ErrorResponseData>,
     ): void {
         if (
             errorResponse.response?.status == HttpStatusCodes.Status403Forbidden
@@ -89,3 +90,20 @@ export class LoginResponsesHandler extends BaseHttpResponsesHandler {
         super.handleErrorHttpStatusCode(errorResponse);
     }
 }
+
+// export class RegisterResponsesHandler extends BaseHttpResponsesHandler {
+//     constructor(
+//         protected messageService: MessageService,
+//         settings?: IHttpResponseHandlerSettings,
+//     ) {
+//         super(messageService, settings);
+//     }
+
+//     override handleSuccess(): void {
+//         this.messageService.show({
+//             severity: 'success',
+//             summary: 'Éxito',
+//             detail: 'Solicitud de registro realizada con éxito',
+//         });
+//     }
+// }

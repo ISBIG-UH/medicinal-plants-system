@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
-import { ToastMessageService } from '../services/toast-message-service';
-import MessageServiceContext from '../services/message-service.context';
 import { RefObject } from 'react';
 import { Toast } from 'primereact/toast';
 import { useRef } from 'react';
+import { ToastMessageService } from '../classes/toast-message-service';
+import MessageServiceContext from '../classes/message-service.context';
 
 interface ToastMessageServiceProviderProps {
     children: ReactNode;

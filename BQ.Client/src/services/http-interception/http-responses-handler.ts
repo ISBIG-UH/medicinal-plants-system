@@ -15,6 +15,10 @@ export interface IHttpResponseHandlerSettings {
     errorStatusesMessages?: { [key: number]: string };
 }
 
+export interface ErrorResponseData {
+    message: string;
+}
+
 export class BaseHttpResponsesHandler implements IHttpResponsesHandler {
     constructor(
         protected messageService: MessageService,
@@ -25,15 +29,15 @@ export class BaseHttpResponsesHandler implements IHttpResponsesHandler {
         if (this.settings && this.settings.showSuccessMessage) {
             this.messageService.show({
                 severity: 'success',
-                summary: 'Success',
+                summary: 'Éxito',
                 detail: this.settings.successMessage
                     ? this.settings.successMessage
-                    : 'Operation succeed.',
+                    : 'Operación realizada con éxito',
             });
         }
     }
 
-    handleError(errorResponse: AxiosError): void {
+    handleError(errorResponse: AxiosError<ErrorResponseData>): void {
         if (this.settings && this.settings.showErrorMessage == false) return;
 
         if (
@@ -69,19 +73,25 @@ export class BaseHttpResponsesHandler implements IHttpResponsesHandler {
         this.handleErrorHttpStatusCode(errorResponse);
     }
 
-    protected handleErrorHttpStatusCode(errorResponse: AxiosError): void {
+    protected handleErrorHttpStatusCode(
+        errorResponse: AxiosError<ErrorResponseData>,
+    ): void {
         switch (errorResponse.status) {
             default:
                 this.handleOtherError(errorResponse);
         }
     }
 
-    protected handleOtherError(errorResponse: AxiosError): void {
+    protected handleOtherError(
+        errorResponse: AxiosError<ErrorResponseData>,
+    ): void {
+        console.log('this is the response');
+        console.log(errorResponse);
         this.messageService.show({
             severity: 'error',
             summary: 'Error',
-            detail: errorResponse.code
-                ? errorResponse.code
+            detail: errorResponse.response
+                ? errorResponse.response.data.message
                 : 'Ha ocurrido un error en el sitio web, por favor reintente la operación más tarde',
         });
     }
@@ -97,7 +107,7 @@ export class OnReadByIdResponsesHandler extends BaseHttpResponsesHandler {
     }
 
     protected override handleErrorHttpStatusCode(
-        errorResponse: AxiosError,
+        errorResponse: AxiosError<ErrorResponseData>,
     ): void {
         if (
             errorResponse.response?.status == HttpStatusCodes.Status404NotFound
