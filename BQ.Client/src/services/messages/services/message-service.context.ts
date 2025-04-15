@@ -1,9 +1,5 @@
 import React from 'react';
-import { MessageService } from './message-service';
-
-interface MessageServiceContextType {
-    messageService?: MessageService;
-}
+import { MessageServiceContextType } from '../types/messages';
 
 const MessageServiceContext = React.createContext<MessageServiceContextType>(
     {},

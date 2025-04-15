@@ -1,7 +1,6 @@
-import { MessageService } from './message-service';
 import { RefObject } from 'react';
 import { Toast } from 'primereact/toast';
-import { Message } from './message';
+import { Message, MessageService } from '../types/messages';
 
 export class ToastMessageService implements MessageService {
     toast: RefObject<Toast | null>;
