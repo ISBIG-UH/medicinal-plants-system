@@ -109,7 +109,7 @@ const Login: React.FC = () => {
                         ></Button>
 
                         <span className="text-secondary text-sm text-center">
-                            Si no tiene cuenta{' '}
+                            Si no tiene cuenta&nbsp;
                             <NavLink
                                 className="underline"
                                 to="/account/registration"

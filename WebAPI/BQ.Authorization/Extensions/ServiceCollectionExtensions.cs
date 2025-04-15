@@ -25,7 +25,15 @@ public static class ServiceCollectionExtensions
             .AddCookie("Identity.Application");
         
         services
-            .AddIdentityCore<User>()
+            .AddIdentityCore<User>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequiredUniqueChars = 0;
+            })
             .AddRoles<Role>()
             .AddUserManager<BQUserManager<User>>()
             .AddEntityFrameworkStores<TContext>()

@@ -2,7 +2,11 @@ import { injectable } from 'inversify';
 import axios, { AxiosError } from 'axios';
 import { MessageService } from '../../../services/messages';
 import { BroadcastChannel } from 'broadcast-channel';
-import { LoginRequest, LoginResult } from '../types/authentication';
+import {
+    AccountConfirmation,
+    LoginRequest,
+    LoginResult,
+} from '../types/authentication';
 import { IUser } from '../types/user';
 import {
     BaseHttpResponsesHandler,
@@ -21,6 +25,10 @@ export interface IAccountService {
         user: Partial<IUser>,
         messageService: MessageService,
     ): Promise<IUser>;
+    confirm(
+        accountConfirmation: Partial<AccountConfirmation>,
+        messageService: MessageService,
+    ): Promise<void>;
 }
 
 @injectable()
@@ -63,6 +71,16 @@ export class AccountService extends BaseApiService implements IAccountService {
             new BaseHttpResponsesHandler(messageService),
         );
     }
+
+    confirm(
+        accountConfirmation: Partial<AccountConfirmation>,
+        messageService: MessageService,
+    ): Promise<void> {
+        return this.handleRequest<void>(
+            axios.post<void>(`${this.url}/confirm`, accountConfirmation),
+            new BaseHttpResponsesHandler(messageService),
+        );
+    }
 }
 
 export class LoginResponsesHandler extends BaseHttpResponsesHandler {
@@ -90,20 +108,3 @@ export class LoginResponsesHandler extends BaseHttpResponsesHandler {
         super.handleErrorHttpStatusCode(errorResponse);
     }
 }
-
-// export class RegisterResponsesHandler extends BaseHttpResponsesHandler {
-//     constructor(
-//         protected messageService: MessageService,
-//         settings?: IHttpResponseHandlerSettings,
-//     ) {
-//         super(messageService, settings);
-//     }
-
-//     override handleSuccess(): void {
-//         this.messageService.show({
-//             severity: 'success',
-//             summary: 'Éxito',
-//             detail: 'Solicitud de registro realizada con éxito',
-//         });
-//     }
-// }

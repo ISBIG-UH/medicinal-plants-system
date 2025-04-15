@@ -3,12 +3,13 @@ import { Password } from 'primereact/password';
 import * as Yup from 'yup';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
+import { NavLink, useSearchParams } from 'react-router-dom';
+import { useContext, useState } from 'react';
 import OverlayInputError from '../../../components/overlay-input-error';
-import { IUser } from '../types/user';
 import { Divider } from 'primereact/divider';
 import { MessageServiceContext } from '../../../services/messages';
+import { AccountConfirmation } from '../types/authentication';
+import useConfirm from '../hooks/use-confirm';
 
 const schema = Yup.object({
     password: Yup.string()
@@ -20,6 +21,14 @@ const schema = Yup.object({
 });
 
 const Confirmation: React.FC = () => {
+    const [searchParams] = useSearchParams();
+    const [success, setSuccess] = useState<boolean>(false);
+
+    const user = searchParams.get('user');
+    const token = searchParams.get('token');
+
+    const { handleConfirm, loading } = useConfirm();
+
     const {
         control,
         handleSubmit,
@@ -27,12 +36,20 @@ const Confirmation: React.FC = () => {
     } = useForm({
         resolver: yupResolver(schema),
     });
+
     const { messageService } = useContext(MessageServiceContext);
 
-    const navigate = useNavigate();
+    const onSubmit = async (
+        accountConfirmation: Partial<AccountConfirmation>,
+    ) => {
+        accountConfirmation.token = token!;
+        accountConfirmation.userId = user!;
 
-    const onSubmit = async (user: Partial<IUser>) => {
-        console.log(user);
+        await handleConfirm(
+            accountConfirmation as AccountConfirmation,
+            messageService!,
+        );
+        setSuccess(true);
     };
 
     const passwordHeader = (
@@ -61,7 +78,7 @@ const Confirmation: React.FC = () => {
                     </h1>
                 </div>
 
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(onSubmit)} hidden={success}>
                     <div className="flex flex-col gap-2 font-quicksand">
                         <div>
                             <label
@@ -130,6 +147,7 @@ const Confirmation: React.FC = () => {
                         </div>
 
                         <Button
+                            loading={loading}
                             severity="secondary"
                             className="mt-4"
                             type="submit"
@@ -137,6 +155,30 @@ const Confirmation: React.FC = () => {
                         ></Button>
                     </div>
                 </form>
+
+                {success && (
+                    <div className="flex flex-col font-quicksand text-secondary">
+                        <span className="font-sniglet text-secondary block text-center mb-2">
+                            ¡Su cuenta ha sido confirmada con éxito!
+                        </span>
+                        <div className=" rounded-lg p-2">
+                            <p>
+                                Una vez su cuenta se aprobada por un
+                                administrador podrá iniciar sesión en la
+                                plataforma desde&nbsp;
+                                <NavLink
+                                    className="underline"
+                                    to="/account/login"
+                                >
+                                    aquí.
+                                </NavLink>
+                            </p>
+                        </div>
+                        <span className="font-sniglet text-secondary block text-center mb-2">
+                            ¡Muchas gracias!
+                        </span>
+                    </div>
+                )}
             </div>
         </div>
     );

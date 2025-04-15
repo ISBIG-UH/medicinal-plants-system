@@ -26,8 +26,15 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("register")]
     public async Task<IActionResult> Register([FromBody] UserDTO userDto, CancellationToken ct = default)
+        => Ok(await _userService.Register(userDto, ct));
+    
+    
+    [HttpPost]
+    [Route("confirm")]
+    public async Task<IActionResult> Confirm([FromBody] AccountConfirmationDTO accountConfirmationDto, CancellationToken ct = default)
     {
-        return Ok(await _userService.Register(userDto, ct));
+        await _userService.Confirm(accountConfirmationDto, ct);
+        return Ok();
     }
 
     [HttpPost]
@@ -44,6 +51,8 @@ public class AccountController : ControllerBase
         }
         
     }
+
+   
 
     [HttpGet]
     [Route("token")]

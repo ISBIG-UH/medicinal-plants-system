@@ -6,7 +6,7 @@ namespace BQ.Authorization.Model;
 
 /// <summary>
 /// User class definition
-/// </summary>
+/// </summary>      
 public class User : IdentityUser, IEntity<string>
 {
     
@@ -17,6 +17,9 @@ public class User : IdentityUser, IEntity<string>
     public override string? PhoneNumber { get; set; }
 
     public AccountStatus AccountStatus { get; set; }
+    
+    public string? ActivationToken { get; set; }
+    public DateTime? ActivationTokenExpiration { get; set; }
 
     public DateTimeOffset? FirstPasswordFailureDate { get; set; }
     

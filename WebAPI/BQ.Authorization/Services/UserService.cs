@@ -96,6 +96,31 @@ public class UserService : DataService<User, UserDTO, string>, IUserService
         return await Invite(dto, ct);
     }
 
+    public async Task Confirm(AccountConfirmationDTO dto, CancellationToken ct = default)
+    {
+        var user = await _userManager.FindByIdAsync(dto.UserId);
+        
+        if (user is null)
+            throw new BusinessException("El usuario no existe");
+        
+        if (user.EmailConfirmed)
+            throw new BusinessException("La cuenta ya ha sido confirmada");
+
+        if (user.ActivationToken != dto.Token || DateTime.Today > user.ActivationTokenExpiration)
+            throw new BusinessException("El código de invitación ya ha expirado");
+
+        user.EmailConfirmed = true;
+        user.ActivationToken = null;
+        user.ActivationTokenExpiration = null;
+
+        var result = await _userManager.AddPasswordAsync(user, dto.Password);
+        
+        if (!result.Succeeded)
+            throw new BusinessException("La contraseña provista no cumple los requisitos de seguridad establecidos.");
+        
+        await _userManager.UpdateAsync(user);
+    }
+
     public async Task<UserDTO> Invite(UserDTO dto, CancellationToken cancellationToken = default)
     {
         var existingUser = await _userManager.FindByEmailAsync(dto.Email);
@@ -108,12 +133,13 @@ public class UserService : DataService<User, UserDTO, string>, IUserService
         dto.AccountStatus = AccountStatus.Invited;
         
         var savingResult = await Create(dto, cancellationToken);
-
-        return savingResult;
-        // var createdUser = await _userManager.FindByIdAsync(savingResult.Id);
-        // await _userManager.UpdateAsync(createdUser);
-        //
-        // return await Get(createdUser.Id, cancellationToken);
+        
+        var createdUser = await _userManager.FindByIdAsync(savingResult.Id);
+       
+        GenerateUserConfirmationToken(createdUser);
+        await _userManager.UpdateAsync(createdUser);
+        
+        return await Get(createdUser.Id, cancellationToken);
     }
 
     public async Task<AuthResultDTO> Login(LoginDTO dto, CancellationToken ct = default)
@@ -143,6 +169,7 @@ public class UserService : DataService<User, UserDTO, string>, IUserService
             throw new BusinessException("Credenciales incorrectas");
         }
 
+        
        
         
         return new AuthResultDTO { UserId = loggedUser.Id, LoggedUser = loggedUser, SessionToken = ""};
@@ -161,6 +188,13 @@ public class UserService : DataService<User, UserDTO, string>, IUserService
                 throw new BusinessException("Account is suspended.");
         }
     }
+
+    private void GenerateUserConfirmationToken(User user)
+    {
+        user.ActivationToken = Guid.NewGuid().ToString();
+        user.ActivationTokenExpiration = DateTime.Today.ToUniversalTime() + TimeSpan.FromDays(7);
+    }
+    
 }
 
 public static class UserErrorMessages

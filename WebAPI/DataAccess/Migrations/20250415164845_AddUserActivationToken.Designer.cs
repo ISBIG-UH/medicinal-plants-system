@@ -3,6 +3,7 @@ using System;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250415164845_AddUserActivationToken")]
+    partial class AddUserActivationToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,7 +43,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies", (string)null);
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("BQ.Authorization.Model.Role", b =>
@@ -188,7 +191,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Apps", (string)null);
+                    b.ToTable("Apps");
                 });
 
             modelBuilder.Entity("Data.ModificationPlant", b =>
@@ -212,7 +215,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Modifications", (string)null);
+                    b.ToTable("Modifications");
                 });
 
             modelBuilder.Entity("Data.Plant", b =>
@@ -241,7 +244,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Plants", (string)null);
+                    b.ToTable("Plants");
                 });
 
             modelBuilder.Entity("Data.PlantApp", b =>
@@ -256,7 +259,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("AppId");
 
-                    b.ToTable("PlantApps", (string)null);
+                    b.ToTable("PlantApps");
                 });
 
             modelBuilder.Entity("Data.PlantTerm", b =>
@@ -274,7 +277,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("TermId");
 
-                    b.ToTable("PlantTerms", (string)null);
+                    b.ToTable("PlantTerms");
                 });
 
             modelBuilder.Entity("Data.Term", b =>
@@ -291,7 +294,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Terms", (string)null);
+                    b.ToTable("Terms");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
