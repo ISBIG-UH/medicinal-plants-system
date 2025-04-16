@@ -6,7 +6,7 @@ import * as hooks from '../../hooks/use-register';
 import { DummyApp } from '../../../../test';
 import Registration from '../registration';
 
-describe('Login Component', () => {
+describe('Registration Component', () => {
     const page = () => (
         <DummyApp path="/account/registration" routes={['/']}>
             <Registration />

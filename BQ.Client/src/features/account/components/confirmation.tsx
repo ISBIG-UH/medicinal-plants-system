@@ -78,124 +78,117 @@ const Confirmation: React.FC = () => {
     );
 
     return (
-        <div className="flex justify-center items-center h-screen bg-leaf-wall">
-            <div className="border w-full max-w-96 border-gray-300 rounded-lg p-8 mx-8 bg-primary">
-                <div className="flex justify-center items-center mb-6 gap-1">
-                    <img className="w-12" src="/1.png" />
-                    <h1 className="font-montserrat text-4xl text-secondary">
-                        BotaniQ
-                    </h1>
-                </div>
-
-                <form onSubmit={handleSubmit(onSubmit)} hidden={success}>
-                    <div className="flex flex-col gap-2 font-quicksand">
-                        <div>
-                            <label
-                                htmlFor="password"
-                                className="font-sniglet text-secondary block"
-                            >
-                                Contraseña
-                            </label>
-                            <OverlayInputError error={errors.password?.message}>
-                                <Controller
-                                    name="password"
-                                    defaultValue=""
-                                    control={control}
-                                    render={({ field }) => (
-                                        <Password
-                                            {...field}
-                                            id="password"
-                                            className="w-full p-password"
-                                            inputClassName="w-full password"
-                                            invalid={errors.password != null}
-                                            feedback
-                                            header={passwordHeader}
-                                            footer={passwordFooter}
-                                            weakLabel="Insegura"
-                                            strongLabel="Segura"
-                                            mediumLabel="Poco segura"
-                                            promptLabel="Su contraseña debe ser segura"
-                                            toggleMask
-                                            placeholder="Ingrese su contraseña"
-                                        />
-                                    )}
-                                />
-                            </OverlayInputError>
-                        </div>
-
-                        <div>
-                            <label
-                                htmlFor="passwordConfirmation"
-                                className="font-sniglet text-secondary block"
-                            >
-                                Confirmación
-                            </label>
-                            <OverlayInputError
-                                error={errors.passwordConfirmation?.message}
-                            >
-                                <Controller
-                                    name="passwordConfirmation"
-                                    defaultValue=""
-                                    control={control}
-                                    render={({ field }) => (
-                                        <Password
-                                            {...field}
-                                            id="passwordConfirmation"
-                                            className="w-full p-password"
-                                            inputClassName="w-full password"
-                                            invalid={
-                                                errors.passwordConfirmation !=
-                                                null
-                                            }
-                                            feedback
-                                            header={passwordHeader}
-                                            footer={passwordFooter}
-                                            weakLabel="Insegura"
-                                            strongLabel="Segura"
-                                            mediumLabel="Poco segura"
-                                            promptLabel="Su contraseña debe ser segura"
-                                            toggleMask
-                                            placeholder="Confirme su contraseña"
-                                        />
-                                    )}
-                                />
-                            </OverlayInputError>
-                        </div>
-
-                        <Button
-                            loading={loading}
-                            severity="secondary"
-                            className="mt-4"
-                            type="submit"
-                            label="Confirmar"
-                        ></Button>
-                    </div>
-                </form>
-
-                {success && (
-                    <div className="flex flex-col font-quicksand text-secondary">
-                        <span className="font-sniglet text-secondary block text-center mb-2">
-                            ¡Su cuenta ha sido confirmada con éxito!
-                        </span>
-                        <div className=" rounded-lg p-2">
-                            <p>
-                                Una vez su cuenta se aprobada por un
-                                administrador podrá iniciar sesión en la
-                                plataforma desde&nbsp;
-                                <NavLink
-                                    className="underline"
-                                    to="/account/login"
-                                >
-                                    aquí.
-                                </NavLink>
-                            </p>
-                        </div>
-                        <span className="font-sniglet text-secondary block text-center mb-2">
-                            ¡Muchas gracias!
-                        </span>
-                    </div>
-                )}
+        <div className="border w-full max-w-96 border-gray-300 rounded-lg p-8 mx-8 bg-primary">
+            <div className="flex justify-center items-center mb-6 gap-1">
+                <img className="w-12" src="/1.png" />
+                <h1 className="font-montserrat text-4xl text-secondary">
+                    BotaniQ
+                </h1>
             </div>
+
+            <form onSubmit={handleSubmit(onSubmit)} hidden={success}>
+                <div className="flex flex-col gap-2 font-quicksand">
+                    <div>
+                        <label
+                            htmlFor="password"
+                            className="font-sniglet text-secondary block"
+                        >
+                            Contraseña
+                        </label>
+                        <OverlayInputError error={errors.password?.message}>
+                            <Controller
+                                name="password"
+                                defaultValue=""
+                                control={control}
+                                render={({ field }) => (
+                                    <Password
+                                        {...field}
+                                        id="password"
+                                        className="w-full p-password"
+                                        inputClassName="w-full password"
+                                        invalid={errors.password != null}
+                                        feedback
+                                        header={passwordHeader}
+                                        footer={passwordFooter}
+                                        weakLabel="Insegura"
+                                        strongLabel="Segura"
+                                        mediumLabel="Poco segura"
+                                        promptLabel="Su contraseña debe ser segura"
+                                        toggleMask
+                                        placeholder="Ingrese su contraseña"
+                                    />
+                                )}
+                            />
+                        </OverlayInputError>
+                    </div>
+
+                    <div>
+                        <label
+                            htmlFor="passwordConfirmation"
+                            className="font-sniglet text-secondary block"
+                        >
+                            Confirmación
+                        </label>
+                        <OverlayInputError
+                            error={errors.passwordConfirmation?.message}
+                        >
+                            <Controller
+                                name="passwordConfirmation"
+                                defaultValue=""
+                                control={control}
+                                render={({ field }) => (
+                                    <Password
+                                        {...field}
+                                        id="passwordConfirmation"
+                                        className="w-full p-password"
+                                        inputClassName="w-full password"
+                                        invalid={
+                                            errors.passwordConfirmation != null
+                                        }
+                                        feedback
+                                        header={passwordHeader}
+                                        footer={passwordFooter}
+                                        weakLabel="Insegura"
+                                        strongLabel="Segura"
+                                        mediumLabel="Poco segura"
+                                        promptLabel="Su contraseña debe ser segura"
+                                        toggleMask
+                                        placeholder="Confirme su contraseña"
+                                    />
+                                )}
+                            />
+                        </OverlayInputError>
+                    </div>
+
+                    <Button
+                        loading={loading}
+                        severity="secondary"
+                        className="mt-4"
+                        type="submit"
+                        label="Confirmar"
+                    ></Button>
+                </div>
+            </form>
+
+            {success && (
+                <div className="flex flex-col font-quicksand text-secondary">
+                    <span className="font-sniglet text-secondary block text-center mb-2">
+                        ¡Su cuenta ha sido confirmada con éxito!
+                    </span>
+                    <div className=" rounded-lg p-2">
+                        <p>
+                            Una vez su cuenta se aprobada por un administrador
+                            podrá iniciar sesión en la plataforma desde&nbsp;
+                            <NavLink className="underline" to="/account/login">
+                                aquí.
+                            </NavLink>
+                        </p>
+                    </div>
+                    <span className="font-sniglet text-secondary block text-center mb-2">
+                        ¡Muchas gracias!
+                    </span>
+                </div>
+            )}
         </div>
     );
 };
