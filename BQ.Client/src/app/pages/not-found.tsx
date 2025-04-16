@@ -1,6 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Button } from 'primereact/button';
+import { useNavigate } from 'react-router';
 
 const NotFound: React.FC = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="flex flex-col items-center justify-center bg-gray-100 h-screen space-y-4 text-center">
             <img src="/1.png" className="h-32" alt="botaniq" />
@@ -10,12 +13,8 @@ const NotFound: React.FC = () => {
             <p className="font-quicksand text-gray-600">
                 Lo sentimos, la página que buscas no existe.
             </p>
-            <Link
-                to="/"
-                className="mt-6 px-4 py-2 font-quicksand bg-primary text-secondary rounded-md hover:bg-green-800 transition"
-            >
-                Ir a Inicio
-            </Link>
+
+            <Button onClick={() => navigate('/')} label="Ir a Inicio" />
         </div>
     );
 };
