@@ -14,4 +14,8 @@ export const handlers = [
     http.post(`${baseUrl}/api/account/register`, async () => {
         return HttpResponse.json({});
     }),
+
+    http.post(`${baseUrl}/api/account/confirm`, async () => {
+        return HttpResponse.json({});
+    }),
 ];

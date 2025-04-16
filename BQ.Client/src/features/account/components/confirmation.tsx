@@ -3,13 +3,13 @@ import { Password } from 'primereact/password';
 import * as Yup from 'yup';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { NavLink, useSearchParams } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import OverlayInputError from '../../../components/overlay-input-error';
 import { Divider } from 'primereact/divider';
 import { MessageServiceContext } from '../../../services/messages';
 import { AccountConfirmation } from '../types/authentication';
 import useConfirm from '../hooks/use-confirm';
+import { NavLink, useSearchParams } from 'react-router';
 
 const schema = Yup.object({
     password: Yup.string()
@@ -116,6 +116,7 @@ const Confirmation: React.FC = () => {
                                             mediumLabel="Poco segura"
                                             promptLabel="Su contraseña debe ser segura"
                                             toggleMask
+                                            placeholder="Ingrese su contraseña"
                                         />
                                     )}
                                 />
@@ -127,7 +128,7 @@ const Confirmation: React.FC = () => {
                                 htmlFor="passwordConfirmation"
                                 className="font-sniglet text-secondary block"
                             >
-                                Confirme su contraseña
+                                Confirmación
                             </label>
                             <OverlayInputError
                                 error={errors.passwordConfirmation?.message}
@@ -154,6 +155,7 @@ const Confirmation: React.FC = () => {
                                             mediumLabel="Poco segura"
                                             promptLabel="Su contraseña debe ser segura"
                                             toggleMask
+                                            placeholder="Confirme su contraseña"
                                         />
                                     )}
                                 />
