@@ -4,13 +4,13 @@ import { Password } from 'primereact/password';
 import * as Yup from 'yup';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { NavLink, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import OverlayInputError from '../../../components/overlay-input-error';
 import useLogin from '../hooks/use-login';
 import { LoginRequest } from '../types/authentication';
 import useAppStore from '../../../hooks/use-app-store';
 import { MessageServiceContext } from '../../../services/messages';
+import { NavLink, useNavigate } from 'react-router';
 
 const schema = Yup.object({
     email: Yup.string()
@@ -68,6 +68,7 @@ const Login: React.FC = () => {
                                     id="email"
                                     type="text"
                                     className="w-full email"
+                                    placeholder="Ingrese su correo"
                                     invalid={errors.email != null}
                                 />
                             </OverlayInputError>
@@ -91,6 +92,7 @@ const Login: React.FC = () => {
                                             id="password"
                                             className="w-full p-password"
                                             inputClassName="w-full password"
+                                            placeholder="Ingrese su contraseña"
                                             invalid={errors.password != null}
                                             feedback={false}
                                             toggleMask
@@ -101,20 +103,20 @@ const Login: React.FC = () => {
                         </div>
 
                         <Button
-                            loading={loading}
                             severity="secondary"
                             className="mt-4"
                             type="submit"
+                            disabled={loading}
                             label="Iniciar sesión"
                         ></Button>
 
                         <span className="text-secondary text-sm text-center">
-                            Si no tiene cuenta&nbsp;
+                            Si no tiene cuenta puede&nbsp;
                             <NavLink
                                 className="underline"
                                 to="/account/registration"
                             >
-                                regístrese aquí
+                                registrarse aquí
                             </NavLink>
                         </span>
                     </div>

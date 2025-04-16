@@ -85,8 +85,6 @@ export class BaseHttpResponsesHandler implements IHttpResponsesHandler {
     protected handleOtherError(
         errorResponse: AxiosError<ErrorResponseData>,
     ): void {
-        console.log('this is the response');
-        console.log(errorResponse);
         this.messageService.show({
             severity: 'error',
             summary: 'Error',

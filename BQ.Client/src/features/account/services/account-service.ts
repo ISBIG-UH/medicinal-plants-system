@@ -50,7 +50,7 @@ export class AccountService extends BaseApiService implements IAccountService {
             )
                 .then((authResult) => {
                     this.loginPromise = null;
-                    this.channel.postMessage(authResult);
+                    // this.channel.postMessage(authResult); //TODO: change this
                     return authResult;
                 })
                 .catch((authError) => {

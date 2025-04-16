@@ -18,7 +18,6 @@ export class AppStore {
         });
         this.variables = { isMenuOpen: true, isLoggedIn: false };
         this.accountChannel.onmessage = this.onMessageHandler;
-        console.log('new App Store');
     }
 
     updateField(key: keyof AppVariables, value: any) {
@@ -28,7 +27,6 @@ export class AppStore {
     onMessageHandler(event: any) {
         const store = ServiceContainer.get(AppStore);
 
-        console.log('hello there');
         store.updateField('isLoggedIn', true);
         store.updateField('currentUser', event.data.data.loggedUser);
         // this.variables.isLoggedIn = true;
