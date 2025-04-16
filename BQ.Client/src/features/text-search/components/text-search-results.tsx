@@ -1,0 +1,50 @@
+import React from 'react';
+import TextSearchResultPlaceholder from './text-search-result-placeholder';
+import SearchResult from './text-search-result';
+import { useMediaQuery } from '@react-hook/media-query';
+
+interface TextSearchResultsProps {
+    loading: boolean;
+    monographs: Monograph[];
+}
+
+const TextSearchResults: React.FC<TextSearchResultsProps> = React.memo(
+    ({ loading, monographs }) => {
+        const isMobile = useMediaQuery('(max-width: 768px)');
+
+        const LoadingTemplate: React.FC = () => (
+            <div className="h-full flex flex-col items-stretch gap-3">
+                <TextSearchResultPlaceholder />
+                <TextSearchResultPlaceholder />
+                <TextSearchResultPlaceholder />
+                <TextSearchResultPlaceholder />
+                {!isMobile && <TextSearchResultPlaceholder />}
+            </div>
+        );
+
+        const EmptyTemplate: React.FC = () => (
+            <div className="flex h-full justify-center items-center">
+                <div>
+                    <img src="/2.png" className="scale-75"></img>
+                </div>
+            </div>
+        );
+
+        const ResultsTemplate: React.FC = () => (
+            <div className="flex flex-col gap-3">
+                {monographs.map((m) => {
+                    return <SearchResult monograh={m} />;
+                })}
+            </div>
+        );
+
+        return (
+            <div className="grow overflow-y-scroll w-full">
+                {loading && <LoadingTemplate />}
+                {!loading && monographs.length == 0 && <EmptyTemplate />}
+                {!loading && monographs.length > 0 && <ResultsTemplate />}
+            </div>
+        );
+    },
+);
+export default TextSearchResults;

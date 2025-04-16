@@ -6,6 +6,8 @@ import NotFound from './pages/not-found';
 import LoginPage from './pages/account/login';
 import RegistrationPage from './pages/account/registration';
 import ConfirmationPage from './pages/account/confirmation';
+import { TextSearchBox } from '../features/text-search';
+import TextSearchPage from './pages/text-search-page';
 
 function App() {
     // TODO: make this development environment only
@@ -20,6 +22,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<AppLayout />}>
                     <Route index element={<HomeComponent />} />
+                    <Route path="/search" element={<TextSearchPage />} />
                 </Route>
 
                 <Route path="/account/login" element={<LoginPage />} />

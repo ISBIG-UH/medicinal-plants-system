@@ -29,10 +29,10 @@ const AppLayout: React.FC = () => {
                     </div>
                     <div
                         className={classNames(
-                            'flex-auto transition-all duration-500 ease-in-out',
+                            'flex-auto md:max-w-full transition-all duration-500 ease-in-out',
                             {
-                                'max-w-0': store.variables.isMenuOpen,
-                                'max-w-full': !store.variables.isMenuOpen,
+                                'sm:max-w-0': store.variables.isMenuOpen,
+                                'sm:max-w-full': !store.variables.isMenuOpen,
                             },
                         )}
                     >
