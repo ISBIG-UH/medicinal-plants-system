@@ -3,12 +3,12 @@ import { InputText } from 'primereact/inputtext';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import OverlayInputError from '../../../components/overlay-input-error';
 import { IUser } from '../types/user';
 import useRegister from '../hooks/use-register';
 import { MessageServiceContext } from '../../../services/messages';
+import { useNavigate } from 'react-router';
 
 const schema = Yup.object({
     firstName: Yup.string().trim().required('Por favor, introduzca su nombre'),
@@ -68,6 +68,7 @@ const Registration: React.FC = () => {
                                     id="firstName"
                                     type="text"
                                     className="w-full email"
+                                    placeholder="Ingrese su nombre"
                                     invalid={errors.email != null}
                                 />
                             </OverlayInputError>
@@ -88,6 +89,7 @@ const Registration: React.FC = () => {
                                     id="lastName"
                                     type="text"
                                     className="w-full email"
+                                    placeholder="Ingrese sus apellidos"
                                     invalid={errors.email != null}
                                 />
                             </OverlayInputError>
@@ -106,6 +108,7 @@ const Registration: React.FC = () => {
                                     id="email"
                                     type="text"
                                     className="w-full email"
+                                    placeholder="Ingrese su correo"
                                     invalid={errors.email != null}
                                 />
                             </OverlayInputError>

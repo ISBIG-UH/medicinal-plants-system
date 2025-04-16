@@ -4,9 +4,9 @@ import Login from '../login';
 import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import * as hooks from '../../hooks/use-login';
-import { DummyApp } from '../../../../test/components/dummy-app';
+import { DummyApp } from '../../../../test';
 
-describe('Login Comonent', () => {
+describe('Login Component', () => {
     const page = () => (
         <DummyApp path="/account/login" routes={['/', '/account/registration']}>
             <Login />

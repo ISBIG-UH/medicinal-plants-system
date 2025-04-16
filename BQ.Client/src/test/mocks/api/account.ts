@@ -4,11 +4,14 @@ const baseUrl = import.meta.env.VITE_BASE_API_URL;
 
 export const handlers = [
     http.post(`${baseUrl}/api/account/login`, async () => {
-        // ...and respond to them using this JSON response.
         return HttpResponse.json({
             userId: 'c7b3d8e0-5e0b-4b0f-8b3a-3b9f4b3d3b3d',
             loggedUser: {},
             sessionToken: 'c7b3d8e0-5e0b-4b0f-8b3a-3b9f4b3d3b3d',
         });
+    }),
+
+    http.post(`${baseUrl}/api/account/register`, async () => {
+        return HttpResponse.json({});
     }),
 ];
