@@ -1,19 +1,21 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { IUser } from '../features/account/types/user';
 import { AppStore } from '../stores/app-store';
-import { ServiceContainer } from '../services/injection/container';
+import { ServiceContainerContext } from '../services/injection/container';
 
 const useAppStore = () => {
     const [loading, setLoading] = useState(false);
-    const appStore = ServiceContainer.get(AppStore);
+    const ServiceContainer = useContext(ServiceContainerContext);
+    const store = ServiceContainer.get(AppStore);
 
-    async function updateLoginData(user: IUser, isLoggedIn: boolean) {
-        appStore.updateField('currentUser', user);
-        appStore.updateField('isLoggedIn', isLoggedIn);
+    async function updateLoginData(user: Partial<IUser>, isLoggedIn: boolean) {
+        store.updateField('currentUser', user);
+        store.updateField('isLoggedIn', isLoggedIn);
     }
 
     return {
         updateLoginData,
+        appStore: store,
     };
 };
 

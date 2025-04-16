@@ -1,13 +1,16 @@
 import { Outlet } from 'react-router';
 import AppSideBar from './app-sidebar';
 import AppTopbar from './app-topbar';
-import { AppStore } from '../stores/app-store';
 import { classNames } from 'primereact/utils';
 import { observer } from 'mobx-react-lite';
-import { ServiceContainer } from '../services/injection/container';
+import { useContext } from 'react';
+import { ServiceContainerContext } from '../services/injection/container';
+import { AppStore } from '../stores/app-store';
 
 const AppLayout: React.FC = () => {
-    const store: AppStore = ServiceContainer.get(AppStore);
+    const ServiceContainer = useContext(ServiceContainerContext);
+    const store = ServiceContainer.get(AppStore);
+
     const _AppLayout = observer(() => {
         return (
             <div className="flex flex-col h-screen">

@@ -1,6 +1,7 @@
 import { Container } from 'inversify';
 import { AppStore } from '../../stores/app-store';
 import { AccountService } from '../../features/account/services/account-service';
+import React from 'react';
 
 const TYPES = {
     IAccountService: Symbol.for('IParser'),
@@ -14,3 +15,5 @@ ServiceContainer.bind(TYPES.IAccountService)
     .inTransientScope();
 
 export { TYPES, ServiceContainer };
+
+export const ServiceContainerContext = React.createContext(ServiceContainer);
