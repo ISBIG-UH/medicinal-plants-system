@@ -6,6 +6,7 @@ import HomeComponent from '../features/home';
 import Registration from '../features/account/components/registration';
 import Confirmation from '../features/account/components/confirmation';
 import AppLayout from './app-layout';
+import NotFound from './pages/not-found';
 
 function App() {
     const [count, setCount] = useState(0);
@@ -32,6 +33,7 @@ function App() {
                     path="/account/confirmation"
                     element={<Confirmation />}
                 ></Route>
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </>
     );
