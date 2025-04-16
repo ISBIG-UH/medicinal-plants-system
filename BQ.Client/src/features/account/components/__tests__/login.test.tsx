@@ -1,48 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { PrimeReactProvider } from 'primereact/api';
-import { MemoryRouter, Route, Routes } from 'react-router';
 import Login from '../login';
-import { ToastMessageServiceProvider } from '../../../../services/messages';
 import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import * as hooks from '../../hooks/use-login';
-import { RouteDisplay } from '../../../../test';
+import { DummyApp } from '../../../../test/components/dummy-app';
 
 describe('Login Comonent', () => {
-    const App: React.FC = () => {
-        return (
-            <div>
-                <MemoryRouter
-                    initialEntries={[
-                        '/',
-                        '/account/login',
-                        '/account/registration',
-                    ]}
-                    initialIndex={1}
-                >
-                    <PrimeReactProvider>
-                        <ToastMessageServiceProvider>
-                            <Routes>
-                                <Route
-                                    path="/"
-                                    element={<RouteDisplay />}
-                                ></Route>
-                                <Route
-                                    path="/account/login"
-                                    element={<Login />}
-                                ></Route>
-                                <Route
-                                    path="/account/registration"
-                                    element={<RouteDisplay />}
-                                ></Route>
-                            </Routes>
-                        </ToastMessageServiceProvider>
-                    </PrimeReactProvider>
-                </MemoryRouter>
-            </div>
-        );
-    };
+    const page = () => (
+        <DummyApp path="/account/login" routes={['/', '/account/registration']}>
+            <Login />
+        </DummyApp>
+    );
 
     it('It should call the api only when there are no input errors', async () => {
         const handleLoginMock = vi.fn();
@@ -51,7 +20,7 @@ describe('Login Comonent', () => {
             loading: false,
         });
 
-        render(<App />);
+        render(page());
 
         // Check that all the form's elements are being rendered
         screen.getByText('BotaniQ');
@@ -98,7 +67,7 @@ describe('Login Comonent', () => {
     });
 
     it('It should redirect to home if the api call is successful', async () => {
-        render(<App />);
+        render(page());
 
         const emailInput = screen.getByPlaceholderText('Ingrese su correo');
         const passwordInput = screen.getByPlaceholderText(
@@ -116,7 +85,7 @@ describe('Login Comonent', () => {
     });
 
     it('It should redirect to the Registration component when the bottom link is clicked', async () => {
-        render(<App />);
+        render(page());
 
         const link = screen.getByText('registrarse aquí');
         await userEvent.click(link);
