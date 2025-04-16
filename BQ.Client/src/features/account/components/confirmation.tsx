@@ -14,9 +14,18 @@ import useConfirm from '../hooks/use-confirm';
 const schema = Yup.object({
     password: Yup.string()
         .trim()
-        .required('Por favor, introduzca su contraseña'),
+        .required('Por favor, introduzca su contraseña')
+        .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
+            'La contraseña debe ser segura',
+        ),
     passwordConfirmation: Yup.string()
         .trim()
+        .oneOf([Yup.ref('password')], 'Las contraseñas deben coincidir')
+        .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
+            'La contraseña debe ser segura',
+        )
         .required('Por favor, repita su contraseña'),
 });
 
@@ -120,7 +129,9 @@ const Confirmation: React.FC = () => {
                             >
                                 Confirme su contraseña
                             </label>
-                            <OverlayInputError error={errors.password?.message}>
+                            <OverlayInputError
+                                error={errors.passwordConfirmation?.message}
+                            >
                                 <Controller
                                     name="passwordConfirmation"
                                     defaultValue=""
@@ -131,7 +142,10 @@ const Confirmation: React.FC = () => {
                                             id="passwordConfirmation"
                                             className="w-full p-password"
                                             inputClassName="w-full password"
-                                            invalid={errors.password != null}
+                                            invalid={
+                                                errors.passwordConfirmation !=
+                                                null
+                                            }
                                             feedback
                                             header={passwordHeader}
                                             footer={passwordFooter}
