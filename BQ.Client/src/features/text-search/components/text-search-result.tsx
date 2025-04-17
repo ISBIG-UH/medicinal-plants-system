@@ -10,7 +10,7 @@ function SearchResult({ monograh }: Props) {
     };
 
     return (
-        <div className="border bg-gray-50 shadow-sm border-gray-300 rounded-lg hover:cursor-pointer hover:bg-yellow-50 hover:transition-all ease-in-out duration-300 p-4">
+        <div className="w-full border bg-gray-50 shadow-sm border-gray-300 rounded-lg hover:cursor-pointer hover:bg-yellow-50 hover:transition-all ease-in-out duration-300 p-4">
             <label className="text-2xl font-montserrat text-primary font-semibold hover:cursor-pointer">
                 {monograh.name}
             </label>

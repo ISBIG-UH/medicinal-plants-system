@@ -21,7 +21,7 @@ const AppLayout: React.FC = () => {
                             'bg-gray-200 flex-auto transition-all duration-500 ease-in-out',
                             {
                                 'max-w-0': !store.variables.isMenuOpen,
-                                'max-w-full md:max-w-80':
+                                'max-w-full md:max-w-80 md:min-w-80':
                                     store.variables.isMenuOpen,
                             },
                         )}

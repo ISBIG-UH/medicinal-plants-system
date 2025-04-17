@@ -23,7 +23,7 @@ const TextSearchBar: React.FC<TextSearchBarProps> = ({
                 id="query"
                 type="text"
                 className="p-3 w-full font-quicksand rounded-full mr-2 bg-gray-200 border border-gray-400"
-                placeholder="Buscar monografía..."
+                placeholder="Buscar en monografías..."
             />
             <Button
                 loading={loading}

@@ -1,8 +1,12 @@
 import { PanelMenu } from 'primereact/panelmenu';
 import Divider from '../components/divider';
 import { GiMedicines } from 'react-icons/gi';
+import { PiPlantBold } from 'react-icons/pi';
+import { useNavigate } from 'react-router';
 
 function AppSideBar() {
+    const navigate = useNavigate();
+
     const items = [
         {
             label: 'Administración',
@@ -24,6 +28,9 @@ function AppSideBar() {
                 {
                     label: 'Búsqueda de texto',
                     icon: 'pi pi-language',
+                    command: () => {
+                        navigate('/search/text');
+                    },
                 },
                 {
                     label: 'Búsqueda por índice',
@@ -63,7 +70,7 @@ function AppSideBar() {
                 </p>
 
                 <Divider className="px-10 mb-2">
-                    <i className="pi pi-search"></i>
+                    <PiPlantBold fontSize={20} />
                 </Divider>
 
                 <div className="h-full">

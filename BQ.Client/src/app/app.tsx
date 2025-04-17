@@ -22,7 +22,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<AppLayout />}>
                     <Route index element={<HomeComponent />} />
-                    <Route path="/search" element={<TextSearchPage />} />
+                    <Route path="/search/text" element={<TextSearchPage />} />
                 </Route>
 
                 <Route path="/account/login" element={<LoginPage />} />
