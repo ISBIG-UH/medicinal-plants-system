@@ -39,7 +39,8 @@ const AppLayout: React.FC = () => {
                         className={classNames(
                             'flex-auto transition-all duration-500 ease-in-out',
                             {
-                                'max-w-full': !store.variables.isMenuOpen,
+                                'max-w-full lg:px-[12%]':
+                                    !store.variables.isMenuOpen,
                                 'max-w-0 md:max-w-full':
                                     store.variables.isMenuOpen,
                             },
