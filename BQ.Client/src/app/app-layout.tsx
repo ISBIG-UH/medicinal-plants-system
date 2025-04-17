@@ -18,25 +18,41 @@ const AppLayout: React.FC = () => {
                 <div className="flex flex-row flex-grow h-full overflow-x-hidden overflow-y-auto lg:overflow-y-hidden w-full">
                     <div
                         className={classNames(
-                            'flex-auto md:max-w-64 transition-all duration-500 ease-in-out',
+                            'bg-gray-200 flex-auto transition-all duration-500 ease-in-out',
                             {
                                 'max-w-0': !store.variables.isMenuOpen,
-                                'max-w-full': store.variables.isMenuOpen,
+                                'max-w-full md:max-w-80':
+                                    store.variables.isMenuOpen,
                             },
                         )}
                     >
-                        <AppSideBar />
+                        <div
+                            className={classNames('w-full h-full', {
+                                block: store.variables.isMenuOpen,
+                                hidden: !store.variables.isMenuOpen,
+                            })}
+                        >
+                            <AppSideBar />
+                        </div>
                     </div>
                     <div
                         className={classNames(
-                            'flex-auto md:max-w-full transition-all duration-500 ease-in-out',
+                            'flex-auto transition-all duration-500 ease-in-out',
                             {
-                                'sm:max-w-0': store.variables.isMenuOpen,
-                                'sm:max-w-full': !store.variables.isMenuOpen,
+                                'max-w-full': !store.variables.isMenuOpen,
+                                'max-w-0 md:max-w-full':
+                                    store.variables.isMenuOpen,
                             },
                         )}
                     >
-                        <Outlet />
+                        <div
+                            className={classNames('w-full h-full', {
+                                block: !store.variables.isMenuOpen,
+                                'hidden md:block': store.variables.isMenuOpen,
+                            })}
+                        >
+                            <Outlet />
+                        </div>
                     </div>
                 </div>
             </div>

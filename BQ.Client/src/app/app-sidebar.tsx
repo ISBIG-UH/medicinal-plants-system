@@ -1,5 +1,6 @@
 import { PanelMenu } from 'primereact/panelmenu';
 import Divider from '../components/divider';
+import { GiMedicines } from 'react-icons/gi';
 
 function AppSideBar() {
     const items = [
@@ -9,10 +10,11 @@ function AppSideBar() {
             items: [
                 {
                     label: 'Usuarios',
+                    icon: 'pi pi-user',
                 },
-                {
-                    label: 'Organizaciones',
-                },
+                // {
+                //     label: 'Organizaciones',
+                // },
             ],
         },
         {
@@ -21,12 +23,19 @@ function AppSideBar() {
             items: [
                 {
                     label: 'Búsqueda de texto',
+                    icon: 'pi pi-language',
                 },
                 {
                     label: 'Búsqueda por índice',
+                    icon: 'pi pi-sort-alpha-down',
                 },
                 {
                     label: 'Búsqueda de aplicación',
+                    icon: (
+                        <GiMedicines
+                            style={{ marginRight: '0.2em', fontSize: 20 }}
+                        />
+                    ),
                 },
             ],
         },
@@ -36,28 +45,18 @@ function AppSideBar() {
             items: [
                 {
                     label: 'Añadir monografía',
+                    icon: 'pi pi-plus',
                 },
             ],
         },
         {
             label: 'Acerca',
             icon: 'pi pi-info-circle',
-            items: [
-                {
-                    label: 'Manual de usuario',
-                },
-                {
-                    label: 'Manual de desarrollador',
-                },
-                {
-                    label: 'Términos y condiciones',
-                },
-            ],
         },
     ];
 
     return (
-        <div className="bg-gray-200 overflow-hidden transition-max-width duration-500 ease-in-out w-full h-full flex flex-col">
+        <div className="overflow-hidden transition-max-width duration-500 ease-in-out w-full h-full flex flex-col">
             <div className="px-3 flex flex-col h-full">
                 <p className="mt-2 text-center text-xl font-semibold font-montserrat py-2">
                     Menú

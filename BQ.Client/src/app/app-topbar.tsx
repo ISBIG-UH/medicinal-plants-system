@@ -11,12 +11,11 @@ const AppTopbar: React.FC = () => {
 
     return (
         <div className="bg-primary flex py-2">
-            <div className="w-3/4 flex-none pl-2 lg:pl-32">
+            <div className="w-3/4 flex-none pl-2 lg:pl-20">
                 <div className="flex items-center gap-2">
                     <Button
                         rounded
                         icon="pi pi-bars"
-                        className="md:hidden"
                         onClick={() => {
                             store.updateField(
                                 'isMenuOpen',
