@@ -15,6 +15,14 @@ public class AdminController : ControllerBase
     {
         _adminService = adminService;
     }
+    
+    
+    //     [HttpGet("plants")]
+//     public async Task<IActionResult> SearchPlants([FromQuery] string query)
+//     {
+//         var results = await _plantQueryService.QuerySearchAsync(query);
+//         return Ok(results);
+//     }
 
     [HttpPost]
     public async Task<IActionResult> AddPlant([FromBody] PlantDto plantDto) 
