@@ -35,6 +35,9 @@ function AppSideBar() {
                 {
                     label: 'Búsqueda por índice',
                     icon: 'pi pi-sort-alpha-down',
+                    command: () => {
+                        navigate('/search/index');
+                    },
                 },
                 {
                     label: 'Búsqueda de aplicación',

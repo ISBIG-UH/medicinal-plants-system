@@ -7,6 +7,7 @@ import LoginPage from './pages/account/login';
 import RegistrationPage from './pages/account/registration';
 import ConfirmationPage from './pages/account/confirmation';
 import TextSearchPage from './pages/text-search-page';
+import IndexSearchPage from './pages/index-search-page';
 
 function App() {
     // TODO: make this development environment only
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/" element={<AppLayout />}>
                     <Route index element={<HomeComponent />} />
                     <Route path="/search/text" element={<TextSearchPage />} />
+                    <Route path="/search/index" element={<IndexSearchPage />} />
                 </Route>
 
                 <Route path="/account/login" element={<LoginPage />} />
