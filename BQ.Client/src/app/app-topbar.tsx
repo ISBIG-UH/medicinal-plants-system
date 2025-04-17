@@ -29,7 +29,7 @@ const AppTopbar: React.FC = () => {
                     >
                         <img
                             className="max-h-10 lg:max-h-12"
-                            src="1.png"
+                            src="/1.png"
                             alt="BotaniQ Logo"
                         />
                         <p className="font-montserrat font-thin text-secondary">
