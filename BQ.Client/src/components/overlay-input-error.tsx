@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useEventListener } from 'primereact/hooks';
 import { OverlayPanel } from 'primereact/overlaypanel';
-import { Tag } from 'primereact/tag';
 
 interface OverlayInputErrorProps {
     id?: string;
@@ -66,7 +65,7 @@ const OverlayInputError: React.FC<OverlayInputErrorProps> = ({
     ]);
 
     return (
-        <div className="flex justify-content-end">
+        <div className="flex w-full">
             <div
                 className="w-full"
                 data-testid="overlay-input-error-wrapper"
