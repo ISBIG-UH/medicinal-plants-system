@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { DummyApp } from '../../../../test';
 import AppList from '../app-list';
 
-describe('Text Search Box Component', () => {
+describe('AppList Component', () => {
     const page = (onAppSelect: (app: AppItem) => void) => (
         <DummyApp path="/search/text" routes={['/']}>
             <AppList onAppSelect={onAppSelect} />

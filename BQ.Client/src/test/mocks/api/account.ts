@@ -66,10 +66,24 @@ export const handlers = [
         ]);
     }),
 
+    http.get(`${baseUrl}/api/app/0`, async () => {
+        const monographs = Array.from({ length: 3 }, (_v, k) => {
+            const monograph = getMonographMock();
+            monograph.name = `app_0_plant_${k}`;
+            monograph.id = k;
+            return monograph;
+        });
+        return HttpResponse.json(<App>{
+            id: 1,
+            name: 'app_0',
+            plants: monographs,
+        });
+    }),
+
     http.get(`${baseUrl}/api/app/1`, async () => {
         const monographs = Array.from({ length: 3 }, (_v, k) => {
             const monograph = getMonographMock();
-            monograph.name = `plant_${k}`;
+            monograph.name = `app_1_plant_${k}`;
             monograph.id = k;
             return monograph;
         });

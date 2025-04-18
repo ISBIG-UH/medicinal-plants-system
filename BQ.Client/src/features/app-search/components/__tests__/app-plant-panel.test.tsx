@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { DummyApp } from '../../../../test';
 import AppPlantPanel from '../app-plant-panel';
 
-describe('Text Search Box Component', () => {
+describe('AppPlantPanel Component', () => {
     const page = (
         app: AppItem,
         onSelectedPlant: (plant: Monograph) => void,
@@ -23,9 +23,9 @@ describe('Text Search Box Component', () => {
 
         await waitFor(() => {
             expect(screen.queryByText('app_1')).toBeInTheDocument();
-            expect(screen.queryByText('plant_0')).toBeInTheDocument();
-            expect(screen.queryByText('plant_1')).toBeInTheDocument();
-            expect(screen.queryByText('plant_2')).toBeInTheDocument();
+            expect(screen.queryByText('app_1_plant_0')).toBeInTheDocument();
+            expect(screen.queryByText('app_1_plant_1')).toBeInTheDocument();
+            expect(screen.queryByText('app_1_plant_2')).toBeInTheDocument();
         });
     });
 
@@ -37,10 +37,10 @@ describe('Text Search Box Component', () => {
         render(page({ id: 1, name: 'app_1' }, onSelectedPlant));
 
         await waitFor(() => {
-            expect(screen.queryByText('plant_1')).toBeInTheDocument();
+            expect(screen.queryByText('app_1_plant_1')).toBeInTheDocument();
         });
 
-        const button = screen.getByText('plant_1');
+        const button = screen.getByText('app_1_plant_1');
         await userEvent.click(button);
         await waitFor(() => {
             expect(onSelectedPlant).toBeCalledTimes(1);
