@@ -34,7 +34,7 @@ interface AppItem {
 interface App {
     id: number;
     name: string;
-    plants: string[];
+    plants: Monograph[];
     sys: string[];
 }
 

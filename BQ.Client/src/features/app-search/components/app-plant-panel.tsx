@@ -30,18 +30,26 @@ const AppPlantPanel: React.FC<AppPlantPanelProps> = React.memo(({ app }) => {
                 </div>
             </div>
             <div className="h-[90%] overflow-y-scroll">
-                <ul className="flex-grow grid md:grid-cols-2 xl:grid-cols-3">
-                    {plants.map((plant, i) => (
-                        <li
-                            key={i}
-                            className="mx-4 rounded-lg my-1 px-4 py-1 bg-gray-100 text-gray-600 font-serif"
-                        >
-                            <p className="text-lg font-quicksand font-bold">
-                                {plant}
-                            </p>
-                        </li>
-                    ))}
-                </ul>
+                {!loading && (
+                    <ul className="flex-grow grid md:grid-cols-2">
+                        {plants.map((p, i) => (
+                            <li
+                                key={i}
+                                className="mx-4 rounded-lg my-1 px-4 py-1 bg-gray-100 text-gray-600 font-serif"
+                            >
+                                <span
+                                    className={`w-fit text-xl font-quicksand font-semibold text-primary hover:underline hover:cursor-pointer `}
+                                >
+                                    {p.name}
+                                </span>
+                                <span className="text-info font-quicksand text-sm">
+                                    <br />
+                                    {p.genus} {p.species} {p.authors}
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </div>
         </div>
     );
