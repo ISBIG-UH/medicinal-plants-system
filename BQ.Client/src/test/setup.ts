@@ -7,6 +7,25 @@ import axios from 'axios';
 beforeAll(() => {
     axios.defaults.baseURL = import.meta.env.VITE_BASE_API_URL;
     server.listen();
+
+    Object.defineProperty(window, 'matchMedia', {
+        writable: true,
+        configurable: true,
+        value: (query: string) => ({
+            matches: false,
+            media: query,
+            onchange: null,
+
+            // legacy listeners (for some libs)
+            addListener: () => {},
+            removeListener: () => {},
+
+            // standard events
+            addEventListener: () => {},
+            removeEventListener: () => {},
+            dispatchEvent: () => false,
+        }),
+    });
 });
 
 afterEach(() => server.resetHandlers());
