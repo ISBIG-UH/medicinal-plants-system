@@ -37,7 +37,7 @@ const AppList: React.FC<AppListProps> = React.memo(({ onAppSelect }) => {
                             }}
                             className="w-full"
                             size="small"
-                            placeholder="Search"
+                            placeholder="Buscar aplicación"
                         />
                     </IconField>
                 </div>

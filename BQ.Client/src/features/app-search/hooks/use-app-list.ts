@@ -36,6 +36,7 @@ export const useAppList = (onAppSelected: (app: AppItem) => void) => {
 
     useEffect(() => {
         getApps();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return {

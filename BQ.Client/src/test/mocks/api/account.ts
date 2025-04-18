@@ -36,7 +36,7 @@ export const handlers = [
         return HttpResponse.json([]);
     }),
 
-    http.get(`${baseUrl}/api/index/A`, async ({ request }) => {
+    http.get(`${baseUrl}/api/index/A`, async () => {
         const monographs = Array.from({ length: 3 }, (_v, k) => {
             const monograph = getMonographMock();
             monograph.name = `name_${k}`;
@@ -45,7 +45,7 @@ export const handlers = [
         return HttpResponse.json(monographs);
     }),
 
-    http.get(`${baseUrl}/api/index/B`, async ({ request }) => {
+    http.get(`${baseUrl}/api/index/B`, async () => {
         const monographs = Array.from({ length: 3 }, (_v, k) => {
             const monograph = getMonographMock();
             monograph.name = `name_${k}`;
@@ -54,7 +54,15 @@ export const handlers = [
         return HttpResponse.json(monographs);
     }),
 
-    http.get(`${baseUrl}/api/index/C`, async ({ request }) => {
+    http.get(`${baseUrl}/api/index/C`, async () => {
         return HttpResponse.json([]);
+    }),
+
+    http.get(`${baseUrl}/api/app`, async () => {
+        return HttpResponse.json([
+            { id: 0, name: 'app_0' },
+            { id: 1, name: 'app_1' },
+            { id: 2, name: 'app_2' },
+        ]);
     }),
 ];

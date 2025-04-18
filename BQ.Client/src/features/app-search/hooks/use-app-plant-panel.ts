@@ -4,7 +4,7 @@ import { IAppService } from '../services/app-service';
 import { MessageServiceContext } from '../../../services/messages';
 
 export const useAppPlantPanel = (app: AppItem) => {
-    const [plants, setPlants] = useState<string[]>([]);
+    const [plants, setPlants] = useState<Monograph[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
     const appService = ServiceContainer.get<IAppService>(TYPES.IAppService);
@@ -19,6 +19,7 @@ export const useAppPlantPanel = (app: AppItem) => {
 
     useEffect(() => {
         getPlants();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [app]);
 
     return { loading, plants };
