@@ -65,4 +65,18 @@ export const handlers = [
             { id: 2, name: 'app_2' },
         ]);
     }),
+
+    http.get(`${baseUrl}/api/app/1`, async () => {
+        const monographs = Array.from({ length: 3 }, (_v, k) => {
+            const monograph = getMonographMock();
+            monograph.name = `plant_${k}`;
+            monograph.id = k;
+            return monograph;
+        });
+        return HttpResponse.json(<App>{
+            id: 1,
+            name: 'app_1',
+            plants: monographs,
+        });
+    }),
 ];
