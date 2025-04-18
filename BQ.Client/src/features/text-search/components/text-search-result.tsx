@@ -1,8 +1,8 @@
 interface Props {
-    monograh: Monograph;
+    monograph: Monograph;
 }
 
-function SearchResult({ monograh }: Props) {
+function SearchResult({ monograph: monograph }: Props) {
     const truncateText = (text: string, maxLength: number): string => {
         return text.length > maxLength
             ? text.substring(0, maxLength) + '...'
@@ -12,13 +12,13 @@ function SearchResult({ monograh }: Props) {
     return (
         <div className="w-full border bg-gray-50 shadow-sm border-gray-300 rounded-lg hover:cursor-pointer hover:bg-yellow-50 hover:transition-all ease-in-out duration-300 p-4">
             <label className="text-2xl font-montserrat text-primary font-semibold hover:cursor-pointer">
-                {monograh.name}
+                {monograph.name}
             </label>
             <p className="text-info font-quicksand text-sm">
-                {monograh.genus} {monograh.species} {monograh.authors}{' '}
-                {monograh.var} {monograh.subsp} {monograh.f}
+                {monograph.genus} {monograph.species} {monograph.authors}{' '}
+                {monograph.var} {monograph.subsp} {monograph.f}
             </p>
-            <p className="font-quicksand">{truncateText(monograh.hab, 150)}</p>
+            <p className="font-quicksand">{truncateText(monograph.hab, 150)}</p>
         </div>
     );
 }

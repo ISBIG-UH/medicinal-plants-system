@@ -33,7 +33,7 @@ const TextSearchResults: React.FC<TextSearchResultsProps> = React.memo(
         const ResultsTemplate: React.FC = () => (
             <div className="flex flex-col gap-3 w-full">
                 {monographs.map((m) => {
-                    return <SearchResult monograh={m} />;
+                    return <SearchResult monograph={m} />;
                 })}
             </div>
         );
