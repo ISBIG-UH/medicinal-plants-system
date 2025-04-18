@@ -46,6 +46,9 @@ function AppSideBar() {
                             style={{ marginRight: '0.2em', fontSize: 20 }}
                         />
                     ),
+                    command: () => {
+                        navigate('/search/app');
+                    },
                 },
             ],
         },
