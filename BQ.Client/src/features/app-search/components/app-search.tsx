@@ -9,6 +9,7 @@ import { FaHandHoldingMedical } from 'react-icons/fa';
 const AppSearch: React.FC = () => {
     const [app, setApp] = useState<AppItem | null>(null);
     const [activePanel, setActivePanel] = useState<'apps' | 'plants'>('apps');
+    const [plant, setPlant] = useState<Monograph | null>(null);
 
     const isMobile = useMediaQuery('(max-width: 768px)');
 
@@ -16,6 +17,10 @@ const AppSearch: React.FC = () => {
         setApp(app);
 
         if (isMobile) setActivePanel('plants');
+    };
+
+    const onPlantChangeHandler = (plant: Monograph) => {
+        setPlant(plant);
     };
 
     return (
@@ -67,7 +72,10 @@ const AppSearch: React.FC = () => {
                             </Button>
                         </div>
                         <div className="h-[80%] md:h-full w-full">
-                            <AppPlantPanel app={app} />
+                            <AppPlantPanel
+                                app={app}
+                                onSelectedPlant={onPlantChangeHandler}
+                            />
                         </div>
                     </div>
                 )}
