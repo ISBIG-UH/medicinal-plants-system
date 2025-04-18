@@ -1,7 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getByRole, render, screen } from '@testing-library/react';
-import SearchResult from '../text-search-result';
-import { getMonographMock } from '../../../../test';
+import { render, screen } from '@testing-library/react';
 import TextSearchResultPlaceholder from '../text-search-result-placeholder';
 
 describe('Text Search Result Placeholder', () => {
