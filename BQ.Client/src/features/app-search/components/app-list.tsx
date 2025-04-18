@@ -4,7 +4,6 @@ import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { FaHandHoldingMedical } from 'react-icons/fa';
 import { useAppList } from '../hooks/use-app-list';
-import { VirtualScroller } from 'primereact/virtualscroller';
 import React from 'react';
 
 interface AppListProps {

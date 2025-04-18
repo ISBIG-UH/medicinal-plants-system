@@ -15,7 +15,7 @@ const AppLayout: React.FC = () => {
         return (
             <div className="flex flex-col h-screen">
                 <AppTopbar />
-                <div className="flex flex-row flex-grow h-full overflow-x-hidden overflow-y-auto lg:overflow-y-hidden w-full">
+                <div className="flex flex-row flex-grow h-full overflow-x-auto overflow-y-hidden w-full">
                     <div
                         className={classNames(
                             'bg-gray-200 flex-auto transition-all duration-500 ease-in-out',

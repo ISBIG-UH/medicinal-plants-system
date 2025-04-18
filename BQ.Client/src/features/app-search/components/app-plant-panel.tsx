@@ -1,5 +1,5 @@
 import { Button } from 'primereact/button';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { PiPlantBold } from 'react-icons/pi';
 import { useAppPlantPanel } from '../hooks/use-app-plant-panel';
 
@@ -29,19 +29,20 @@ const AppPlantPanel: React.FC<AppPlantPanelProps> = React.memo(({ app }) => {
                     ></Button>
                 </div>
             </div>
-
-            <ul className="flex-grow grid md:grid-cols-2 xl:grid-cols-3">
-                {plants.map((plant, i) => (
-                    <li
-                        key={i}
-                        className="mx-4 rounded-lg my-1 px-4 py-1 bg-gray-100 text-gray-600 font-serif"
-                    >
-                        <p className="text-lg font-quicksand font-bold">
-                            {plant}
-                        </p>
-                    </li>
-                ))}
-            </ul>
+            <div className="h-[90%] overflow-y-scroll">
+                <ul className="flex-grow grid md:grid-cols-2 xl:grid-cols-3">
+                    {plants.map((plant, i) => (
+                        <li
+                            key={i}
+                            className="mx-4 rounded-lg my-1 px-4 py-1 bg-gray-100 text-gray-600 font-serif"
+                        >
+                            <p className="text-lg font-quicksand font-bold">
+                                {plant}
+                            </p>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 });
