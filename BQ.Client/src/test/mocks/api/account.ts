@@ -35,4 +35,26 @@ export const handlers = [
 
         return HttpResponse.json([]);
     }),
+
+    http.get(`${baseUrl}/api/index/A`, async ({ request }) => {
+        const monographs = Array.from({ length: 3 }, (_v, k) => {
+            const monograph = getMonographMock();
+            monograph.name = `name_${k}`;
+            return monograph;
+        });
+        return HttpResponse.json(monographs);
+    }),
+
+    http.get(`${baseUrl}/api/index/B`, async ({ request }) => {
+        const monographs = Array.from({ length: 3 }, (_v, k) => {
+            const monograph = getMonographMock();
+            monograph.name = `name_${k}`;
+            return monograph;
+        });
+        return HttpResponse.json(monographs);
+    }),
+
+    http.get(`${baseUrl}/api/index/C`, async ({ request }) => {
+        return HttpResponse.json([]);
+    }),
 ];

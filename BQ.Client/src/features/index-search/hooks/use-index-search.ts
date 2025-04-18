@@ -31,6 +31,7 @@ export function useIndexSearch() {
 
     useEffect(() => {
         getMonograhsByLetter(selectedLetter);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return { selectedLetter, monographBasics, loading, handleSelectLetter };
