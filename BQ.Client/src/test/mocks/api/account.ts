@@ -1,4 +1,5 @@
 import { http, HttpResponse } from 'msw';
+import { getMonographMock } from '../plants';
 
 const baseUrl = import.meta.env.VITE_BASE_API_URL;
 
@@ -17,5 +18,21 @@ export const handlers = [
 
     http.post(`${baseUrl}/api/account/confirm`, async () => {
         return HttpResponse.json({});
+    }),
+
+    http.get(`${baseUrl}/api/search/plants?query=ajo`, async ({ request }) => {
+        const url = new URL(request.url);
+        const query = url.searchParams.get('query');
+
+        if (query === 'ajo') {
+            const monographs = Array.from({ length: 3 }, (_v, k) => {
+                const monograph = getMonographMock();
+                monograph.name = `name_${k}`;
+                return monograph;
+            });
+            return HttpResponse.json(monographs);
+        }
+
+        return HttpResponse.json([]);
     }),
 ];
