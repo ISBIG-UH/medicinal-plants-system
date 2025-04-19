@@ -1,6 +1,6 @@
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useIndexSearch } from '../hooks/use-index-search';
-import { PlantDetails, useGetPlant } from '../../plant-details';
+import { PlantCard, PlantDetails, useGetPlant } from '../../plant-details';
 
 const IndexSearchBox: React.FC = () => {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
@@ -34,21 +34,12 @@ const IndexSearchBox: React.FC = () => {
                     <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
                         {!loading &&
                             monographBasics.map((p, i) => (
-                                <div
-                                    onClick={() => getPlant(p.id)}
+                                <PlantCard
+                                    monograph={p}
+                                    onClickHandler={() => getPlant(p.id)}
+                                    onEditHandler={() => console.log('editing')}
                                     key={i}
-                                    className="bg-gray-100 border border-gray-300 hover:cursor-pointer hover:bg-yellow-50 hover:transition-all ease-in-out duration-300 rounded-xl p-2 px-6"
-                                >
-                                    <span
-                                        className={`mx-2 w-fit text-xl font-quicksand font-semibold text-primary `}
-                                    >
-                                        {p.name}
-                                    </span>
-                                    <span className="text-info font-quicksand text-sm">
-                                        <br />
-                                        {p.genus} {p.species} {p.authors}
-                                    </span>
-                                </div>
+                                />
                             ))}
                         {loading && (
                             <div className="self-center mt-32">

@@ -2,6 +2,7 @@ import { Button } from 'primereact/button';
 import React from 'react';
 import { PiPlantBold } from 'react-icons/pi';
 import { useAppPlantPanel } from '../hooks/use-app-plant-panel';
+import { PlantCard } from '../../plant-details';
 
 interface AppPlantPanelProps {
     app: AppItem;
@@ -35,27 +36,18 @@ const AppPlantPanel: React.FC<AppPlantPanelProps> = React.memo(
                         ></Button>
                     </div>
                 </div>
-                <div className="h-[90%] overflow-y-scroll">
+                <div className="h-[90%] overflow-y-scroll px-2 lg:px-4">
                     {!loading && (
-                        <ul className="flex-grow grid md:grid-cols-2">
+                        <div className="h-full gap-2 grid md:grid-cols-2">
                             {plants.map((p, i) => (
-                                <li
+                                <PlantCard
+                                    monograph={p}
+                                    onClickHandler={() => onSelectedPlant(p)}
+                                    onEditHandler={() => console.log('editing')}
                                     key={i}
-                                    className="border border-gray-300 hover:cursor-pointer hover:bg-yellow-50 hover:transition-all ease-in-out duration-300 mx-4 rounded-lg my-1 px-4 py-1 bg-gray-100 text-gray-600 font-serif"
-                                    onClick={() => onSelectedPlant(p)}
-                                >
-                                    <span
-                                        className={`w-fit text-xl font-quicksand font-semibold text-primary `}
-                                    >
-                                        {p.name}
-                                    </span>
-                                    <span className="text-info font-quicksand text-sm">
-                                        <br />
-                                        {p.genus} {p.species} {p.authors}
-                                    </span>
-                                </li>
+                                />
                             ))}
-                        </ul>
+                        </div>
                     )}
                 </div>
             </div>

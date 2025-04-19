@@ -72,7 +72,7 @@ const AppSearch: React.FC = () => {
                                 <FaHandHoldingMedical />
                             </Button>
                         </div>
-                        <div className="h-[80%] md:h-full w-full">
+                        <div className="h-[94%] md:h-full w-full">
                             <AppPlantPanel
                                 app={app}
                                 onSelectedPlant={onPlantChangeHandler}

@@ -1,7 +1,7 @@
 import React from 'react';
 import TextSearchResultPlaceholder from './text-search-result-placeholder';
-import SearchResult from './text-search-result';
 import { useMediaQuery } from '@react-hook/media-query';
+import { PlantCard } from '../../plant-details';
 
 interface TextSearchResultsProps {
     loading: boolean;
@@ -33,13 +33,14 @@ const TextSearchResults: React.FC<TextSearchResultsProps> = React.memo(
 
         const ResultsTemplate: React.FC = () => (
             <div className="flex flex-col gap-3 w-full">
-                {monographs.map((m) => {
-                    return (
-                        <div onClick={() => onSelectMonograph(m)}>
-                            <SearchResult monograph={m} />
-                        </div>
-                    );
-                })}
+                {monographs.map((m, k) => (
+                    <PlantCard
+                        monograph={m}
+                        onClickHandler={() => onSelectMonograph(m)}
+                        onEditHandler={() => console.log('editing')}
+                        key={k}
+                    />
+                ))}
             </div>
         );
 

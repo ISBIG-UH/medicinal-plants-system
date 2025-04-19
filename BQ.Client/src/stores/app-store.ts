@@ -6,6 +6,7 @@ export interface AppVariables {
     isMenuOpen: boolean;
     isLoggedIn: boolean;
     currentUser: IUser;
+    isEditMode: boolean;
 }
 
 export class AppStore {
@@ -16,7 +17,11 @@ export class AppStore {
         makeAutoObservable(this, {
             accountChannel: false,
         });
-        this.variables = { isMenuOpen: true, isLoggedIn: false };
+        this.variables = {
+            isMenuOpen: true,
+            isLoggedIn: false,
+            isEditMode: false,
+        };
         this.accountChannel.onmessage = this.onMessageHandler;
     }
 
