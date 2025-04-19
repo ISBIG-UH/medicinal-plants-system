@@ -1,6 +1,6 @@
 interface DividerProps {
     children: React.ReactNode;
-    className: string;
+    className?: string;
 }
 
 const Divider: React.FC<DividerProps> = ({ className, children }) => {
