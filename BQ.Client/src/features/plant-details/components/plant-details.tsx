@@ -10,7 +10,7 @@ import { FaBriefcaseMedical } from 'react-icons/fa';
 import { FaHandHoldingMedical } from 'react-icons/fa';
 import { ImBooks } from 'react-icons/im';
 import React from 'react';
-import DetailsSection from './preview-category';
+import DetailsSection from '../../../components/details-section';
 import { Message } from 'primereact/message';
 
 interface PlantDetailsProps {
