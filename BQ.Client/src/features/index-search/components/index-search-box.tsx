@@ -1,10 +1,12 @@
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useIndexSearch } from '../hooks/use-index-search';
+import { PlantDetails, useGetPlant } from '../../plant-details';
 
 const IndexSearchBox: React.FC = () => {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
     const { selectedLetter, monographBasics, loading, handleSelectLetter } =
         useIndexSearch();
+    const { getPlant, monograph, setMonograph } = useGetPlant();
     return (
         <div className="flex lg:flex-col h-full">
             <div className="overflow-x-scroll flex flex-col space-y-2 overflow-y-auto lg:space-y-0 lg:flex-row lg:justify-center p-4 bg-gray-100  lg:rounded-b-3xl shadow-xl">
@@ -32,11 +34,12 @@ const IndexSearchBox: React.FC = () => {
                     {!loading &&
                         monographBasics.map((p, i) => (
                             <div
+                                onClick={() => getPlant(p.id)}
                                 key={i}
-                                className={`${i % 2 === 0 ? 'bg-gray-100' : 'bg-gray-50'} rounded-xl p-2 px-6`}
+                                className={`${i % 2 === 0 ? 'bg-gray-100' : 'bg-gray-50'} border border-gray-300 hover:cursor-pointer hover:bg-yellow-50 hover:transition-all ease-in-out duration-300 rounded-xl p-2 px-6`}
                             >
                                 <span
-                                    className={`mx-2 w-fit text-xl font-quicksand font-semibold text-primary hover:underline hover:cursor-pointer `}
+                                    className={`mx-2 w-fit text-xl font-quicksand font-semibold text-primary `}
                                 >
                                     {p.name}
                                 </span>
@@ -53,6 +56,13 @@ const IndexSearchBox: React.FC = () => {
                     )}
                 </div>
             </div>
+            {monograph && (
+                <PlantDetails
+                    visible={monograph != null}
+                    onHide={() => setMonograph(null)}
+                    monograph={monograph}
+                />
+            )}
         </div>
     );
 };

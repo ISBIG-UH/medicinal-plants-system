@@ -5,11 +5,13 @@ import React from 'react';
 import { TextSearchService } from '../../features/text-search/services/text-search-service';
 import { IndexSearchService } from '../../features/index-search/services/index-search-service';
 import { AppService } from '../../features/app-search/services/app-service';
+import { PlantService } from '../api-service';
 
 const TYPES = {
     IAccountService: Symbol.for('IAccountService'),
     ITextSearchService: Symbol.for('ITextSearchService'),
     IIndexSearchService: Symbol.for('IndexSearchService'),
+    IPlantService: Symbol.for('IPlantService'),
     IAppService: Symbol.for('IAppService'),
 };
 
@@ -25,6 +27,7 @@ ServiceContainer.bind(TYPES.ITextSearchService)
 ServiceContainer.bind(TYPES.IIndexSearchService)
     .to(IndexSearchService)
     .inTransientScope();
+ServiceContainer.bind(TYPES.IPlantService).to(PlantService).inTransientScope();
 ServiceContainer.bind(TYPES.IAppService).to(AppService).inTransientScope();
 
 export { TYPES, ServiceContainer };
