@@ -80,7 +80,7 @@ function AppSideBar() {
                 </Divider>
 
                 <div className="h-full">
-                    <PanelMenu model={items} className="md:w-full" />
+                    <PanelMenu multiple model={items} className="md:w-full" />
                 </div>
 
                 <div className="text-center text-sm p-1">

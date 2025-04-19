@@ -30,30 +30,32 @@ const IndexSearchBox: React.FC = () => {
                         "{selectedLetter}"
                     </h2>
                 </div>
-                <div className="w-full flex flex-col my-4 gap-2 lg:h-full overflow-y-auto px-2 md:px-6">
-                    {!loading &&
-                        monographBasics.map((p, i) => (
-                            <div
-                                onClick={() => getPlant(p.id)}
-                                key={i}
-                                className={`${i % 2 === 0 ? 'bg-gray-100' : 'bg-gray-50'} border border-gray-300 hover:cursor-pointer hover:bg-yellow-50 hover:transition-all ease-in-out duration-300 rounded-xl p-2 px-6`}
-                            >
-                                <span
-                                    className={`mx-2 w-fit text-xl font-quicksand font-semibold text-primary `}
+                <div className="w-full flex flex-col my-4   px-2 md:px-6 overflow-y-auto">
+                    <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
+                        {!loading &&
+                            monographBasics.map((p, i) => (
+                                <div
+                                    onClick={() => getPlant(p.id)}
+                                    key={i}
+                                    className="bg-gray-100 border border-gray-300 hover:cursor-pointer hover:bg-yellow-50 hover:transition-all ease-in-out duration-300 rounded-xl p-2 px-6"
                                 >
-                                    {p.name}
-                                </span>
-                                <span className="text-info font-quicksand text-sm">
-                                    <br />
-                                    {p.genus} {p.species} {p.authors}
-                                </span>
+                                    <span
+                                        className={`mx-2 w-fit text-xl font-quicksand font-semibold text-primary `}
+                                    >
+                                        {p.name}
+                                    </span>
+                                    <span className="text-info font-quicksand text-sm">
+                                        <br />
+                                        {p.genus} {p.species} {p.authors}
+                                    </span>
+                                </div>
+                            ))}
+                        {loading && (
+                            <div className="self-center mt-32">
+                                <ProgressSpinner />
                             </div>
-                        ))}
-                    {loading && (
-                        <div className="self-center mt-32">
-                            <ProgressSpinner />
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
             {monograph && (
