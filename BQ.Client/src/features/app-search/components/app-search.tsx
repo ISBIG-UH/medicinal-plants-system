@@ -5,11 +5,12 @@ import { useMediaQuery } from '@react-hook/media-query';
 import { classNames } from 'primereact/utils';
 import { Button } from 'primereact/button';
 import { FaHandHoldingMedical } from 'react-icons/fa';
+import { PlantDetails, useGetPlant } from '../../plant-details';
 
 const AppSearch: React.FC = () => {
     const [app, setApp] = useState<AppItem | null>(null);
     const [activePanel, setActivePanel] = useState<'apps' | 'plants'>('apps');
-    const [plant, setPlant] = useState<Monograph | null>(null);
+    const { getPlant, monograph, setMonograph } = useGetPlant();
 
     const isMobile = useMediaQuery('(max-width: 768px)');
 
@@ -20,7 +21,7 @@ const AppSearch: React.FC = () => {
     };
 
     const onPlantChangeHandler = (plant: Monograph) => {
-        setPlant(plant);
+        getPlant(plant.id);
     };
 
     return (
@@ -80,6 +81,13 @@ const AppSearch: React.FC = () => {
                     </div>
                 )}
             </div>
+            {monograph && (
+                <PlantDetails
+                    visible={monograph != null}
+                    onHide={() => setMonograph(null)}
+                    monograph={monograph}
+                />
+            )}
         </div>
     );
 };

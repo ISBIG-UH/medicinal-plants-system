@@ -41,11 +41,11 @@ const AppPlantPanel: React.FC<AppPlantPanelProps> = React.memo(
                             {plants.map((p, i) => (
                                 <li
                                     key={i}
-                                    className="mx-4 rounded-lg my-1 px-4 py-1 bg-gray-100 text-gray-600 font-serif"
+                                    className="border border-gray-300 hover:cursor-pointer hover:bg-yellow-50 hover:transition-all ease-in-out duration-300 mx-4 rounded-lg my-1 px-4 py-1 bg-gray-100 text-gray-600 font-serif"
                                     onClick={() => onSelectedPlant(p)}
                                 >
                                     <span
-                                        className={`w-fit text-xl font-quicksand font-semibold text-primary hover:underline hover:cursor-pointer `}
+                                        className={`w-fit text-xl font-quicksand font-semibold text-primary `}
                                     >
                                         {p.name}
                                     </span>
