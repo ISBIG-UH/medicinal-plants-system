@@ -2,6 +2,7 @@ import React from 'react';
 import useAppStore from '../../../hooks/use-app-store';
 import { Button } from 'primereact/button';
 import { truncateText } from '../../../utils';
+import { observer } from 'mobx-react-lite';
 
 interface PlantCardProps {
     monograph: Monograph;
@@ -16,7 +17,7 @@ const PlantCard: React.FC<PlantCardProps> = ({
 }) => {
     const { appStore } = useAppStore();
 
-    return (
+    const _PlantCard = observer(() => (
         <div
             onClick={() => {
                 onClickHandler();
@@ -50,7 +51,9 @@ const PlantCard: React.FC<PlantCardProps> = ({
                 </p>
             )}
         </div>
-    );
+    ));
+
+    return <_PlantCard />;
 };
 
 export default PlantCard;
