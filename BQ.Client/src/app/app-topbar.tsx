@@ -1,13 +1,16 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import { useContext } from 'react';
-import { ServiceContainerContext } from '../services/injection/container';
+import {
+    ServiceContainerContext,
+    TYPES,
+} from '../services/injection/container';
 import { AppStore } from '../stores/app-store';
 
 const AppTopbar: React.FC = () => {
     const navigate = useNavigate();
     const ServiceContainer = useContext(ServiceContainerContext);
-    const store = ServiceContainer.get(AppStore);
+    const store = ServiceContainer.get<AppStore>(TYPES.IAppStore);
 
     return (
         <div className="bg-primary flex py-2">

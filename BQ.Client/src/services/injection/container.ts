@@ -13,11 +13,13 @@ const TYPES = {
     IIndexSearchService: Symbol.for('IndexSearchService'),
     IPlantService: Symbol.for('IPlantService'),
     IAppService: Symbol.for('IAppService'),
+    IAppStore: Symbol.for('AppStore'),
 };
 
 const ServiceContainer = new Container();
 
-ServiceContainer.bind(AppStore).toSelf().inSingletonScope();
+console.log(ServiceContainer);
+ServiceContainer.bind(TYPES.IAppStore).to(AppStore).inSingletonScope();
 ServiceContainer.bind(TYPES.IAccountService)
     .to(AccountService)
     .inTransientScope();
