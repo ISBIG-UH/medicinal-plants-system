@@ -6,10 +6,11 @@ import { useMediaQuery } from '@react-hook/media-query';
 interface TextSearchResultsProps {
     loading: boolean;
     monographs: Monograph[];
+    onSelectMonograph: (monograph: Monograph) => void;
 }
 
 const TextSearchResults: React.FC<TextSearchResultsProps> = React.memo(
-    ({ loading, monographs }) => {
+    ({ loading, monographs, onSelectMonograph }) => {
         const isMobile = useMediaQuery('(max-width: 768px)');
 
         const LoadingTemplate: React.FC = () => (
@@ -33,7 +34,11 @@ const TextSearchResults: React.FC<TextSearchResultsProps> = React.memo(
         const ResultsTemplate: React.FC = () => (
             <div className="flex flex-col gap-3 w-full">
                 {monographs.map((m) => {
-                    return <SearchResult monograph={m} />;
+                    return (
+                        <div onClick={() => onSelectMonograph(m)}>
+                            <SearchResult monograph={m} />
+                        </div>
+                    );
                 })}
             </div>
         );

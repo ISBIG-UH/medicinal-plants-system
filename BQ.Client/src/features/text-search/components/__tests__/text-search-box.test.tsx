@@ -51,4 +51,24 @@ describe('Text Search Box Component', () => {
             expect(screen.queryByText('name_2')).not.toBeInTheDocument();
         });
     });
+
+    it('It should show the dialog when the user clicks the plant', async () => {
+        render(page());
+        const input = screen.getByPlaceholderText('Buscar en monografías...');
+        const button = screen.getByRole('button');
+
+        await userEvent.type(input, 'ajo');
+        await userEvent.click(button);
+
+        await waitFor(() => {
+            expect(screen.queryByText('name_0')).toBeInTheDocument();
+        });
+
+        const plant = screen.getByText('name_0');
+        await userEvent.click(plant);
+
+        await waitFor(() => {
+            expect(screen.queryAllByText('name_0')).toHaveLength(2);
+        });
+    });
 });

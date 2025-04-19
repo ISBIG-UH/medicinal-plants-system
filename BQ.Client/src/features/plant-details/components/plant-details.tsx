@@ -16,7 +16,7 @@ import { Message } from 'primereact/message';
 interface PlantDetailsProps {
     visible: boolean;
     onHide: () => void;
-    monograph: Monograph | null;
+    monograph: Monograph;
 }
 
 const PlantDetails: React.FC<PlantDetailsProps> = ({
@@ -31,12 +31,12 @@ const PlantDetails: React.FC<PlantDetailsProps> = ({
                     <img className="w-8" src="/1.png" />
                 </div>
                 <p className="text-primary font-montserrat font-bold text-2xl lg:text-4xl">
-                    {monograph?.name}
+                    {monograph.name}
                 </p>
             </div>
             <p className="text-info font-quicksand text-base lg:text-md">
-                {monograph?.genus} {monograph?.species} {monograph?.authors}{' '}
-                {monograph?.var} {monograph?.subsp} {monograph?.f}
+                {monograph.genus} {monograph.species} {monograph.authors}{' '}
+                {monograph.var} {monograph.subsp} {monograph.f}
             </p>
         </div>
     );
@@ -58,7 +58,7 @@ const PlantDetails: React.FC<PlantDetailsProps> = ({
             header={headerElement}
             footer={footerElement}
         >
-            {monograph?.name[monograph.name.length - 1] === '*' && (
+            {monograph.name[monograph.name.length - 1] === '*' && (
                 <Message
                     className="mb-5"
                     severity="info"
@@ -67,82 +67,88 @@ const PlantDetails: React.FC<PlantDetailsProps> = ({
             )}
 
             <div className="space-y-6 whitespace-pre-line">
-                {monograph?.family !== '' && (
+                {monograph.family !== '' && (
                     <DetailsSection name="Familia" icon={<TbTournament />}>
-                        <p>{monograph?.family}</p>
+                        <p>{monograph.family}</p>
                     </DetailsSection>
                 )}
 
-                {monograph?.sy != null && monograph.sy.length > 0 && (
+                {monograph.sy != null && monograph.sy.length > 0 && (
                     <DetailsSection
-                        key={monograph?.id}
+                        key={monograph.id}
                         name="Sinónimos"
                         icon={<FaEquals />}
                     >
-                        {monograph?.sy.map((syn) => <p>&#9679; {syn}</p>)}
+                        {monograph.sy.map((syn) => (
+                            <p>&#9679; {syn}</p>
+                        ))}
                     </DetailsSection>
                 )}
 
-                {monograph?.vul != null && monograph.vul.length > 0 && (
+                {monograph.vul != null && monograph.vul.length > 0 && (
                     <DetailsSection
                         name="Otros nombre vulgares"
                         icon={<FaList />}
                     >
-                        {monograph?.vul.map((vul) => <p>&#9679; {vul}</p>)}
+                        {monograph.vul.map((vul) => (
+                            <p>&#9679; {vul}</p>
+                        ))}
                     </DetailsSection>
                 )}
 
-                {monograph?.hab !== '' && (
+                {monograph.hab !== '' && (
                     <DetailsSection
                         name="Hábitat y Distribución"
                         icon={<MdForest />}
                     >
-                        <p>{monograph?.hab}</p>
+                        <p>{monograph.hab}</p>
                     </DetailsSection>
                 )}
 
-                {monograph?.des !== '' && (
+                {monograph.des !== '' && (
                     <DetailsSection
                         name="Descripción Botánica"
                         icon={<PiTreeFill />}
                     >
-                        <p>{monograph?.des}</p>
+                        <p>{monograph.des}</p>
                     </DetailsSection>
                 )}
 
-                {monograph?.cmp !== '' && (
+                {monograph.cmp !== '' && (
                     <DetailsSection name="Composición" icon={<SlChemistry />}>
-                        <p>{monograph?.cmp}</p>
+                        <p>{monograph.cmp}</p>
                     </DetailsSection>
                 )}
 
-                {monograph?.use !== '' && (
+                {monograph.use !== '' && (
                     <DetailsSection name="Partes empleadas" icon={<ImLeaf />}>
-                        <p>{monograph?.use}</p>
+                        <p>{monograph.use}</p>
                     </DetailsSection>
                 )}
 
-                {monograph?.pro !== '' && (
+                {monograph.pro !== '' && (
                     <DetailsSection
                         name="Propiedades"
                         icon={<FaBriefcaseMedical />}
                     >
-                        <p>{monograph?.pro}</p>
+                        <p>{monograph.pro}</p>
                     </DetailsSection>
                 )}
 
-                {monograph?.app !== '' && (
+                {monograph.app !== '' && (
                     <DetailsSection
                         name="Aplicaciones"
                         icon={<FaHandHoldingMedical />}
                     >
-                        <p>{monograph?.app}</p>
+                        <p>{monograph.app}</p>
                     </DetailsSection>
                 )}
 
-                {monograph?.bib != null && monograph.bib.length > 0 && (
+                {monograph.bib != null && monograph.bib.length > 0 && (
                     <DetailsSection name="Bibliografía" icon={<ImBooks />}>
-                        {monograph?.bib.map((bib) => <p>&#9679; {bib}</p>)}
+                        {monograph.bib.map((bib) => (
+                            <p>&#9679; {bib}</p>
+                        ))}
                     </DetailsSection>
                 )}
             </div>

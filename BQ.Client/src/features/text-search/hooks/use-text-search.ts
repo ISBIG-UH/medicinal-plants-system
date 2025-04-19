@@ -13,7 +13,6 @@ const useTextSearch = () => {
 
     const handleSearch: (data: { query?: string }) => void = async (data) => {
         setLoading(true);
-        console.log(data.query);
         const result = await textSearchService.search(
             data.query!,
             messageService!,
