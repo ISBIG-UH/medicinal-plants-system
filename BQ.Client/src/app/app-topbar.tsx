@@ -1,4 +1,3 @@
-import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import { useContext } from 'react';
 import {
@@ -6,13 +5,15 @@ import {
     TYPES,
 } from '../services/injection/container';
 import { AppStore } from '../stores/app-store';
+import { Link, useNavigate } from 'react-router';
+import { observer } from 'mobx-react-lite';
 
 const AppTopbar: React.FC = () => {
     const navigate = useNavigate();
     const ServiceContainer = useContext(ServiceContainerContext);
     const store = ServiceContainer.get<AppStore>(TYPES.IAppStore);
 
-    return (
+    const _Topbar = observer(() => (
         <div className="bg-primary flex py-2">
             <div className="w-3/4 flex-none pl-2 lg:pl-20">
                 <div className="flex items-center gap-2">
@@ -58,12 +59,14 @@ const AppTopbar: React.FC = () => {
                         visible={store.variables.isLoggedIn}
                         rounded
                         icon="pi pi-sign-out"
-                        onClick={() => navigate('/account/login')}
+                        onClick={() => navigate('/account/logout')}
                     />
                 </div>
             </div>
         </div>
-    );
+    ));
+
+    return <_Topbar />;
 };
 
 export default AppTopbar;
