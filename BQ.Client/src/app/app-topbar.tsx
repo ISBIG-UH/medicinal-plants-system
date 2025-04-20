@@ -1,5 +1,5 @@
 import { Button } from 'primereact/button';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import {
     ServiceContainerContext,
     TYPES,
@@ -8,7 +8,7 @@ import { AppStore } from '../stores/app-store';
 import { Link, useNavigate } from 'react-router';
 import { observer } from 'mobx-react-lite';
 
-const AppTopbar: React.FC = () => {
+const AppTopbar: React.FC = React.memo(() => {
     const navigate = useNavigate();
     const ServiceContainer = useContext(ServiceContainerContext);
     const store = ServiceContainer.get<AppStore>(TYPES.IAppStore);
@@ -19,13 +19,11 @@ const AppTopbar: React.FC = () => {
                 <div className="flex items-center gap-2">
                     <Button
                         rounded
+                        aria-label="Toggle sidebar"
                         icon="pi pi-bars"
-                        onClick={() => {
-                            store.updateField(
-                                'isMenuOpen',
-                                !store.variables.isMenuOpen,
-                            );
-                        }}
+                        onClick={() =>
+                            store.updateField('isMenuOpen', !store.isMenuOpen)
+                        }
                     ></Button>
                     <Link
                         className="text-white font-bold text-4xl flex items-center space-x-1"
@@ -45,18 +43,20 @@ const AppTopbar: React.FC = () => {
             <div className="w-1/4 pr-2 lg:pr-28 items-center justify-end flex">
                 <div className="flex h-100 items-center gap-1">
                     <label className="text-secondary hidden md:block">
-                        {store.variables.isLoggedIn
-                            ? store.variables.currentUser?.fullName
+                        {store.isLoggedIn
+                            ? store.currentUser?.fullName
                             : 'Iniciar sesión'}
                     </label>
                     <Button
-                        visible={!store.variables.isLoggedIn}
+                        visible={!store.isLoggedIn}
+                        aria-label="Login"
                         rounded
                         icon="pi pi-sign-in"
                         onClick={() => navigate('/account/login')}
                     />
                     <Button
-                        visible={store.variables.isLoggedIn}
+                        visible={store.isLoggedIn}
+                        aria-label="Logout"
                         rounded
                         icon="pi pi-sign-out"
                         onClick={() => navigate('/account/logout')}
@@ -67,6 +67,6 @@ const AppTopbar: React.FC = () => {
     ));
 
     return <_Topbar />;
-};
+});
 
 export default AppTopbar;

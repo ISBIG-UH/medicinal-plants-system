@@ -29,7 +29,7 @@ const PlantCard: React.FC<PlantCardProps> = ({
                     {monograph.name}
                 </label>
                 <Button
-                    visible={appStore.variables.isEditMode}
+                    visible={appStore.isEditMode}
                     onClick={(e) => {
                         e.stopPropagation();
                         onEditHandler();

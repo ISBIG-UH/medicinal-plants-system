@@ -3,7 +3,7 @@ import AppSideBar from './app-sidebar';
 import AppTopbar from './app-topbar';
 import { classNames } from 'primereact/utils';
 import { observer } from 'mobx-react-lite';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import {
     ServiceContainerContext,
     TYPES,
@@ -23,36 +23,29 @@ const AppLayout: React.FC = () => {
                         className={classNames(
                             'bg-gray-200 flex-auto transition-all duration-500 ease-in-out',
                             {
-                                'max-w-0': !store.variables.isMenuOpen,
+                                'max-w-0': !store.isMenuOpen,
                                 'max-w-full md:max-w-80 md:min-w-80':
-                                    store.variables.isMenuOpen,
+                                    store.isMenuOpen,
                             },
                         )}
                     >
-                        <div
-                            className={classNames('w-full h-full', {
-                                block: store.variables.isMenuOpen,
-                                hidden: !store.variables.isMenuOpen,
-                            })}
-                        >
-                            <AppSideBar />
+                        <div className="w-full h-full">
+                            {store.isMenuOpen && <AppSideBar />}
                         </div>
                     </div>
                     <div
                         className={classNames(
                             'flex-auto transition-all duration-500 ease-in-out',
                             {
-                                'max-w-full lg:px-[12%]':
-                                    !store.variables.isMenuOpen,
-                                'max-w-0 md:max-w-full':
-                                    store.variables.isMenuOpen,
+                                'max-w-full lg:px-[12%]': !store.isMenuOpen,
+                                'max-w-0 md:max-w-full': store.isMenuOpen,
                             },
                         )}
                     >
                         <div
                             className={classNames('w-full h-full', {
-                                block: !store.variables.isMenuOpen,
-                                'hidden md:block': store.variables.isMenuOpen,
+                                block: !store.isMenuOpen,
+                                'hidden md:block': store.isMenuOpen,
                             })}
                         >
                             <Outlet />

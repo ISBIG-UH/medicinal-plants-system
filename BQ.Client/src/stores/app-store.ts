@@ -2,31 +2,22 @@ import { makeAutoObservable } from 'mobx';
 import { IUser } from '../features/account/types/user';
 import { ServiceContainer } from '../services/injection/container';
 
-export interface AppVariables {
-    isMenuOpen: boolean;
-    isLoggedIn: boolean;
-    currentUser: IUser;
-    isEditMode: boolean;
-}
-
 export class AppStore {
-    variables: Partial<AppVariables> = { isMenuOpen: true, isLoggedIn: false };
+    currentUser: IUser | null = null;
+    isMenuOpen: boolean = true;
+    isLoggedIn: boolean = false;
+    isEditMode: boolean = false;
     accountChannel = new BroadcastChannel('botaniq_account_channel');
 
     constructor() {
         makeAutoObservable(this, {
             accountChannel: false,
         });
-        this.variables = {
-            isMenuOpen: true,
-            isLoggedIn: false,
-            isEditMode: false,
-        };
         this.accountChannel.onmessage = this.onMessageHandler;
     }
 
-    updateField(key: keyof AppVariables, value: any) {
-        this.variables[key] = value;
+    updateField(key: keyof AppStore, value: any) {
+        this[key] = value;
     }
 
     onMessageHandler(event: any) {
