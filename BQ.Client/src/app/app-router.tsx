@@ -1,0 +1,34 @@
+import { Route, Routes } from 'react-router';
+import AppLayout from './app-layout';
+import HomeComponent from '../features/home';
+import TextSearchPage from './pages/text-search-page';
+import IndexSearchPage from './pages/index-search-page';
+import AppSearchPage from './pages/app-search-page';
+import LoginPage from './pages/account/login';
+import RegistrationPage from './pages/account/registration';
+import ConfirmationPage from './pages/account/confirmation';
+import NotFound from './pages/not-found';
+import { ROUTES } from './routes';
+
+const AppRouter: React.FC = () => {
+    return (
+        <Routes>
+            <Route path="/" element={<AppLayout />}>
+                <Route index element={<HomeComponent />} />
+                <Route path={ROUTES.TEXT_SEARCH} element={<TextSearchPage />} />
+                <Route
+                    path={ROUTES.INDEX_SEARCH}
+                    element={<IndexSearchPage />}
+                />
+                <Route path={ROUTES.APP_SEARCH} element={<AppSearchPage />} />
+            </Route>
+
+            <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+            <Route path={ROUTES.REGISTRATION} element={<RegistrationPage />} />
+            <Route path={ROUTES.CONFIRMATION} element={<ConfirmationPage />} />
+            <Route path="*" element={<NotFound />} />
+        </Routes>
+    );
+};
+
+export default AppRouter;
