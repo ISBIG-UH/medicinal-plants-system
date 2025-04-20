@@ -4,9 +4,9 @@ import HomeComponent from '../features/home';
 import TextSearchPage from './pages/text-search-page';
 import IndexSearchPage from './pages/index-search-page';
 import AppSearchPage from './pages/app-search-page';
-import LoginPage from './pages/account/login';
-import RegistrationPage from './pages/account/registration';
-import ConfirmationPage from './pages/account/confirmation';
+import LoginPage from './pages/account/login-page';
+import RegistrationPage from './pages/account/registration-page';
+import ConfirmationPage from './pages/account/confirmation-page';
 import NotFound from './pages/not-found';
 import { ROUTES } from './routes';
 

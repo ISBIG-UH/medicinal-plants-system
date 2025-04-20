@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { DummyApp } from '../../test';
-import NotFound from '../pages/not-found';
+import { DummyApp } from '../../../test';
+import NotFound from '../../pages/not-found';
 import { screen, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

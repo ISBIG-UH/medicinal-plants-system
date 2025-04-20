@@ -18,7 +18,6 @@ const TYPES = {
 
 const ServiceContainer = new Container();
 
-console.log(ServiceContainer);
 ServiceContainer.bind(TYPES.IAppStore).to(AppStore).inSingletonScope();
 ServiceContainer.bind(TYPES.IAccountService)
     .to(AccountService)
