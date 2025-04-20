@@ -2,9 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { DummyApp } from '../../../test';
-import { ROUTES } from '../../routes';
-import AppLayout from '../../app-layout';
+import { DummyApp } from '../../test';
+import { ROUTES } from '../routes';
+import AppLayout from '../app-layout';
 
 describe('App Layout component', () => {
     const Page: React.FC = () => {

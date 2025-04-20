@@ -3,9 +3,9 @@ import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { Button } from 'primereact/button';
 import userEvent from '@testing-library/user-event';
-import AppTopbar from '../../app-topbar';
-import { DummyApp } from '../../../test';
-import useAppStore from '../../../hooks/use-app-store';
+import AppTopbar from '../app-topbar';
+import { DummyApp } from '../../test';
+import useAppStore from '../../hooks/use-app-store';
 
 describe('App Topbar component', () => {
     const Page: React.FC = () => {

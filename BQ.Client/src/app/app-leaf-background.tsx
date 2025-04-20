@@ -9,6 +9,7 @@ const LeafBackground: React.FC<{ children: ReactNode }> = ({ children }) => {
         <div className="flex flex-col h-screen bg-leaf-wall">
             <div className="p-2 flex justify-end">
                 <Button
+                    aria-label="Go to home"
                     icon="pi pi-home"
                     rounded
                     onClick={() => navigate('/')}

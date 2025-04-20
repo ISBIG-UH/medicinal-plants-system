@@ -2,9 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { DummyApp } from '../../../test';
-import AppSideBar from '../../app-sidebar';
-import { ROUTES } from '../../routes';
+import { DummyApp } from '../../test';
+import AppSideBar from '../app-sidebar';
+import { ROUTES } from '../routes';
 
 describe('App Sidebar component', () => {
     const Page: React.FC = () => {
