@@ -1,12 +1,18 @@
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useIndexSearch } from '../hooks/use-index-search';
 import { PlantCard, PlantDetails, useGetPlant } from '../../plant-details';
+import { useState } from 'react';
+import PlantFormDialog from '../../plant-details/components/plant-form-dialog';
 
 const IndexSearchBox: React.FC = () => {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
     const { selectedLetter, monographBasics, loading, handleSelectLetter } =
         useIndexSearch();
-    const { getPlant, monograph, setMonograph } = useGetPlant();
+    const { getPlant, monograph, setMonograph, updatePlant } = useGetPlant();
+    const [detailsDialogVisible, setDetailsDialogVisible] =
+        useState<boolean>(false);
+    const [editDialogVisible, setEditDialogVisible] = useState<boolean>(false);
+
     return (
         <div className="flex lg:flex-col h-full">
             <div className="overflow-x-scroll flex flex-col space-y-2 overflow-y-auto lg:space-y-0 lg:flex-row lg:justify-center p-4 bg-gray-100  lg:rounded-b-3xl shadow-xl">
@@ -36,8 +42,14 @@ const IndexSearchBox: React.FC = () => {
                             monographBasics.map((p, i) => (
                                 <PlantCard
                                     monograph={p}
-                                    onClickHandler={() => getPlant(p.id)}
-                                    onEditHandler={() => console.log('editing')}
+                                    onClickHandler={() => {
+                                        getPlant(p.id);
+                                        setDetailsDialogVisible(true);
+                                    }}
+                                    onEditHandler={() => {
+                                        getPlant(p.id);
+                                        setEditDialogVisible(true);
+                                    }}
                                     key={i}
                                 />
                             ))}
@@ -51,9 +63,27 @@ const IndexSearchBox: React.FC = () => {
             </div>
             {monograph && (
                 <PlantDetails
-                    visible={monograph != null}
-                    onHide={() => setMonograph(null)}
+                    visible={detailsDialogVisible}
+                    onHide={() => {
+                        setMonograph(null);
+                        setDetailsDialogVisible(false);
+                    }}
                     monograph={monograph}
+                />
+            )}
+            {monograph && (
+                <PlantFormDialog
+                    visible={editDialogVisible}
+                    onHide={() => {
+                        setMonograph(null);
+                        setEditDialogVisible(false);
+                    }}
+                    monograph={monograph}
+                    onSave={(monograph) => {
+                        updatePlant(monograph);
+                        setMonograph(null);
+                        setEditDialogVisible(false);
+                    }}
                 />
             )}
         </div>
