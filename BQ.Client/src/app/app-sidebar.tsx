@@ -59,6 +59,9 @@ function AppSideBar() {
                 {
                     label: 'Añadir monografía',
                     icon: 'pi pi-plus',
+                    command: () => {
+                        navigate('/plant/create');
+                    },
                 },
             ],
         },
