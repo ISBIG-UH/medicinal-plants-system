@@ -13,6 +13,7 @@ describe('Plant Card component', () => {
 
     const Page: React.FC<{ monograph: Monograph }> = ({ monograph }) => {
         const { appStore } = useAppStore();
+        appStore.updateField('isEditMode', false);
 
         return (
             <DummyApp path="/card" routes={['/']}>

@@ -27,6 +27,7 @@ export const handlers = [
         if (query === 'ajo') {
             const monographs = Array.from({ length: 3 }, (_v, k) => {
                 const monograph = getMonographMock();
+                monograph.id = k;
                 monograph.name = `name_${k}`;
                 return monograph;
             });
@@ -34,6 +35,13 @@ export const handlers = [
         }
 
         return HttpResponse.json([]);
+    }),
+
+    http.get(`${baseUrl}/api/monograph/0`, async () => {
+        const monograph = getMonographMock();
+        monograph.id = 0;
+        monograph.name = 'name_0';
+        return HttpResponse.json(monograph);
     }),
 
     http.get(`${baseUrl}/api/index/A`, async () => {

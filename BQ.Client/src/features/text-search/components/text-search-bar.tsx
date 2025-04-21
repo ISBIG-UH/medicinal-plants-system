@@ -51,6 +51,7 @@ const TextSearchBar: React.FC<TextSearchBarProps> = ({
             </OverlayInputError>
             <Button
                 loading={loading}
+                aria-label="Search plants"
                 type="submit"
                 rounded
                 icon="pi pi-search"
