@@ -22,11 +22,12 @@ const ArrayInput: React.FC<ArrayInputProps> = ({
     });
 
     return (
-        <div>
+        <div className="w-full">
             <div className="flex flex-col gap-1">
                 {fields.map((field, index) => (
                     <div className="flex gap-1" key={field.id}>
                         <InputText
+                            className="flex-grow"
                             key={field.id} // important to include key with field's id
                             {...register(`${name}.${index}`)}
                             placeholder={

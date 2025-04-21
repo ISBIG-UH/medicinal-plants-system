@@ -22,5 +22,24 @@ export const useGetPlant = () => {
         setLoading(false);
     };
 
-    return { loading, monograph, getPlant, setMonograph };
+    const updatePlant = async (monograph: Monograph) => {
+        setLoading(true);
+        await plantService.update(monograph, messageService!);
+        setLoading(false);
+    };
+
+    const createPlant = async (monograph: Monograph) => {
+        setLoading(true);
+        await plantService.create(monograph, messageService!);
+        setLoading(false);
+    };
+
+    return {
+        loading,
+        monograph,
+        getPlant,
+        setMonograph,
+        updatePlant,
+        createPlant,
+    };
 };

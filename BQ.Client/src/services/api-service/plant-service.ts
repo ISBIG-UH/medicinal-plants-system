@@ -6,6 +6,14 @@ import { BaseHttpResponsesHandler } from '../http-interception';
 
 export interface IPlantService {
     get(id: number, messageService: MessageService): Promise<Monograph>;
+    update(
+        plant: Monograph,
+        messageService: MessageService,
+    ): Promise<Monograph>;
+    create(
+        plant: Monograph,
+        messageService: MessageService,
+    ): Promise<Monograph>;
 }
 
 @injectable()
@@ -15,6 +23,26 @@ export class PlantService extends BaseApiService implements IPlantService {
     get(id: number, messageService: MessageService): Promise<Monograph> {
         return this.handleRequest(
             axios.get<Monograph>(`${this.url}/${id}`),
+            new BaseHttpResponsesHandler(messageService),
+        );
+    }
+
+    update(
+        plant: Monograph,
+        messageService: MessageService,
+    ): Promise<Monograph> {
+        return this.handleRequest(
+            axios.put<Monograph>(this.url, plant),
+            new BaseHttpResponsesHandler(messageService),
+        );
+    }
+
+    create(
+        plant: Monograph,
+        messageService: MessageService,
+    ): Promise<Monograph> {
+        return this.handleRequest(
+            axios.post<Monograph>(this.url, plant),
             new BaseHttpResponsesHandler(messageService),
         );
     }
