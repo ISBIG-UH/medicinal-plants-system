@@ -7,10 +7,11 @@ import { PlantCard } from '../../plant-details';
 interface AppPlantPanelProps {
     app: AppItem;
     onSelectedPlant: (plant: Monograph) => void;
+    onEditPlant: (plant: Monograph) => void;
 }
 
 const AppPlantPanel: React.FC<AppPlantPanelProps> = React.memo(
-    ({ app, onSelectedPlant }) => {
+    ({ app, onSelectedPlant, onEditPlant }) => {
         const { loading, plants } = useAppPlantPanel(app);
 
         return (
@@ -43,7 +44,7 @@ const AppPlantPanel: React.FC<AppPlantPanelProps> = React.memo(
                                 <PlantCard
                                     monograph={p}
                                     onClickHandler={() => onSelectedPlant(p)}
-                                    onEditHandler={() => console.log('editing')}
+                                    onEditHandler={() => onEditPlant(p)}
                                     key={i}
                                 />
                             ))}

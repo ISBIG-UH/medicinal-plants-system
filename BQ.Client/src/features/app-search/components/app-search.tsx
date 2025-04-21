@@ -6,11 +6,15 @@ import { classNames } from 'primereact/utils';
 import { Button } from 'primereact/button';
 import { FaHandHoldingMedical } from 'react-icons/fa';
 import { PlantDetails, useGetPlant } from '../../plant-details';
+import PlantFormDialog from '../../plant-details/components/plant-form-dialog';
 
 const AppSearch: React.FC = () => {
     const [app, setApp] = useState<AppItem | null>(null);
     const [activePanel, setActivePanel] = useState<'apps' | 'plants'>('apps');
-    const { getPlant, monograph, setMonograph } = useGetPlant();
+    const { getPlant, monograph, setMonograph, updatePlant } = useGetPlant();
+    const [detailsDialogVisible, setDetailsDialogVisible] =
+        useState<boolean>(false);
+    const [editDialogVisible, setEditDialogVisible] = useState<boolean>(false);
 
     const isMobile = useMediaQuery('(max-width: 768px)');
 
@@ -22,6 +26,7 @@ const AppSearch: React.FC = () => {
 
     const onPlantChangeHandler = (plant: Monograph) => {
         getPlant(plant.id);
+        setDetailsDialogVisible(true);
     };
 
     return (
@@ -76,6 +81,10 @@ const AppSearch: React.FC = () => {
                             <AppPlantPanel
                                 app={app}
                                 onSelectedPlant={onPlantChangeHandler}
+                                onEditPlant={(monograph) => {
+                                    getPlant(monograph.id);
+                                    setEditDialogVisible(true);
+                                }}
                             />
                         </div>
                     </div>
@@ -83,9 +92,27 @@ const AppSearch: React.FC = () => {
             </div>
             {monograph && (
                 <PlantDetails
-                    visible={monograph != null}
-                    onHide={() => setMonograph(null)}
+                    visible={detailsDialogVisible}
+                    onHide={() => {
+                        setMonograph(null);
+                        setDetailsDialogVisible(false);
+                    }}
                     monograph={monograph}
+                />
+            )}
+            {monograph && (
+                <PlantFormDialog
+                    visible={editDialogVisible}
+                    onHide={() => {
+                        setMonograph(null);
+                        setEditDialogVisible(false);
+                    }}
+                    monograph={monograph}
+                    onSave={(monograph) => {
+                        updatePlant(monograph);
+                        setMonograph(null);
+                        setEditDialogVisible(false);
+                    }}
                 />
             )}
         </div>
