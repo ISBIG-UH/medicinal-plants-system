@@ -39,7 +39,7 @@ const AppPlantPanel: React.FC<AppPlantPanelProps> = React.memo(
                 </div>
                 <div className="h-[90%] overflow-y-scroll px-2 lg:px-4">
                     {!loading && (
-                        <div className="h-full gap-2 grid md:grid-cols-2">
+                        <div className="gap-2 grid md:grid-cols-2">
                             {plants.map((p, i) => (
                                 <PlantCard
                                     monograph={p}
