@@ -74,13 +74,9 @@ const PlantDetails: React.FC<PlantDetailsProps> = ({
                 )}
 
                 {monograph.sy != null && monograph.sy.length > 0 && (
-                    <DetailsSection
-                        key={monograph.id}
-                        name="Sinónimos"
-                        icon={<FaEquals />}
-                    >
-                        {monograph.sy.map((syn) => (
-                            <p>&#9679; {syn}</p>
+                    <DetailsSection name="Sinónimos" icon={<FaEquals />}>
+                        {monograph.sy.map((syn, index) => (
+                            <p key={`syn.${index}`}>&#9679; {syn}</p>
                         ))}
                     </DetailsSection>
                 )}
@@ -90,8 +86,8 @@ const PlantDetails: React.FC<PlantDetailsProps> = ({
                         name="Otros nombre vulgares"
                         icon={<FaList />}
                     >
-                        {monograph.vul.map((vul) => (
-                            <p>&#9679; {vul}</p>
+                        {monograph.vul.map((vul, index) => (
+                            <p key={`vul.${index}`}>&#9679; {vul}</p>
                         ))}
                     </DetailsSection>
                 )}
@@ -146,8 +142,8 @@ const PlantDetails: React.FC<PlantDetailsProps> = ({
 
                 {monograph.bib != null && monograph.bib.length > 0 && (
                     <DetailsSection name="Bibliografía" icon={<ImBooks />}>
-                        {monograph.bib.map((bib) => (
-                            <p>&#9679; {bib}</p>
+                        {monograph.bib.map((bib, index) => (
+                            <p key={`bib.${index}`}>&#9679; {bib}</p>
                         ))}
                     </DetailsSection>
                 )}
