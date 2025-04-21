@@ -10,6 +10,7 @@ import ConfirmationPage from './pages/account/confirmation-page';
 import NotFound from './pages/not-found';
 import { ROUTES } from './routes';
 import PlantFormPage from './pages/plants/plant-form-page';
+import AboutPage from './pages/about-page';
 
 const AppRouter: React.FC = () => {
     return (
@@ -23,6 +24,8 @@ const AppRouter: React.FC = () => {
                 />
                 <Route path={ROUTES.APP_SEARCH} element={<AppSearchPage />} />
                 <Route path={ROUTES.PLANT_CREATE} element={<PlantFormPage />} />
+
+                <Route path={ROUTES.ABOUT} element={<AboutPage />} />
             </Route>
 
             <Route path={ROUTES.LOGIN} element={<LoginPage />} />

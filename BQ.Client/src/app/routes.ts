@@ -10,4 +10,6 @@ export const ROUTES = {
     APP_SEARCH: '/search/app',
 
     PLANT_CREATE: '/plant/create',
+
+    ABOUT: '/about',
 };

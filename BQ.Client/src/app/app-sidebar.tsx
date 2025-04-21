@@ -76,6 +76,10 @@ function AppSideBar() {
         {
             label: 'Acerca',
             icon: 'pi pi-info-circle',
+            command: () => {
+                navigate('/about');
+                if (isMobile) toggleSidebar();
+            },
         },
     ];
 
