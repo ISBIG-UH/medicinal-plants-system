@@ -8,7 +8,8 @@ const IndexSearchBox: React.FC = () => {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
     const { selectedLetter, monographBasics, loading, handleSelectLetter } =
         useIndexSearch();
-    const { getPlant, monograph, setMonograph, updatePlant } = useGetPlant();
+    const { getPlant, monograph, setMonograph, updatePlant, deletePlant } =
+        useGetPlant();
     const [detailsDialogVisible, setDetailsDialogVisible] =
         useState<boolean>(false);
     const [editDialogVisible, setEditDialogVisible] = useState<boolean>(false);
@@ -49,6 +50,9 @@ const IndexSearchBox: React.FC = () => {
                                     onEditHandler={() => {
                                         getPlant(p.id);
                                         setEditDialogVisible(true);
+                                    }}
+                                    onDeleteHandler={() => {
+                                        deletePlant(p.id);
                                     }}
                                     key={i}
                                 />

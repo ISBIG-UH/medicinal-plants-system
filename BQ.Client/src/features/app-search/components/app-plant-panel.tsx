@@ -8,10 +8,11 @@ interface AppPlantPanelProps {
     app: AppItem;
     onSelectedPlant: (plant: Monograph) => void;
     onEditPlant: (plant: Monograph) => void;
+    onDeletePlant: (plant: Monograph) => void;
 }
 
 const AppPlantPanel: React.FC<AppPlantPanelProps> = React.memo(
-    ({ app, onSelectedPlant, onEditPlant }) => {
+    ({ app, onSelectedPlant, onEditPlant, onDeletePlant }) => {
         const { loading, plants } = useAppPlantPanel(app);
 
         return (
@@ -45,6 +46,7 @@ const AppPlantPanel: React.FC<AppPlantPanelProps> = React.memo(
                                     monograph={p}
                                     onClickHandler={() => onSelectedPlant(p)}
                                     onEditHandler={() => onEditPlant(p)}
+                                    onDeleteHandler={() => onDeletePlant(p)}
                                     key={i}
                                 />
                             ))}

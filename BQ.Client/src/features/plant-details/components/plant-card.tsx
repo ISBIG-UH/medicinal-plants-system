@@ -8,12 +8,14 @@ interface PlantCardProps {
     monograph: Monograph;
     onClickHandler: () => void;
     onEditHandler: () => void;
+    onDeleteHandler: () => void;
 }
 
 const PlantCard: React.FC<PlantCardProps> = ({
     monograph,
     onClickHandler,
     onEditHandler,
+    onDeleteHandler,
 }) => {
     const { appStore } = useAppStore();
 
@@ -34,11 +36,26 @@ const PlantCard: React.FC<PlantCardProps> = ({
                         e.stopPropagation();
                         onEditHandler();
                     }}
+                    aria-label="edit-plant"
                     rounded
                     text
                     severity="success"
                     size="small"
                     icon="pi pi-pencil"
+                ></Button>
+                <Button
+                    visible={appStore.isEditMode}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onDeleteHandler();
+                    }}
+                    className="self-rigth"
+                    aria-label="delete-plant"
+                    rounded
+                    text
+                    severity="danger"
+                    size="small"
+                    icon="pi pi-trash"
                 ></Button>
             </div>
             <p className="text-info font-quicksand text-sm">

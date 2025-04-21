@@ -8,10 +8,17 @@ interface TextSearchResultsProps {
     monographs: Monograph[];
     onSelectMonograph: (monograph: Monograph) => void;
     onEditMonograph: (monograph: Monograph) => void;
+    onDeleteMonograph: (monograph: Monograph) => void;
 }
 
 const TextSearchResults: React.FC<TextSearchResultsProps> = React.memo(
-    ({ loading, monographs, onSelectMonograph, onEditMonograph }) => {
+    ({
+        loading,
+        monographs,
+        onSelectMonograph,
+        onEditMonograph,
+        onDeleteMonograph,
+    }) => {
         const isMobile = useMediaQuery('(max-width: 768px)');
 
         const LoadingTemplate: React.FC = () => (
@@ -39,6 +46,7 @@ const TextSearchResults: React.FC<TextSearchResultsProps> = React.memo(
                         monograph={m}
                         onClickHandler={() => onSelectMonograph(m)}
                         onEditHandler={() => onEditMonograph(m)}
+                        onDeleteHandler={() => onDeleteMonograph(m)}
                         key={k}
                     />
                 ))}

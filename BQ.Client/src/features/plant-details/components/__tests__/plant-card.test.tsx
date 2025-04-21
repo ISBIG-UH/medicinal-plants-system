@@ -10,6 +10,7 @@ import userEvent from '@testing-library/user-event';
 describe('Plant Card component', () => {
     const onClickHandler = vi.fn();
     const onEditHandler = vi.fn();
+    const onDeleteHandler = vi.fn();
 
     const Page: React.FC<{ monograph: Monograph }> = ({ monograph }) => {
         const { appStore } = useAppStore();
@@ -25,6 +26,7 @@ describe('Plant Card component', () => {
                     monograph={monograph}
                     onClickHandler={onClickHandler}
                     onEditHandler={onEditHandler}
+                    onDeleteHandler={onDeleteHandler}
                 />
             </DummyApp>
         );
@@ -62,7 +64,7 @@ describe('Plant Card component', () => {
         expect(screen.queryAllByRole('button')).toHaveLength(1);
     });
 
-    it('It should show an edit button when the application is on edit mode', async () => {
+    it('It should show the edit and delete buttons when the application is on edit mode', async () => {
         const monograph = getMonographMock();
         render(<Page monograph={monograph} />);
 
@@ -70,7 +72,8 @@ describe('Plant Card component', () => {
         await userEvent.click(button);
 
         await waitFor(() => {
-            expect(screen.queryAllByRole('button')).toHaveLength(2);
+            expect(screen.queryByLabelText('edit-plant')).toBeInTheDocument();
+            expect(screen.queryByLabelText('delete-plant')).toBeInTheDocument();
         });
     });
 
@@ -96,15 +99,37 @@ describe('Plant Card component', () => {
         await userEvent.click(button);
 
         await waitFor(() => {
-            expect(screen.queryAllByRole('button')).toHaveLength(2);
+            expect(screen.queryByLabelText('edit-plant')).toBeInTheDocument();
         });
 
-        const editButton = screen.getAllByRole('button')[1];
+        const editButton = screen.getByLabelText('edit-plant');
         await userEvent.click(editButton);
 
         await waitFor(() => {
             expect(onEditHandler).toHaveBeenCalledTimes(1);
             expect(onClickHandler).toHaveBeenCalledTimes(1); // check that the event propagation is stopped
+        });
+    });
+
+    it('It should call the onDeleteHandler function when delete button is clicked', async () => {
+        const monograph = getMonographMock();
+        monograph.name = 'My monograph';
+        render(<Page monograph={monograph} />);
+
+        const button = screen.getByText('Edit');
+        await userEvent.click(button);
+
+        await waitFor(() => {
+            expect(screen.queryByLabelText('delete-plant')).toBeInTheDocument();
+        });
+
+        const editButton = screen.getByLabelText('delete-plant');
+        await userEvent.click(editButton);
+
+        await waitFor(() => {
+            expect(onEditHandler).toHaveBeenCalledTimes(1);
+            expect(onClickHandler).toHaveBeenCalledTimes(1);
+            expect(onDeleteHandler).toHaveBeenCalledTimes(1);
         });
     });
 });

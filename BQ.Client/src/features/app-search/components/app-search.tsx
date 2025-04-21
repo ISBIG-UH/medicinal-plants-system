@@ -11,7 +11,8 @@ import PlantFormDialog from '../../plant-details/components/plant-form-dialog';
 const AppSearch: React.FC = () => {
     const [app, setApp] = useState<AppItem | null>(null);
     const [activePanel, setActivePanel] = useState<'apps' | 'plants'>('apps');
-    const { getPlant, monograph, setMonograph, updatePlant } = useGetPlant();
+    const { getPlant, monograph, setMonograph, updatePlant, deletePlant } =
+        useGetPlant();
     const [detailsDialogVisible, setDetailsDialogVisible] =
         useState<boolean>(false);
     const [editDialogVisible, setEditDialogVisible] = useState<boolean>(false);
@@ -84,6 +85,9 @@ const AppSearch: React.FC = () => {
                                 onEditPlant={(monograph) => {
                                     getPlant(monograph.id);
                                     setEditDialogVisible(true);
+                                }}
+                                onDeletePlant={(monograph) => {
+                                    deletePlant(monograph.id);
                                 }}
                             />
                         </div>

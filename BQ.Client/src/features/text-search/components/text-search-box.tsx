@@ -7,7 +7,7 @@ import PlantFormDialog from '../../plant-details/components/plant-form-dialog';
 
 const TextSearchBox: React.FC = () => {
     const { loading, monographs, handleSearch } = useTextSearch();
-    const { monograph, getPlant, updatePlant } = useGetPlant();
+    const { monograph, getPlant, updatePlant, deletePlant } = useGetPlant();
     const [detailsDialogVisible, setDetailsDialogVisible] =
         useState<boolean>(false);
     const [editDialogVisible, setEditDialogVisible] = useState<boolean>(false);
@@ -28,6 +28,9 @@ const TextSearchBox: React.FC = () => {
                 onEditMonograph={(monograph) => {
                     setEditDialogVisible(true);
                     getPlant(monograph.id);
+                }}
+                onDeleteMonograph={(monograph) => {
+                    deletePlant(monograph.id);
                 }}
             />
             {monograph != null && (

@@ -8,6 +8,7 @@
     },
     "scripts": {
         "test": "vitest --mode test",
+        "coverage": "vitest --coverage",
         "dev": "vite",
         "build": "tsc -b && vite build",
         "lint": "eslint .",

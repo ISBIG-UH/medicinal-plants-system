@@ -34,6 +34,12 @@ export const useGetPlant = () => {
         setLoading(false);
     };
 
+    const deletePlant = async (id: number) => {
+        setLoading(true);
+        await plantService.delete(id, messageService!);
+        setLoading(false);
+    };
+
     return {
         loading,
         monograph,
@@ -41,5 +47,6 @@ export const useGetPlant = () => {
         setMonograph,
         updatePlant,
         createPlant,
+        deletePlant,
     };
 };

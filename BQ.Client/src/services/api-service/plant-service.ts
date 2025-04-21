@@ -14,6 +14,7 @@ export interface IPlantService {
         plant: Monograph,
         messageService: MessageService,
     ): Promise<Monograph>;
+    delete(id: number, messageService: MessageService): Promise<void>;
 }
 
 @injectable()
@@ -43,6 +44,13 @@ export class PlantService extends BaseApiService implements IPlantService {
     ): Promise<Monograph> {
         return this.handleRequest(
             axios.post<Monograph>(this.url, plant),
+            new BaseHttpResponsesHandler(messageService),
+        );
+    }
+
+    delete(id: number, messageService: MessageService): Promise<void> {
+        return this.handleRequest(
+            axios.delete<void>(`${this.url}/${id}`),
             new BaseHttpResponsesHandler(messageService),
         );
     }
