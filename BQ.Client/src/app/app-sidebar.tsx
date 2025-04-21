@@ -3,9 +3,13 @@ import Divider from '../components/divider';
 import { GiMedicines } from 'react-icons/gi';
 import { PiPlantBold } from 'react-icons/pi';
 import { useNavigate } from 'react-router';
+import useAppStore from '../hooks/use-app-store';
+import { useMediaQuery } from '@react-hook/media-query';
 
 function AppSideBar() {
     const navigate = useNavigate();
+    const { toggleSidebar } = useAppStore();
+    const isMobile = useMediaQuery('(max-width: 768px)');
 
     const items = [
         {
@@ -30,6 +34,7 @@ function AppSideBar() {
                     icon: 'pi pi-language',
                     command: () => {
                         navigate('/search/text');
+                        if (isMobile) toggleSidebar();
                     },
                 },
                 {
@@ -37,6 +42,7 @@ function AppSideBar() {
                     icon: 'pi pi-sort-alpha-down',
                     command: () => {
                         navigate('/search/index');
+                        if (isMobile) toggleSidebar();
                     },
                 },
                 {
@@ -48,6 +54,7 @@ function AppSideBar() {
                     ),
                     command: () => {
                         navigate('/search/app');
+                        if (isMobile) toggleSidebar();
                     },
                 },
             ],
@@ -61,6 +68,7 @@ function AppSideBar() {
                     icon: 'pi pi-plus',
                     command: () => {
                         navigate('/plant/create');
+                        if (isMobile) toggleSidebar();
                     },
                 },
             ],

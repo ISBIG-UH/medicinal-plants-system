@@ -12,9 +12,14 @@ const useAppStore = () => {
         store.updateField('isLoggedIn', isLoggedIn);
     }
 
+    const toggleSidebar = () => {
+        store.isMenuOpen = !store.isMenuOpen;
+    };
+
     return {
         updateLoginData,
         appStore: store,
+        toggleSidebar,
     };
 };
 
