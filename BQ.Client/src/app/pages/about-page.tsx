@@ -3,7 +3,7 @@ import { Divider } from '../../components';
 
 const AboutPage: React.FC = () => {
     return (
-        <div className="h-full">
+        <div className="h-full overflow-y-auto">
             <div>
                 <img src="leafs_header.png" className="w-full" />
             </div>
