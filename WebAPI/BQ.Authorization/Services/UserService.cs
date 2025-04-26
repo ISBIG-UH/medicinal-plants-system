@@ -109,6 +109,9 @@ public class UserService : DataService<User, UserDTO, string>, IUserService
         if (user.ActivationToken != dto.Token || DateTime.Today > user.ActivationTokenExpiration)
             throw new BusinessException("El código de invitación ya ha expirado");
 
+        if (dto.Password != dto.PasswordConfirmation)
+            throw new BusinessException("Las contraseñas provistas no coinciden");
+
         user.EmailConfirmed = true;
         user.ActivationToken = null;
         user.ActivationTokenExpiration = null;
