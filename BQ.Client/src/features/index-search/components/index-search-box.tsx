@@ -4,6 +4,7 @@ import { useState } from 'react';
 import PlantFormDialog from '../../plant-details/components/plant-form-dialog';
 import { classNames } from 'primereact/utils';
 import { LoadingPlaceholder } from '../../../components';
+import useDelayedLoading from '../../../hooks/use-delayed-loading';
 
 const IndexSearchBox: React.FC = () => {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
@@ -14,6 +15,7 @@ const IndexSearchBox: React.FC = () => {
     const [detailsDialogVisible, setDetailsDialogVisible] =
         useState<boolean>(false);
     const [editDialogVisible, setEditDialogVisible] = useState<boolean>(false);
+    const delayedLoading = useDelayedLoading(loading, 300);
 
     return (
         <div className="flex lg:flex-col h-full">
@@ -41,10 +43,10 @@ const IndexSearchBox: React.FC = () => {
                 <div
                     className={classNames(
                         'w-full flex flex-col my-4   px-2 md:px-6 overflow-y-auto',
-                        { 'flex-grow': loading },
+                        { 'flex-grow': delayedLoading },
                     )}
                 >
-                    {!loading && (
+                    {!delayedLoading && (
                         <div className="h-full grid gap-2 md:grid-cols-2 lg:grid-cols-3">
                             {monographBasics.map((p, i) => (
                                 <PlantCard
@@ -65,7 +67,7 @@ const IndexSearchBox: React.FC = () => {
                             ))}
                         </div>
                     )}
-                    {loading && (
+                    {delayedLoading && (
                         <div className="h-full">
                             <LoadingPlaceholder />
                         </div>
