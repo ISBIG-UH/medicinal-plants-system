@@ -1,8 +1,9 @@
-import { ProgressSpinner } from 'primereact/progressspinner';
 import { useIndexSearch } from '../hooks/use-index-search';
 import { PlantCard, PlantDetails, useGetPlant } from '../../plant-details';
 import { useState } from 'react';
 import PlantFormDialog from '../../plant-details/components/plant-form-dialog';
+import { classNames } from 'primereact/utils';
+import { LoadingPlaceholder } from '../../../components';
 
 const IndexSearchBox: React.FC = () => {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
@@ -37,10 +38,15 @@ const IndexSearchBox: React.FC = () => {
                         "{selectedLetter}"
                     </h2>
                 </div>
-                <div className="w-full flex flex-col my-4   px-2 md:px-6 overflow-y-auto">
-                    <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
-                        {!loading &&
-                            monographBasics.map((p, i) => (
+                <div
+                    className={classNames(
+                        'w-full flex flex-col my-4   px-2 md:px-6 overflow-y-auto',
+                        { 'flex-grow': loading },
+                    )}
+                >
+                    {!loading && (
+                        <div className="h-full grid gap-2 md:grid-cols-2 lg:grid-cols-3">
+                            {monographBasics.map((p, i) => (
                                 <PlantCard
                                     monograph={p}
                                     onClickHandler={() => {
@@ -57,12 +63,13 @@ const IndexSearchBox: React.FC = () => {
                                     key={i}
                                 />
                             ))}
-                        {loading && (
-                            <div className="self-center mt-32">
-                                <ProgressSpinner />
-                            </div>
-                        )}
-                    </div>
+                        </div>
+                    )}
+                    {loading && (
+                        <div className="h-full">
+                            <LoadingPlaceholder />
+                        </div>
+                    )}
                 </div>
             </div>
             {monograph && (

@@ -2,6 +2,7 @@ import React from 'react';
 import TextSearchResultPlaceholder from './text-search-result-placeholder';
 import { useMediaQuery } from '@react-hook/media-query';
 import { PlantCard } from '../../plant-details';
+import { LoadingPlaceholder } from '../../../components';
 
 interface TextSearchResultsProps {
     loading: boolean;
@@ -22,12 +23,8 @@ const TextSearchResults: React.FC<TextSearchResultsProps> = React.memo(
         const isMobile = useMediaQuery('(max-width: 768px)');
 
         const LoadingTemplate: React.FC = () => (
-            <div className="h-full flex flex-col items-stretch gap-3">
-                <TextSearchResultPlaceholder />
-                <TextSearchResultPlaceholder />
-                <TextSearchResultPlaceholder />
-                <TextSearchResultPlaceholder />
-                {!isMobile && <TextSearchResultPlaceholder />}
+            <div className="h-full">
+                <LoadingPlaceholder />
             </div>
         );
 

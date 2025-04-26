@@ -3,6 +3,8 @@ import React from 'react';
 import { PiPlantBold } from 'react-icons/pi';
 import { useAppPlantPanel } from '../hooks/use-app-plant-panel';
 import { PlantCard } from '../../plant-details';
+import { LoadingPlaceholder } from '../../../components';
+import useDelayedLoading from '../../../hooks/use-delayed-loading';
 
 interface AppPlantPanelProps {
     app: AppItem;
@@ -14,6 +16,7 @@ interface AppPlantPanelProps {
 const AppPlantPanel: React.FC<AppPlantPanelProps> = React.memo(
     ({ app, onSelectedPlant, onEditPlant, onDeletePlant }) => {
         const { loading, plants } = useAppPlantPanel(app);
+        const delayedLoading = useDelayedLoading(loading, 300);
 
         return (
             <div className="h-full w-full">
@@ -39,7 +42,7 @@ const AppPlantPanel: React.FC<AppPlantPanelProps> = React.memo(
                     </div>
                 </div>
                 <div className="h-[90%] overflow-y-scroll px-2 lg:px-4">
-                    {!loading && (
+                    {!delayedLoading && (
                         <div className="gap-2 grid md:grid-cols-2">
                             {plants.map((p, i) => (
                                 <PlantCard
@@ -50,6 +53,11 @@ const AppPlantPanel: React.FC<AppPlantPanelProps> = React.memo(
                                     key={i}
                                 />
                             ))}
+                        </div>
+                    )}
+                    {delayedLoading && (
+                        <div className="h-full">
+                            <LoadingPlaceholder />
                         </div>
                     )}
                 </div>

@@ -16,8 +16,6 @@ export function useIndexSearch() {
 
     const getMonograhsByLetter = async (letter: string) => {
         setLoading(true);
-
-        await new Promise((f) => setTimeout(f, 1000));
         const result = await indexSearchService.search(letter, messageService!);
 
         setMonographBasics(result);
