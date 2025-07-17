@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "BNAFpFPZBk8=",
+  "success": true,
+  "projectFilePath": "/Users/victor/Documents/work/uh/information_systems/repos/medicinal-plants-system/project/BQ.Data/BQ.Data.csproj",
+  "expectedPackageFiles": [
+    "/Users/victor/.nuget/packages/microsoft.netcore.app.ref/8.0.13/microsoft.netcore.app.ref.8.0.13.nupkg.sha512",
+    "/Users/victor/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.13/microsoft.aspnetcore.app.ref.8.0.13.nupkg.sha512"
+  ],
+  "logs": []
+}
