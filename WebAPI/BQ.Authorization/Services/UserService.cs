@@ -1,8 +1,7 @@
-using BBWM.Core.Membership.DTO;
-using BQ.Authorization.DTO;
-using BQ.Authorization.Enum;
+using BQ.Authorization.Data.DTO;
+using BQ.Authorization.Data.Enum;
+using BQ.Authorization.Data.Model;
 using BQ.Authorization.Jwt;
-using BQ.Authorization.Model;
 using BQ.Authorization.Services.Interfaces;
 using BQ.Core.Exceptions;
 using BQ.Core.Services;
@@ -14,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BQ.Authorization.Services;
 
-public class UserService : DataService<User, UserDTO, string>, IUserService
+public class UserService : DataService<User, UserDto, string>, IUserService
 {
     
     private readonly UserManager<User> _userManager;
@@ -37,7 +36,7 @@ public class UserService : DataService<User, UserDTO, string>, IUserService
         _roleManager = roleManager;
     }
 
-    public async Task<UserDTO> Create(UserDTO dto, CancellationToken ct)
+    public async Task<UserDto> Create(UserDto dto, CancellationToken ct)
     {
         dto = BeforeUserSave(dto);
         var user = _crudService.Mapper.Map<User>(dto);
@@ -47,7 +46,7 @@ public class UserService : DataService<User, UserDTO, string>, IUserService
         return await Get(user.Id, ct);
     }
 
-    public UserDTO BeforeUserSave(UserDTO dto)
+    public UserDto BeforeUserSave(UserDto dto)
     {
         dto.Email = dto.Email.Trim();
         dto.UserName = dto.UserName?.Trim();
@@ -58,7 +57,7 @@ public class UserService : DataService<User, UserDTO, string>, IUserService
         return dto;
     }
     
-    private async Task AfterUserSave(User user, UserDTO dto, CancellationToken cancellationToken)
+    private async Task AfterUserSave(User user, UserDto dto, CancellationToken cancellationToken)
     {
         await UpdateUserRoles(user, dto.Roles.Select(x => x.Id), cancellationToken);
     }
@@ -88,15 +87,15 @@ public class UserService : DataService<User, UserDTO, string>, IUserService
         }
     }
 
-    public async Task<UserDTO> Register(UserDTO dto, CancellationToken ct)
+    public async Task<UserDto> Register(UserDto dto, CancellationToken ct)
     {
         var role = await _crudService.Context.Set<Role>().FirstOrDefaultAsync(x => x.Name == Roles.DataCuratorRole);
 
-        dto.Roles = new List<RoleDTO>() { new RoleDTO() { Id = role.Id } };
+        dto.Roles = new List<RoleDto>() { new RoleDto() { Id = role.Id } };
         return await Invite(dto, ct);
     }
 
-    public async Task Confirm(AccountConfirmationDTO dto, CancellationToken ct = default)
+    public async Task Confirm(AccountConfirmationDto dto, CancellationToken ct = default)
     {
         var user = await _userManager.FindByIdAsync(dto.UserId);
         
@@ -124,7 +123,7 @@ public class UserService : DataService<User, UserDTO, string>, IUserService
         await _userManager.UpdateAsync(user);
     }
 
-    public async Task<UserDTO> Invite(UserDTO dto, CancellationToken cancellationToken = default)
+    public async Task<UserDto> Invite(UserDto dto, CancellationToken cancellationToken = default)
     {
         var existingUser = await _userManager.FindByEmailAsync(dto.Email);
         if (existingUser is not null)
@@ -145,7 +144,7 @@ public class UserService : DataService<User, UserDTO, string>, IUserService
         return await Get(createdUser.Id, cancellationToken);
     }
 
-    public async Task<AuthResultDTO> Login(LoginDTO dto, CancellationToken ct = default)
+    public async Task<AuthResultDto> Login(LoginDto dto, CancellationToken ct = default)
     {
         var user = await _userManager.Users
             .Include(u => u.UserRoles)
@@ -161,7 +160,7 @@ public class UserService : DataService<User, UserDTO, string>, IUserService
         // We use SignInAsync instead of PasswordSignInAsync because SignInAsync contains custom logging logic
         var result = await _signInManager.PasswordSignInAsync(user, dto.Password, true, false);
 
-        UserDTO loggedUser = null;
+        UserDto loggedUser = null;
         
         if (result.Succeeded)
         {
@@ -175,7 +174,7 @@ public class UserService : DataService<User, UserDTO, string>, IUserService
         
        
         
-        return new AuthResultDTO { UserId = loggedUser.Id, LoggedUser = loggedUser, SessionToken = ""};
+        return new AuthResultDto { UserId = loggedUser.Id, LoggedUser = loggedUser, SessionToken = ""};
     }
     
     private static void ValidateAccountStatus(AccountStatus accountStatus)

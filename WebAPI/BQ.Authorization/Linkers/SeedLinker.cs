@@ -1,9 +1,9 @@
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using AutoMapper;
-using BQ.Authorization.DTO;
-using BQ.Authorization.Enum;
-using BQ.Authorization.Model;
+using BQ.Authorization.Data.DTO;
+using BQ.Authorization.Data.Enum;
+using BQ.Authorization.Data.Model;
 using BQ.Authorization.Services.Interfaces;
 using BQ.Core.Data;
 using BQ.Core.Linkers;
@@ -67,7 +67,7 @@ public class SeedLinker : ISeedLinker
     private async Task SeedInitialUsers()
     {
         
-        var sysAdmin = new UserDTO
+        var sysAdmin = new UserDto
         {
             Email = "systemadmin@botaniq.org",
             Password = "cover918Surface!",
@@ -83,7 +83,7 @@ public class SeedLinker : ISeedLinker
 
 
 
-    private async Task CreateInitialUser(UserDTO initialUser, string[] roles)
+    private async Task CreateInitialUser(UserDto initialUser, string[] roles)
     {
 
         // If user is just created then we add his roles/permissions, otherwise we don't change existing values

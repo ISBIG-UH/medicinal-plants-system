@@ -1,13 +1,12 @@
-using BBWM.Core.Membership.DTO;
-using BQ.Authorization.DTO;
+using BQ.Authorization.Data.DTO;
 using BQ.Core.Services;
 
 namespace BQ.Authorization.Services.Interfaces;
 
-public interface IUserService : IDataService<UserDTO, string>
+public interface IUserService : IDataService<UserDto, string>
 {
-    Task<UserDTO> Invite(UserDTO dto, CancellationToken cancellationToken = default);
-    Task<AuthResultDTO> Login(LoginDTO dto, CancellationToken ct = default);
-    Task<UserDTO> Register(UserDTO dto, CancellationToken ct = default);
-    Task Confirm(AccountConfirmationDTO dto, CancellationToken ct = default);
+    Task<UserDto> Invite(UserDto dto, CancellationToken cancellationToken = default);
+    Task<AuthResultDto> Login(LoginDto dto, CancellationToken ct = default);
+    Task<UserDto> Register(UserDto dto, CancellationToken ct = default);
+    Task Confirm(AccountConfirmationDto dto, CancellationToken ct = default);
 }

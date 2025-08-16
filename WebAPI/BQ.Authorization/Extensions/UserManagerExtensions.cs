@@ -1,6 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
-using BQ.Authorization.Model;
+using BQ.Authorization.Data.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 

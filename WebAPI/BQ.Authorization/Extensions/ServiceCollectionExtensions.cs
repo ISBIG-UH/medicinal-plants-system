@@ -1,5 +1,5 @@
 using System.Reflection;
-using BQ.Authorization.Model;
+using BQ.Authorization.Data.Model;
 using BQ.Authorization.Services;
 using CQ.Core;
 using Microsoft.AspNetCore.Identity;

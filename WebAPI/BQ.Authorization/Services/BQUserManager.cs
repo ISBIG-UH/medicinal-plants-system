@@ -1,5 +1,5 @@
+using BQ.Authorization.Data.Model;
 using BQ.Authorization.Extensions;
-using BQ.Authorization.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

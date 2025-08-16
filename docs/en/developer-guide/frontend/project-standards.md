@@ -35,9 +35,37 @@ Running the linter and formatter can be automated before each commit by using [G
 
 ## ✅ Conventions
 
-### File Naming
+- **File Naming**: All files and folders in the project must be named in `kebab-case`. This rule is enforced using ESLint with the `unicorn/filename-case` rule.
 
-All files and folders in the project must be named in `kebab-case`. This rule is enforced using ESLint with the `unicorn/filename-case` rule.
+- **Function Style**: All functions should be declared as `consts` with a predicate style using type declaration statements
+
+  ```typescript
+  interface PlantDetailsProps {
+      monograph: Monograph;
+      visible: boolean;
+      onHide: () => void;
+  }
+  
+  const PlantDetails: React.FC<PlantDetailsProps> = ({monograph, visible, onHide}) => {
+    // Component implementation here ...
+  }
+  ```
+
+  Instead of 
+
+  ```typescript
+  interface PlantDetailsProps {
+      monograph: Monograph;
+      visible: boolean;
+      onHide: () => void;
+  }
+  
+  function PlantDetails({monograph, visible, onHide} : PlantDetailsProps) {
+  	// Component implementation here ...
+  }
+  ```
+
+  
 
 
 

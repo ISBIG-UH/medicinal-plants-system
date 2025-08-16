@@ -16,7 +16,7 @@ Unit tests are the smallest tests you can write. They test individual parts of y
 
 Vitest is a testing framework with features similar to Jest, but it's more up-to-date and works well with modern tools like Vite. It's highly customizable and flexible, making it a popular option for testing JavaScript/TypeScript code. This tool can be configured in the `vite.config.ts` and the base environment to run the tests ins configured in `src/test/setup.ts`.
 
-Notice that in order to test visual components it is necessary to run the tests on a browser-like environment that can generate the DOM of the document. We selected [happy-dom](https://github.com/capricorn86/happy-dom) which is a headless browser implemented in JavaScript and that can be integrated with Vite very easily.
+Notice that in order to test visual components it is necessary to run the tests on a browser-like environment that can generate the DOM of the document. 
 
 ## ✅ Conventions
 

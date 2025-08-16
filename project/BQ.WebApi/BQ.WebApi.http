@@ -1,6 +1,0 @@
-@BQ.WebApi_HostAddress = http://localhost:5260
-
-GET {{BQ.WebApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

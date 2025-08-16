@@ -1,5 +1,4 @@
-using BBWM.Core.Membership.DTO;
-using BQ.Authorization.DTO;
+using BQ.Authorization.Data.DTO;
 using BQ.Authorization.Jwt;
 using BQ.Authorization.Services.Interfaces;
 using Data.DTOs;
@@ -25,13 +24,13 @@ public class AccountController : ControllerBase
     
     [HttpPost]
     [Route("register")]
-    public async Task<IActionResult> Register([FromBody] UserDTO userDto, CancellationToken ct = default)
+    public async Task<IActionResult> Register([FromBody] UserDto userDto, CancellationToken ct = default)
         => Ok(await _userService.Register(userDto, ct));
     
     
     [HttpPost]
     [Route("confirm")]
-    public async Task<IActionResult> Confirm([FromBody] AccountConfirmationDTO accountConfirmationDto, CancellationToken ct = default)
+    public async Task<IActionResult> Confirm([FromBody] AccountConfirmationDto accountConfirmationDto, CancellationToken ct = default)
     {
         await _userService.Confirm(accountConfirmationDto, ct);
         return Ok();
@@ -39,7 +38,7 @@ public class AccountController : ControllerBase
 
     [HttpPost]
     [Route("login")]
-    public async Task<IActionResult> Authenticate([FromBody] LoginDTO loginDto)
+    public async Task<IActionResult> Authenticate([FromBody] LoginDto loginDto)
     {
         try
         {

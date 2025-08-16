@@ -1,6 +1,7 @@
 using BQ.Authorization;
+using BQ.Authorization.Data.Model;
+using BQ.Authorization.DataAccess;
 using BQ.Authorization.Extensions;
-using BQ.Authorization.Model;
 using BQ.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Data;
@@ -13,8 +14,7 @@ namespace DataAccess;
 public class AppDbContext :  IdentityDbContext, IDbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
-
-    public DbSet<Company> Companies { get; set; }
+    
     public DbSet<Plant> Plants { get; set; }
     public DbSet<Term> Terms { get; set; }
     public DbSet<PlantTerm> PlantTerms { get; set; }

@@ -6,7 +6,7 @@ export class AppStore {
     currentUser: IUser | null = null;
     isMenuOpen: boolean = true;
     isLoggedIn: boolean = false;
-    isEditMode: boolean = true;
+    isEditMode: boolean = false;
     accountChannel = new BroadcastChannel('botaniq_account_channel');
 
     constructor() {
