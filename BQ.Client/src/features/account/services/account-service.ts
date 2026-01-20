@@ -1,7 +1,6 @@
 import { injectable } from 'inversify';
 import axios, { AxiosError } from 'axios';
 import { MessageService } from '../../../services/messages';
-import { BroadcastChannel } from 'broadcast-channel';
 import {
     AccountConfirmation,
     LoginRequest,
