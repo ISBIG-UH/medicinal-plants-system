@@ -1,4 +1,5 @@
 using BQ.Authorization.Data.DTO;
+using BQ.Core.Query;
 using BQ.Core.Services;
 
 namespace BQ.Authorization.Services.Interfaces;
@@ -9,4 +10,5 @@ public interface IUserService : IDataService<UserDto, string>
     Task<AuthResultDto> Login(LoginDto dto, CancellationToken ct = default);
     Task<UserDto> Register(UserDto dto, CancellationToken ct = default);
     Task Confirm(AccountConfirmationDto dto, CancellationToken ct = default);
+    Task<PageResult<UserDto>> GetUserPage(QueryCommand queryCommand, CancellationToken ct = default);
 }

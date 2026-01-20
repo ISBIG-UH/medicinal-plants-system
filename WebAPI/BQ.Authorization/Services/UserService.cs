@@ -4,6 +4,7 @@ using BQ.Authorization.Data.Model;
 using BQ.Authorization.Jwt;
 using BQ.Authorization.Services.Interfaces;
 using BQ.Core.Exceptions;
+using BQ.Core.Query;
 using BQ.Core.Services;
 using CQ.Core;
 using Microsoft.AspNetCore.Authentication;
@@ -18,21 +19,18 @@ public class UserService : DataService<User, UserDto, string>, IUserService
     
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
-    private readonly IJwtService _jwtService;
     private readonly RoleManager<Role> _roleManager;
 
     public UserService(
         ICrudService crudService,
         UserManager<User> userManager,
         SignInManager<User> signInManager,
-        RoleManager<Role> roleManager,
-        IJwtService jwtService
+        RoleManager<Role> roleManager
         )
         : base(crudService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
-        _jwtService = jwtService;
         _roleManager = roleManager;
     }
 
@@ -114,6 +112,7 @@ public class UserService : DataService<User, UserDto, string>, IUserService
         user.EmailConfirmed = true;
         user.ActivationToken = null;
         user.ActivationTokenExpiration = null;
+        user.AccountStatus = AccountStatus.Active;
 
         var result = await _userManager.AddPasswordAsync(user, dto.Password);
         
@@ -184,13 +183,25 @@ public class UserService : DataService<User, UserDto, string>, IUserService
             // Check that user is invited
             case AccountStatus.Invited:
                 throw new BusinessException("An invitation has not been accepted yet.");
-                throw new BusinessException("Email address is not verified yet.");
             // Check that user is not suspended
             case AccountStatus.Suspended:
                 throw new BusinessException("Account is suspended.");
         }
     }
 
+    public IQueryable<User> SetQuery(IQueryable<User> baseQuery)
+    {
+        return baseQuery.Include(x => x.UserRoles);
+    }
+    
+    public async Task<PageResult<UserDto>> GetUserPage(QueryCommand queryCommand, CancellationToken ct = default)
+    {
+        
+        
+        return await _crudService.GetPage<User, UserDto, string>(queryCommand, SetQuery, ct);
+    }
+    
+    
     private void GenerateUserConfirmationToken(User user)
     {
         user.ActivationToken = Guid.NewGuid().ToString();
