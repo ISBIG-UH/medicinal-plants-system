@@ -1,8 +1,10 @@
+using BQ.Core.Data.Interfaces;
+
 namespace BQ.Core.Query;
 
-public class PageResult<TEntity> where TEntity : class
+public class PageResult<TDTO> where TDTO : class
 {
     public int Total { get; set; }
 
-    public IEnumerable<TEntity> Items { get; set; }
+    public IEnumerable<TDTO> Items { get; set; }
 }

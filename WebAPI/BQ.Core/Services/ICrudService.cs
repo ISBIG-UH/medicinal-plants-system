@@ -48,7 +48,12 @@ public partial interface ICrudService<TContext>
     
     Task Delete<TEntity>(int id, CancellationToken ct = default)
         where TEntity : class, IEntity;
-    
+
+    Task<PageResult<TDTO>> GetPage<TEntity, TDTO, TKey>(QueryCommand command, Func<IQueryable<TEntity>, IQueryable<TEntity>>? setQuery = null, CancellationToken ct = default)
+        where TEntity : class, IEntity<TKey>
+        where TDTO : class, IDTO<TKey>
+        where TKey : IEquatable<TKey>;
+
 }
 
 public interface ICrudService : ICrudService<IDbContext> { }

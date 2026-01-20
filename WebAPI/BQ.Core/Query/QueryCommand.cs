@@ -5,7 +5,7 @@ public class QueryCommand
     /// <summary>
     /// Name of the field to sort by.
     /// </summary>
-    public string SortingField { get; set; }
+    public string? SortingField { get; set; }
 
     /// <summary>
     /// Sorting direction.
@@ -21,4 +21,6 @@ public class QueryCommand
     /// Number of records to take.
     /// </summary>
     public int? Take { get; set; }
+    
+    public List<Filter>? Filters { get; set; }
 }
