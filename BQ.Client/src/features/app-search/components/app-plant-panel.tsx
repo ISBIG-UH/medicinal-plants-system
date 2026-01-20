@@ -28,7 +28,7 @@ const AppPlantPanel: React.FC<AppPlantPanelProps> = React.memo(
                         </p>
                     </div>
                     <div className="flex gap-2">
-                        <Button
+                        {/* <Button
                             rounded
                             icon="pi pi-pencil"
                             size="small"
@@ -38,7 +38,7 @@ const AppPlantPanel: React.FC<AppPlantPanelProps> = React.memo(
                             icon="pi pi-trash"
                             severity="danger"
                             size="small"
-                        ></Button>
+                        ></Button> */}
                     </div>
                 </div>
                 <div className="h-[90%] overflow-y-scroll px-2 lg:px-4">

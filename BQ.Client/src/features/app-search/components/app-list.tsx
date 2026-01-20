@@ -24,7 +24,7 @@ const AppList: React.FC<AppListProps> = React.memo(({ onAppSelect }) => {
                             Aplicaciones
                         </p>
                     </div>
-                    <Button rounded icon="pi pi-plus" size="small"></Button>
+                    {/* <Button rounded icon="pi pi-plus" size="small"></Button> */}
                     {/* <button className="hover:bg-green-800" onClick={() => setIsOpen(false)}><IoClose size={30}/></button> */}
                 </div>
 

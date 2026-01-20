@@ -1,10 +1,10 @@
 import { PanelMenu } from 'primereact/panelmenu';
-import Divider from '../components/divider';
 import { GiMedicines } from 'react-icons/gi';
 import { PiPlantBold } from 'react-icons/pi';
 import { useNavigate } from 'react-router';
 import useAppStore from '../hooks/use-app-store';
 import { useMediaQuery } from '@react-hook/media-query';
+import { Divider } from '../components';
 
 function AppSideBar() {
     const navigate = useNavigate();
@@ -12,23 +12,23 @@ function AppSideBar() {
     const isMobile = useMediaQuery('(max-width: 768px)');
 
     const items = [
-        {
-            label: 'Administración',
-            icon: 'pi pi-sliders-h',
-            items: [
-                {
-                    label: 'Usuarios',
-                    icon: 'pi pi-user',
-                    command: () => {
-                        navigate('/users');
-                        if (isMobile) toggleSidebar();
-                    },
-                },
-                // {
-                //     label: 'Organizaciones',
-                // },
-            ],
-        },
+        // {
+        //     label: 'Administración',
+        //     icon: 'pi pi-sliders-h',
+        //     items: [
+        //         {
+        //             label: 'Usuarios',
+        //             icon: 'pi pi-user',
+        //             command: () => {
+        //                 navigate('/users');
+        //                 if (isMobile) toggleSidebar();
+        //             },
+        //         },
+        //         // {
+        //         //     label: 'Organizaciones',
+        //         // },
+        //     ],
+        // },
         {
             label: 'Búsqueda',
             icon: 'pi pi-search',
@@ -63,20 +63,20 @@ function AppSideBar() {
                 },
             ],
         },
-        {
-            label: 'Edición',
-            icon: 'pi pi-pencil',
-            items: [
-                {
-                    label: 'Añadir monografía',
-                    icon: 'pi pi-plus',
-                    command: () => {
-                        navigate('/plant/create');
-                        if (isMobile) toggleSidebar();
-                    },
-                },
-            ],
-        },
+        // {
+        //     label: 'Edición',
+        //     icon: 'pi pi-pencil',
+        //     items: [
+        //         {
+        //             label: 'Añadir monografía',
+        //             icon: 'pi pi-plus',
+        //             command: () => {
+        //                 navigate('/plant/create');
+        //                 if (isMobile) toggleSidebar();
+        //             },
+        //         },
+        //     ],
+        // },
         {
             label: 'Acerca',
             icon: 'pi pi-info-circle',

@@ -29,10 +29,10 @@ const AppRouter: React.FC = () => {
 
                 <Route path={ROUTES.ABOUT} element={<AboutPage />} />
             </Route>
-
+{/* 
             <Route path={ROUTES.LOGIN} element={<LoginPage />} />
             <Route path={ROUTES.REGISTRATION} element={<RegistrationPage />} />
-            <Route path={ROUTES.CONFIRMATION} element={<ConfirmationPage />} />
+            <Route path={ROUTES.CONFIRMATION} element={<ConfirmationPage />} /> */}
             <Route path="*" element={<NotFound />} />
         </Routes>
     );

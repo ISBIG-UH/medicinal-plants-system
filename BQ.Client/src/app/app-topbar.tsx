@@ -41,7 +41,7 @@ const AppTopbar: React.FC = React.memo(() => {
                 </div>
             </div>
             <div className="w-1/4 pr-2 lg:pr-28 items-center justify-end flex">
-                <div className="flex h-100 items-center gap-1">
+                {/* <div className="flex h-100 items-center gap-1">
                     <label className="text-secondary hidden md:block">
                         {store.isLoggedIn
                             ? store.currentUser?.fullName
@@ -61,7 +61,7 @@ const AppTopbar: React.FC = React.memo(() => {
                         icon="pi pi-sign-out"
                         onClick={() => navigate('/account/logout')}
                     />
-                </div>
+                </div> */}
             </div>
         </div>
     ));
