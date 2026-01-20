@@ -24,24 +24,24 @@ namespace Services.Implementations
         public async Task<UserSessionDto> AuthenticateAsync(UserLogin userLogin)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == userLogin.username);
-            if (user != null)
-            {
-                var salt = user.Salt;
-                var hashPassword = PasswordUtils.HashPassword(userLogin.password, salt);
-
-                if (hashPassword == user.PasswordHash)
-                {
-                    var sessionToken = GenerateSessionToken(user.UserName);
-                    
-                    return new UserSessionDto
-                    {
-                        username = user.UserName,
-                        role = "Administrador",
-                        sessionToken = sessionToken
-                    };
-                    
-                }
-            }
+            // if (user != null)
+            // {
+            //     // var salt = user.Salt;
+            //     var hashPassword = PasswordUtils.HashPassword(userLogin.password, salt);
+            //
+            //     if (hashPassword == user.PasswordHash)
+            //     {
+            //         var sessionToken = GenerateSessionToken(user.UserName);
+            //         
+            //         return new UserSessionDto
+            //         {
+            //             username = user.UserName,
+            //             role = "Administrador",
+            //             sessionToken = sessionToken
+            //         };
+            //         
+            //     }
+            // }
 
             throw new Exception($"Usted no tiene acceso al servicio solicitado");
         }

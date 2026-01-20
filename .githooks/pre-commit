@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if [ "$SKIP_SIMPLE_GIT_HOOKS" = "1" ]; then
+    echo "[INFO] SKIP_SIMPLE_GIT_HOOKS is set to 1, skipping hook."
+    exit 0
+fi
+
+if [ -f "$SIMPLE_GIT_HOOKS_RC" ]; then
+    . "$SIMPLE_GIT_HOOKS_RC"
+fi
+
+echo "Running checks on the frontend 🧪" 
+cd BQ.Client && npx lint-staged && npx eslint . --ext .ts,.tsx
+echo "Checks on the frontend completed ✅"

@@ -1,6 +1,6 @@
+using BQ.Core.Exceptions;
 using DataAccess;
 using Data.DTOs;
-using Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Services.Interfaces;
 using DataAccess.Interfaces;
@@ -70,19 +70,23 @@ namespace Services.Implementations
 
 
 
-        public async Task<IEnumerable<ItemDto>> GetPlantsByFirstLetterAsync(string letter)
+        public async Task<IEnumerable<PlantDto>> GetPlantsByFirstLetterAsync(string letter)
         {
             var plants = await _context.Plants
                 .FromSqlRaw(
-                    @"SELECT ""Id"", ""Name"" 
+                    @"SELECT ""Id"", ""Name"", ""Monograph"" 
                     FROM ""Plants""
                     WHERE LEFT(unaccent(""Name""), 1) ILIKE unaccent({0}) 
                     AND ""State"" = 'updated'", 
                     letter)
-                .Select(p => new ItemDto
+                .Select(p => new PlantDto()
                 {
                     id = p.Id,
-                    name = p.Name
+                    name = p.Name,
+                    genus = (string)p.Monograph["genus"],
+                    species = (string)p.Monograph["species"],
+                    subsp = (string)p.Monograph["subsp"],
+                    authors = (string)p.Monograph["authors"]
                 })
                 .OrderBy(p => p.name)
                 .ToListAsync();

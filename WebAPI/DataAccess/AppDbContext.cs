@@ -1,16 +1,20 @@
+using BQ.Authorization;
+using BQ.Authorization.Data.Model;
+using BQ.Authorization.DataAccess;
+using BQ.Authorization.Extensions;
+using BQ.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Data;
 using NJ = Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Data.DTOs;
+
 namespace DataAccess;
 
-public class AppDbContext : DbContext
+public class AppDbContext :  IdentityDbContext, IDbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
-
-    // Entities
-    public DbSet<User> Users { get; set; }
+    
     public DbSet<Plant> Plants { get; set; }
     public DbSet<Term> Terms { get; set; }
     public DbSet<PlantTerm> PlantTerms { get; set; }
@@ -22,13 +26,9 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-
-        modelBuilder.Entity<User>()
-            .Property(p => p.Id)
-            .ValueGeneratedOnAdd();
-
-
+        
+        modelBuilder.OnAuthorizationModelCreating();
+        
         modelBuilder.Entity<Plant>()
             .Property(p => p.Id)
             .ValueGeneratedOnAdd();

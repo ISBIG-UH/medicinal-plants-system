@@ -28,12 +28,22 @@ namespace DataAccess.Implementations
                 name = app.Name,
                 plants = app.PlantApps
                     .Where(pa => pa.Plant.State == "updated")
-                    .Select(pa => pa.Plant.Name) 
+                    .Select(p => new PlantDto()
+                        {
+                            id = p.Plant.Id,
+                            name = p.Plant.Name,
+                            genus = (string)p.Plant.Monograph["genus"],
+                            species = (string)p.Plant.Monograph["species"],
+                            subsp = (string)p.Plant.Monograph["subsp"],
+                            authors = (string)p.Plant.Monograph["authors"]
+                        }) 
                     .ToArray(),                  
                 sys = app.Sys                   
             };
 
             return appDto;
+            
+            
         }
 
 
@@ -85,9 +95,9 @@ namespace DataAccess.Implementations
         }
 
 
-        private async Task AddPlantAppRelations(IEnumerable<string> plantNames, App app)
+        private async Task AddPlantAppRelations(IEnumerable<PlantDto> plants, App app)
         {
-            foreach (var item in plantNames)
+            foreach (var item in plants.Select(x => x.name))
             {
                 var plant = await _context.Plants
                     .FromSqlInterpolated(

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Data;
 using Data.DTOs;
 using DataAccess.TextProcessing;
-using Exceptions;
 
 namespace DataAccess.Implementations
 {

@@ -14,7 +14,7 @@ export async function apiLogin(request: LoginRequest): Promise<LoginResponse> {
   };
 
   const requestData = {
-    username: request.username,
+    email: request.username,
     password: request.password,
   };
 
@@ -217,7 +217,7 @@ export async function apiDeleteMonograph(
 
 //🔗 Gets the list of all App names
 export async function requestAppsList() : Promise<AppItem[]>{
-  const ENDPOINT = "/listapps";
+  const ENDPOINT = "/app";
   console.log("requestAppsItems");
 
   try {

@@ -1,0 +1,39 @@
+import { Container } from 'inversify';
+import { AppStore } from '../../stores/app-store';
+import { AccountService } from '../../features/account/services/account-service';
+import React from 'react';
+import { TextSearchService } from '../../features/text-search/services/text-search-service';
+import { IndexSearchService } from '../../features/index-search/services/index-search-service';
+import { AppService } from '../../features/app-search/services/app-service';
+import { PlantService } from '../api-service';
+import { UserService } from '../../features/users/services/user-service';
+
+const TYPES = {
+    IAccountService: Symbol.for('IAccountService'),
+    ITextSearchService: Symbol.for('ITextSearchService'),
+    IIndexSearchService: Symbol.for('IndexSearchService'),
+    IPlantService: Symbol.for('IPlantService'),
+    IAppService: Symbol.for('IAppService'),
+    IAppStore: Symbol.for('AppStore'),
+    IUserService: Symbol.for('IUserService'),
+};
+
+const ServiceContainer = new Container();
+
+ServiceContainer.bind(TYPES.IAppStore).to(AppStore).inSingletonScope();
+ServiceContainer.bind(TYPES.IAccountService)
+    .to(AccountService)
+    .inTransientScope();
+ServiceContainer.bind(TYPES.ITextSearchService)
+    .to(TextSearchService)
+    .inTransientScope();
+ServiceContainer.bind(TYPES.IIndexSearchService)
+    .to(IndexSearchService)
+    .inTransientScope();
+ServiceContainer.bind(TYPES.IPlantService).to(PlantService).inTransientScope();
+ServiceContainer.bind(TYPES.IUserService).to(UserService).inTransientScope();
+ServiceContainer.bind(TYPES.IAppService).to(AppService).inTransientScope();
+
+export { TYPES, ServiceContainer };
+
+export const ServiceContainerContext = React.createContext(ServiceContainer);

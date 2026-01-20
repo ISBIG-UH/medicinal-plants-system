@@ -19,6 +19,9 @@ namespace Services.Implementations
         {
             _plantSearchService = plantSearchService;
 
+            // TODO: this should not be done in the service, this is making the
+            // program have to read the file everytime someone does a requests that uses this service
+            // Possible Solution: Make a text processor service that is a singleton
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
             var _stopWordsFilePath = Path.Combine(basePath, "Resources", "stop_words.json");
             var stopWordsJson = File.ReadAllText(_stopWordsFilePath);

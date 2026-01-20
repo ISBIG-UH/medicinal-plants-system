@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotaniQ.DataAccess", "src\BotaniQ.DataAccess\BotaniQ.DataAccess.csproj", "{2170AD7C-0D5F-444B-8035-A2A9FD754667}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotaniQ.Data", "src\BotaniQ.Data\BotaniQ.Data.csproj", "{39713F6F-BA24-40E6-AFA6-5E1033829E73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotaniQ.Migrations", "src\BotaniQ.Migrations\BotaniQ.Migrations.csproj", "{C483200C-6C76-4515-8710-483B12ABA47F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotaniQ.Authentication", "src\BotaniQ.Authentication\BotaniQ.Authentication.csproj", "{DCEE21C1-B1E7-41D1-A751-D13112515DD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotaniQ.Services", "src\BotaniQ.Services\BotaniQ.Services.csproj", "{9F4EF9C0-9E37-44B8-929A-2626D83F67AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotaniQ.WebApi", "src\BotaniQ.WebApi\BotaniQ.WebApi.csproj", "{1FF899BB-7D62-4EAB-B0A9-5638E0B7F295}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2170AD7C-0D5F-444B-8035-A2A9FD754667}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2170AD7C-0D5F-444B-8035-A2A9FD754667}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2170AD7C-0D5F-444B-8035-A2A9FD754667}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2170AD7C-0D5F-444B-8035-A2A9FD754667}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39713F6F-BA24-40E6-AFA6-5E1033829E73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39713F6F-BA24-40E6-AFA6-5E1033829E73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39713F6F-BA24-40E6-AFA6-5E1033829E73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39713F6F-BA24-40E6-AFA6-5E1033829E73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C483200C-6C76-4515-8710-483B12ABA47F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C483200C-6C76-4515-8710-483B12ABA47F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C483200C-6C76-4515-8710-483B12ABA47F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C483200C-6C76-4515-8710-483B12ABA47F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCEE21C1-B1E7-41D1-A751-D13112515DD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCEE21C1-B1E7-41D1-A751-D13112515DD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCEE21C1-B1E7-41D1-A751-D13112515DD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCEE21C1-B1E7-41D1-A751-D13112515DD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F4EF9C0-9E37-44B8-929A-2626D83F67AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F4EF9C0-9E37-44B8-929A-2626D83F67AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F4EF9C0-9E37-44B8-929A-2626D83F67AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F4EF9C0-9E37-44B8-929A-2626D83F67AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FF899BB-7D62-4EAB-B0A9-5638E0B7F295}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FF899BB-7D62-4EAB-B0A9-5638E0B7F295}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FF899BB-7D62-4EAB-B0A9-5638E0B7F295}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FF899BB-7D62-4EAB-B0A9-5638E0B7F295}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

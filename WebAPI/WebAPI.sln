@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Servic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{1869F16B-B5F4-4FD0-835D-FDBB68468E47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAdminAPI", "WebAdminAPI\WebAdminAPI.csproj", "{5FC1C950-FC06-40DC-A2A0-DB621A59CE1B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BQ.Core", "BQ.Core\BQ.Core.csproj", "{D9DA7228-AF94-4293-9595-F944905C5B04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BQ.Authorization", "BQ.Authorization\BQ.Authorization.csproj", "{51ADBB48-E42E-44C2-A0B1-D5456F772426}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,5 +44,13 @@ Global
 		{5FC1C950-FC06-40DC-A2A0-DB621A59CE1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FC1C950-FC06-40DC-A2A0-DB621A59CE1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FC1C950-FC06-40DC-A2A0-DB621A59CE1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9DA7228-AF94-4293-9595-F944905C5B04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9DA7228-AF94-4293-9595-F944905C5B04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9DA7228-AF94-4293-9595-F944905C5B04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9DA7228-AF94-4293-9595-F944905C5B04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51ADBB48-E42E-44C2-A0B1-D5456F772426}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51ADBB48-E42E-44C2-A0B1-D5456F772426}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51ADBB48-E42E-44C2-A0B1-D5456F772426}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51ADBB48-E42E-44C2-A0B1-D5456F772426}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
