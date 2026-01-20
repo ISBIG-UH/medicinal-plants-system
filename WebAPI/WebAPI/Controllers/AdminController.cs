@@ -24,69 +24,69 @@ public class AdminController : ControllerBase
 //         return Ok(results);
 //     }
 
-    [HttpPost]
-    public async Task<IActionResult> AddPlant([FromBody] PlantDto plantDto) 
-    {
-        try
-        {
-            await _adminService.AddPlantAsync(plantDto);
-            return Ok(new { message = "Planta agregada exitosamente." });
-        }
-        catch (Exception ex)
-        {
-            if (ex.GetType().FullName == "Exceptions.PlantAlreadyExistsException")
-            {
-                return Conflict(new { message = ex.Message }); 
-            }
-            else
-            {
-                return StatusCode(500, new { message = "Ocurrió un error al agregar la planta.", details = ex.Message });
-            }
-        }
-    }
-
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeletePlant(int id)
-    {
-        try
-        {
-            await _adminService.DeletePlantAsync(id);
-            return Ok(new { message = "Planta eliminada exitosamente." });
-        }
-        catch (Exception ex)
-        {
-            if (ex.GetType().FullName == "Exceptions.PlantNotFoundException")
-            {
-                return NotFound(new { message = ex.Message }); 
-            }
-            else
-            {
-                return StatusCode(500, new { message = "Ocurrió un error al eliminar la planta.", details = ex.Message });
-            }
-        }
-    }
-
-    [HttpPut]
-    public async Task<IActionResult> UpdatePlant([FromBody] PlantDto plantDto)
-    {
-        try
-        {
-            await _adminService.UpdatePlantAsync(plantDto);
-            return Ok(new { message = "Planta actualizada exitosamente." });
-        }
-        catch (Exception ex)
-        {
-            if(ex.GetType().FullName == "Exceptions.PlantNotFoundException")
-            {
-                return NotFound(new { message = ex.Message }); 
-            }
-            else
-            {
-                return StatusCode(500, new { message = "Ocurrió un error al obtener la planta.", details = ex.Message });
-            }
-        }
-    }
+    // [HttpPost]
+    // public async Task<IActionResult> AddPlant([FromBody] PlantDto plantDto) 
+    // {
+    //     try
+    //     {
+    //         await _adminService.AddPlantAsync(plantDto);
+    //         return Ok(new { message = "Planta agregada exitosamente." });
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         if (ex.GetType().FullName == "Exceptions.PlantAlreadyExistsException")
+    //         {
+    //             return Conflict(new { message = ex.Message }); 
+    //         }
+    //         else
+    //         {
+    //             return StatusCode(500, new { message = "Ocurrió un error al agregar la planta.", details = ex.Message });
+    //         }
+    //     }
+    // }
+    //
+    //
+    // [HttpDelete("{id}")]
+    // public async Task<IActionResult> DeletePlant(int id)
+    // {
+    //     try
+    //     {
+    //         await _adminService.DeletePlantAsync(id);
+    //         return Ok(new { message = "Planta eliminada exitosamente." });
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         if (ex.GetType().FullName == "Exceptions.PlantNotFoundException")
+    //         {
+    //             return NotFound(new { message = ex.Message }); 
+    //         }
+    //         else
+    //         {
+    //             return StatusCode(500, new { message = "Ocurrió un error al eliminar la planta.", details = ex.Message });
+    //         }
+    //     }
+    // }
+    //
+    // [HttpPut]
+    // public async Task<IActionResult> UpdatePlant([FromBody] PlantDto plantDto)
+    // {
+    //     try
+    //     {
+    //         await _adminService.UpdatePlantAsync(plantDto);
+    //         return Ok(new { message = "Planta actualizada exitosamente." });
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         if(ex.GetType().FullName == "Exceptions.PlantNotFoundException")
+    //         {
+    //             return NotFound(new { message = ex.Message }); 
+    //         }
+    //         else
+    //         {
+    //             return StatusCode(500, new { message = "Ocurrió un error al obtener la planta.", details = ex.Message });
+    //         }
+    //     }
+    // }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetPlantById(int id)

@@ -52,71 +52,71 @@ public class AppController : ControllerBase
 
     }
 
-
-    [HttpPost]
-    public async Task<IActionResult> AddApp([FromBody] AppDto appDto)
-    {
-        try
-        {
-            await _appService.AddAppAsync(appDto);
-            return Ok(new { message = "App agregada exitosamente." });
-        }
-        catch (Exception ex)
-        {
-            if (ex.GetType().FullName == "Exceptions.AppAlreadyExistsException")
-            {
-                return Conflict(new { message = ex.Message }); 
-            }
-            else
-            {
-                return StatusCode(500, new { message = "Ocurrió un error al agregar la app.", details = ex.Message });
-            }
-        }
-    }
-
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteApp(int id)
-    {
-        try
-        {
-            await _appService.DeleteAppAsync(id);
-            return Ok(new { message = "App eliminada exitosamente." });
-        }
-        catch (Exception ex)
-        {
-            if (ex.GetType().FullName == "Exceptions.AppNotFoundException")
-            {
-                return NotFound(new { message = ex.Message }); 
-            }
-            else
-            {
-                return StatusCode(500, new { message = "Ocurrió un error al eliminar la app.", details = ex.Message });
-            }
-        }
-    }
-
-
-    [HttpPut]
-    public async Task<IActionResult> UpdateApp([FromBody] AppDto appDto)
-    {
-        try
-        {
-            await _appService.UpdateAppAsync(appDto);
-            return Ok(new { message = "App actualizada exitosamente." });
-        }
-        catch (Exception ex)
-        {
-            if (ex.GetType().FullName == "Exceptions.AppNotFoundException")
-            {
-                return NotFound(new { message = ex.Message }); 
-            }
-            else
-            {
-                return StatusCode(500, new { message = "Ocurrió un error al actualizar la app.", details = ex.Message });
-            }
-        }
-    }
+    //
+    // [HttpPost]
+    // public async Task<IActionResult> AddApp([FromBody] AppDto appDto)
+    // {
+    //     try
+    //     {
+    //         await _appService.AddAppAsync(appDto);
+    //         return Ok(new { message = "App agregada exitosamente." });
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         if (ex.GetType().FullName == "Exceptions.AppAlreadyExistsException")
+    //         {
+    //             return Conflict(new { message = ex.Message }); 
+    //         }
+    //         else
+    //         {
+    //             return StatusCode(500, new { message = "Ocurrió un error al agregar la app.", details = ex.Message });
+    //         }
+    //     }
+    // }
+    //
+    //
+    // [HttpDelete("{id}")]
+    // public async Task<IActionResult> DeleteApp(int id)
+    // {
+    //     try
+    //     {
+    //         await _appService.DeleteAppAsync(id);
+    //         return Ok(new { message = "App eliminada exitosamente." });
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         if (ex.GetType().FullName == "Exceptions.AppNotFoundException")
+    //         {
+    //             return NotFound(new { message = ex.Message }); 
+    //         }
+    //         else
+    //         {
+    //             return StatusCode(500, new { message = "Ocurrió un error al eliminar la app.", details = ex.Message });
+    //         }
+    //     }
+    // }
+    //
+    //
+    // [HttpPut]
+    // public async Task<IActionResult> UpdateApp([FromBody] AppDto appDto)
+    // {
+    //     try
+    //     {
+    //         await _appService.UpdateAppAsync(appDto);
+    //         return Ok(new { message = "App actualizada exitosamente." });
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         if (ex.GetType().FullName == "Exceptions.AppNotFoundException")
+    //         {
+    //             return NotFound(new { message = ex.Message }); 
+    //         }
+    //         else
+    //         {
+    //             return StatusCode(500, new { message = "Ocurrió un error al actualizar la app.", details = ex.Message });
+    //         }
+    //     }
+    // }
 }
 
 //

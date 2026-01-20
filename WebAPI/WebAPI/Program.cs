@@ -63,10 +63,6 @@ builder.Services.RegisterMapping();
 var coreModuleLinker = new CoreModuleLinker();
 coreModuleLinker.ConfigureServices(builder.Services, builder.Configuration);
 
-var jwtLinker = new JwtLinker();
-jwtLinker.ConfigureServices(builder.Services, builder.Configuration);
-jwtLinker.Register(authBuilder, builder.Services, builder.Configuration);
-
 
 builder.Services.AddAdminServices();
 builder.Services.AddSignInManager<AppDbContext>();
