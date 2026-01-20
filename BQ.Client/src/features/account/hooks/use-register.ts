@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { IAccountService } from '../services/account-service';
-import { IUser } from '../types/user';
+import { IUser } from '../../../types/user';
 import { MessageService } from '../../../services/messages';
 import { ServiceContainer, TYPES } from '../../../services/injection/container';
 

@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { IUser } from '../features/account/types/user';
+import { IUser } from '../types/user';
 import { ServiceContainer } from '../services/injection/container';
 
 export class AppStore {

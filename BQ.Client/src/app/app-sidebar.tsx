@@ -19,6 +19,10 @@ function AppSideBar() {
                 {
                     label: 'Usuarios',
                     icon: 'pi pi-user',
+                    command: () => {
+                        navigate('/users');
+                        if (isMobile) toggleSidebar();
+                    },
                 },
                 // {
                 //     label: 'Organizaciones',

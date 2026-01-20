@@ -11,17 +11,19 @@ import NotFound from './pages/not-found';
 import { ROUTES } from './routes';
 import PlantFormPage from './pages/plants/plant-form-page';
 import AboutPage from './pages/about-page';
+import Users from '../features/users/components/users';
 
 const AppRouter: React.FC = () => {
     return (
         <Routes>
             <Route path="/" element={<AppLayout />}>
-                <Route index element={<HomeComponent />} />
+                <Route index element={<TextSearchPage />} />
                 <Route path={ROUTES.TEXT_SEARCH} element={<TextSearchPage />} />
                 <Route
                     path={ROUTES.INDEX_SEARCH}
                     element={<IndexSearchPage />}
                 />
+                <Route path={ROUTES.USERS} element={<Users />} />
                 <Route path={ROUTES.APP_SEARCH} element={<AppSearchPage />} />
                 <Route path={ROUTES.PLANT_CREATE} element={<PlantFormPage />} />
 

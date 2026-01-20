@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { IUser } from '../features/account/types/user';
+import { IUser } from '../types/user';
 import { AppStore } from '../stores/app-store';
 import { ServiceContainer, TYPES } from '../services/injection/container';
 

@@ -6,6 +6,7 @@ import { TextSearchService } from '../../features/text-search/services/text-sear
 import { IndexSearchService } from '../../features/index-search/services/index-search-service';
 import { AppService } from '../../features/app-search/services/app-service';
 import { PlantService } from '../api-service';
+import { UserService } from '../../features/users/services/user-service';
 
 const TYPES = {
     IAccountService: Symbol.for('IAccountService'),
@@ -14,6 +15,7 @@ const TYPES = {
     IPlantService: Symbol.for('IPlantService'),
     IAppService: Symbol.for('IAppService'),
     IAppStore: Symbol.for('AppStore'),
+    IUserService: Symbol.for('IUserService'),
 };
 
 const ServiceContainer = new Container();
@@ -29,6 +31,7 @@ ServiceContainer.bind(TYPES.IIndexSearchService)
     .to(IndexSearchService)
     .inTransientScope();
 ServiceContainer.bind(TYPES.IPlantService).to(PlantService).inTransientScope();
+ServiceContainer.bind(TYPES.IUserService).to(UserService).inTransientScope();
 ServiceContainer.bind(TYPES.IAppService).to(AppService).inTransientScope();
 
 export { TYPES, ServiceContainer };

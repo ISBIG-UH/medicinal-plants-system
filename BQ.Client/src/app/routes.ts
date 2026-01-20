@@ -5,6 +5,8 @@ export const ROUTES = {
     REGISTRATION: '/account/registration',
     CONFIRMATION: '/account/confirmation',
 
+    USERS: '/users',
+
     TEXT_SEARCH: '/search/text',
     INDEX_SEARCH: '/search/index',
     APP_SEARCH: '/search/app',

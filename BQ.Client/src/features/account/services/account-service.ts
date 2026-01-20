@@ -7,7 +7,7 @@ import {
     LoginRequest,
     LoginResult,
 } from '../types/authentication';
-import { IUser } from '../types/user';
+import { IUser } from '../../../types/user';
 import {
     BaseHttpResponsesHandler,
     ErrorResponseData,
