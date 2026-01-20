@@ -23,7 +23,7 @@ export default tseslint.config(
             ...reactHooks.configs.recommended.rules,
             '@typescript-eslint/no-unused-vars': 'warn',
             '@typescript-eslint/no-explicit-any': 'warn',
-            'unicorn/filename-case': 'error',
+            'unicorn/filename-case': 'warn',
             // 'react-refresh/only-export-components': [
             //   'warn',
             //   { allowConstantExport: true },

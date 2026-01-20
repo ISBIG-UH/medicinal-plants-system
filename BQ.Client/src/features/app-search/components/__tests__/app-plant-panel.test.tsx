@@ -10,7 +10,12 @@ describe('AppPlantPanel Component', () => {
         onSelectedPlant: (plant: Monograph) => void,
     ) => (
         <DummyApp path="/search/text" routes={['/']}>
-            <AppPlantPanel app={app} onSelectedPlant={onSelectedPlant} />
+            <AppPlantPanel 
+                app={app} 
+                onSelectedPlant={onSelectedPlant} 
+                onDeletePlant={() => {}}
+                onEditPlant={() => {}}
+                />
         </DummyApp>
     );
 

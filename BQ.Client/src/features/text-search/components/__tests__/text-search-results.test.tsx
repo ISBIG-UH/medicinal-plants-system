@@ -22,6 +22,8 @@ describe('Text Search Results component', () => {
                 loading={loading}
                 monographs={monographs}
                 onSelectMonograph={onSelectMonographMock}
+                onDeleteMonograph={() => {}}
+                onEditMonograph={() => {}}
             />
         </div>
     );
