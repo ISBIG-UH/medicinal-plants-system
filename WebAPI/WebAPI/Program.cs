@@ -5,6 +5,7 @@ using BQ.Authorization.Linkers;
 using BQ.Core;
 using DataAccess;
 using DataAccess.InitialDataPopulation;
+using Microsoft.EntityFrameworkCore;
 using Services;
 using WebAPI.Extensions;
 using WebAPI.Middleware;
@@ -12,20 +13,17 @@ using WebAPI.Middleware;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure CORS
-const string AllowSpecificOrigins = "_allowSpecificOrigins";
+const string AllowAll = "_allowAll";
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: AllowSpecificOrigins,
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:5174")
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-            policy.WithOrigins("http://localhost:5173")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
+    options.AddPolicy(AllowAll, policy =>
+    {
+        policy
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
 });
 
 // Add services to the container.
@@ -78,7 +76,7 @@ builder.Services.AddTransient<PlantAppSeed>();
 var app = builder.Build();
 
 // Middleware for CORS
-app.UseCors(AllowSpecificOrigins);
+app.UseCors(AllowAll);
 
 app.MapControllers();
 
@@ -106,6 +104,8 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<AppDbContext>();
 
+    context.Database.Migrate();
+    
     var linker = new SeedLinker();
     await linker.SeedInitialData(scope);
 

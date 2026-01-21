@@ -1,0 +1,75 @@
+version: '3'
+
+services:
+
+  proxy:
+    image: traefik:v3.1.2
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.le.acme.httpchallenge=true"
+      - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.le.acme.email=niccolo.devops.floratta@gmail.com"
+      - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - 80:80
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - traefik_letsencrypt:/letsencrypt
+    networks:
+      - botaniq-network
+
+  client:
+    container_name: botaniq-client
+    build:
+      context: .
+      dockerfile: client.dockerfile
+    labels:
+      traefik.http.routers.client.rule: "Host(`localhost`)"
+      traefik.http.services.client.loadbalancer.server.port: 80
+    ports:
+      - "3000:80"
+    networks:
+      - botaniq-network
+
+
+  server:
+    container_name: botaniq-server
+    build:
+      context: .
+      dockerfile: server.dockerfile
+    labels:
+      traefik.http.routers.api.rule: "Host(`localhost`) && PathPrefix(`/api`)"
+      traefik.http.services.api.loadbalancer.server.port: 8080
+    ports:
+      - "8080:8080"
+    networks:
+      - botaniq-network
+    depends_on:
+      - database
+    
+
+  database:
+    image: postgres:15
+    container_name: botaniq-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: appdb
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: apppassword
+    ports:
+      - "5434:5432"
+    networks:
+      - botaniq-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U appuser"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+networks:
+  botaniq-network:
+    driver: bridge
