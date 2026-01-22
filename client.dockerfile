@@ -30,7 +30,7 @@ COPY --from=build /app/dist /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 
 # Copy your server block
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.ssh.conf /etc/nginx/conf.d/default.conf
 
 # Start Nginx server
 CMD ["nginx", "-g", "daemon off;"]
