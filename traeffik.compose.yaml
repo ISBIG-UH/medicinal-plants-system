@@ -1,57 +1,76 @@
 services:
+
   proxy:
     image: traefik:v3.1.2
-    command: --providers.docker
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.le.acme.httpchallenge=true"
+      - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.le.acme.email=niccolo.devops.floratta@gmail.com"
+      - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
     ports:
-      - 80:80
+      - "80:80"
+      - "443:443"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik_letsencrypt:/letsencrypt
+    networks:
+      - botaniq-network
 
   client:
+    container_name: botaniq-client
     build:
-      context: ./client
-      target: dev
+      context: .
+      dockerfile: client.dockerfile
     labels:
-      traefik.http.routers.client.rule: "Host(`localhost`)"
-      traefik.http.services.client.loadbalancer.server.port: 5173
-    develop:
-      watch:
-        - path: ./client/src
-          action: sync
-          target: /usr/local/app/src
-        - path: ./client/yarn.lock
-          action: rebuild
+      - "traefik.enable=true"
+      - "traefik.http.routers.client.rule=Host(`localhost`)"
+      - "traefik.http.services.client.loadbalancer.server.port=80"
+    networks:
+      - botaniq-network
 
-  api:
+  server:
+    container_name: botaniq-server
     build:
-      context: ./api
-      target: dev
+      context: .
+      dockerfile: server.dockerfile
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`localhost`) && PathPrefix(`/api`)"
+      - "traefik.http.services.api.loadbalancer.server.port=8080"
+    networks:
+      - botaniq-network
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    image: postgres:15
+    container_name: botaniq-db
+    restart: unless-stopped
     environment:
-      MONGO_URL: mongodb://mongo:27017
-    labels:
-      traefik.http.routers.api.rule: "Host(`localhost`) && PathPrefix(`/api`)"
-      traefik.http.services.api.loadbalancer.server.port: 3000
-    develop:
-      watch:
-        - path: ./api
-          action: sync
-          target: /usr/local/app/src
-          ignore:
-            - node_modules
-            - yarn.lock
-        - path: ./api/yarn.lock
-          action: rebuild
-
-  mongo:
-    image: mongo:7.0.14
+      POSTGRES_DB: appdb
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: apppassword
     ports:
-      - 27017:27017
-    volumes: 
-      - ./dev/db:/docker-entrypoint-initdb.d
-    environment:
-      MONGO_INITDB_DATABASE: app
+      - "5434:5432"
+    networks:
+      - botaniq-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U appuser"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  mongo-express:
-    image: mongo-express:1.0.2
-    labels:
-      traefik.http.routers.db.rule: "Host(`db.localhost`)"
+networks:
+  botaniq-network:
+    driver: bridge
+
+volumes:
+  traefik_letsencrypt:
+  postgres_data:
