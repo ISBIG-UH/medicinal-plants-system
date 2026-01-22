@@ -46,6 +46,14 @@ services:
     networks:
       - botaniq-network
 
+  certbot-init:
+    image: certbot/certbot
+    profiles:
+      - http
+    volumes:
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+
   server:
     container_name: botaniq-server
     build:
