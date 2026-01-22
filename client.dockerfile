@@ -26,11 +26,5 @@ FROM nginx:alpine
 # Copy the production build files from the build stage to the nginx web root directory
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Remove default config
-RUN rm /etc/nginx/conf.d/default.conf
-
-# Copy your server block
-COPY nginx.ssh.conf /etc/nginx/conf.d/default.conf
-
 # Start Nginx server
 CMD ["nginx", "-g", "daemon off;"]
