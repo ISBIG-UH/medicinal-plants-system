@@ -13,10 +13,10 @@ const AboutPage: React.FC = () => {
                 </h2>
                 <div className="mt-4 mx-8 text-center text-xl md:mx-12 lg:mx-20 xl:mx-48 2xl:mx-60">
                     <p className="font-quicksand">
-                        <strong className="font-montserrat">BotaniQ</strong>{' '}
-                        nace de la colaboración entre la Universidad de La
-                        Habana y el Jardín Botánico Nacional de Cuba, dos
-                        instituciones emblemáticas que han unido esfuerzos para
+                        <strong className="font-montserrat">BotaniQ</strong>
+                        &nbsp; nace de la colaboración entre la Facultad de Matemática y Computación (MATCOM)
+                        y el Jardín Botánico Nacional (JBN), dos
+                        instituciones emblemáticas dentro de la Universidad de La Habana, que han unido esfuerzos para
                         ofrecer una plataforma digital que pone a disposición
                         del público un vasto conocimiento sobre las plantas
                         medicinales de Cuba.
